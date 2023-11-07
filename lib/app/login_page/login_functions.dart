@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phrase_flow/app/global/global_functions.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
+import 'package:phrase_flow/model/user.dart';
+import 'package:provider/provider.dart';
 
 class LoginFunctions {
   BuildContext context;
@@ -31,6 +34,7 @@ class LoginFunctions {
   }
 
   Future<bool> signInGoogle() async {
+    final globalInfo = Provider.of<GlobalStore>(context, listen: false);
     final auth = FirebaseAuth.instance;
     final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -58,6 +62,13 @@ class LoginFunctions {
 
         // await getDados();
         // Loading().loadingPadrao("Aguarde");
+        globalInfo.setUser(ModelUser(
+            name: user.user!.displayName!,
+            email: user.user!.email!,
+            password: "",
+            birthDate: "",
+            country: "",
+            sex: ""));
       } on Exception catch (e) {
         print("ta dando ruim!!!!!!!! $e");
 
