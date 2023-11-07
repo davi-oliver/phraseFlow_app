@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/backend/datasource/post.dart';
+import 'package:phrase_flow/components/flutter_flow/form_field_controller.dart';
 import 'package:phrase_flow/model/user.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ TextEditingController passwordConfirmController = TextEditingController();
 MaskedTextController controllerDataNasc =
     MaskedTextController(mask: '00/00/0000');
 TextEditingController controllerNacionalidade = TextEditingController();
+var sexo;
 
 class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   ///  State fields for stateful widgets in this page.
@@ -33,6 +35,7 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
 
   String? Function(BuildContext, String?)? controllerDataNascValidator;
   FocusNode? controllerDataNascFocusNode;
+  FormFieldController<String>? radioButtonValueController;
 
   // TextEditingController? controllerNacionalidade;
 
@@ -124,7 +127,7 @@ Future createUser(context) async {
     "password": passwordController.text,
     "birthDate": dataFormatada,
     "country": controllerNacionalidade.text,
-    "sex": "M"
+    "sex": sexo
   });
 
   Result res = await result.fold((l) async {

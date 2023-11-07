@@ -1,6 +1,8 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
+import 'package:phrase_flow/components/flutter_flow/flutter_flow_radio_button.dart';
+import 'package:phrase_flow/components/flutter_flow/form_field_controller.dart';
 
 import '../../../components/flutter_flow/flutter_flow_util.dart';
 import '../../../components/flutter_flow/flutter_flow_widgets.dart';
@@ -201,7 +203,88 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 16.0),
+                                        20.0, 12.0, 20.0, 0.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          'Como podemos te chamar ?',
+                                          style: ThemeModeApp.of(context)
+                                              .bodyMedium,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.00, 0.00),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          20.0, 12.0, 20.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.00, 0.00),
+                                              child: FlutterFlowRadioButton(
+                                                options: [
+                                                  'Dele',
+                                                  'Dela',
+                                                  'Outro'
+                                                ].toList(),
+                                                onChanged: (val) =>
+                                                    setState(() {
+                                                  sexo = val;
+                                                }),
+                                                controller: _model
+                                                        .radioButtonValueController ??=
+                                                    FormFieldController<String>(
+                                                        null),
+                                                optionHeight: 25.0,
+                                                textStyle:
+                                                    ThemeModeApp.of(context)
+                                                        .bodySmall,
+                                                selectedTextStyle:
+                                                    ThemeModeApp.of(context)
+                                                        .titleSmall
+                                                        .copyWith(
+                                                          fontFamily: 'Outfit',
+                                                          color:
+                                                              ThemeModeApp.of(
+                                                                      context)
+                                                                  .primaryText,
+                                                        ),
+                                                textPadding:
+                                                    EdgeInsetsDirectional
+                                                        .fromSTEB(0.0, 0.0,
+                                                            12.0, 0.0),
+                                                buttonPosition:
+                                                    RadioButtonPosition.left,
+                                                direction: Axis.horizontal,
+                                                radioButtonColor:
+                                                    ThemeModeApp.of(context)
+                                                        .primary,
+                                                inactiveRadioButtonColor:
+                                                    ThemeModeApp.of(context)
+                                                        .accent1,
+                                                toggleable: false,
+                                                horizontalAlignment:
+                                                    WrapAlignment.center,
+                                                verticalAlignment:
+                                                    WrapCrossAlignment.start,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 20.0, 0.0, 16.0),
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
