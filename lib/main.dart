@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
@@ -12,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // usePathUrlStrategy();
   // await initFirebase();
+  await Firebase.initializeApp();
 
   await Future.wait([
     ThemeModeApp.initialize(),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import '../../components/flutter_flow/form_field_controller.dart';
@@ -204,6 +206,7 @@ class HomeWidgets {
   }
 
   Widget navebarSide() {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
     return Container(
       width: 270.0,
       height: double.infinity,
@@ -503,14 +506,14 @@ class HomeWidgets {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Andrew D.",
+                            globalStore.user!.name!,
                             style: ThemeModeApp.of(context).bodyLarge.copyWith(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                           ),
                           Text(
-                            "admin@gnai.com",
+                            globalStore.user!.email!,
                             style:
                                 ThemeModeApp.of(context).labelMedium.copyWith(
                                       color: Color(0xFF606A85),

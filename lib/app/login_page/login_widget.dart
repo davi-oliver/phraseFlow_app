@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/login_page/login_functions.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'login_model.dart';
@@ -327,7 +329,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         context.pushNamed(
                                             'acompanhamenttodasatividades');
                                       },
-                                      text: 'Criar conta',
+                                      text: 'Entrar',
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 44.0,
@@ -354,8 +356,158 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                     ),
                                   ),
-
-                                  // You will have to add an action on this rich text to go to your login page.
+                                  Row(
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(0.00, 0.00),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 12.0, 0.0, 12.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context
+                                                  .pushNamed('forgotPassword');
+                                            },
+                                            child: RichText(
+                                              textScaleFactor:
+                                                  MediaQuery.of(context)
+                                                      .textScaleFactor,
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Esqueceu sua conta?',
+                                                    style: TextStyle(),
+                                                  ),
+                                                  TextSpan(
+                                                    text: 'Recupere já',
+                                                    style: ThemeModeApp.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .copyWith(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          color:
+                                                              Color(0xFF4B39EF),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                  )
+                                                ],
+                                                style: ThemeModeApp.of(context)
+                                                    .bodyMedium
+                                                    .copyWith(
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      color: Color(0xFF101213),
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Divider(
+                                          color: ThemeModeApp.of(context)
+                                              .secondaryText,
+                                          thickness: 1.0,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 0.0, 8.0, 0.0),
+                                        child: Text(
+                                          "ou",
+                                          style: ThemeModeApp.of(context)
+                                              .bodyMedium
+                                              .copyWith(
+                                                color: ThemeModeApp.of(context)
+                                                    .secondaryText,
+                                              ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Divider(
+                                          color: ThemeModeApp.of(context)
+                                              .secondaryText,
+                                          thickness: 1.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 16.0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        var resp = await LoginFunctions(context)
+                                            .signInGoogle();
+                                        if (resp) {
+                                          context.pushNamed(
+                                              'acompanhamenttodasatividades');
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  ThemeModeApp.of(context)
+                                                      .primaryBackground,
+                                              content: Text(
+                                                  "Erro ao logar com o Google",
+                                                  style:
+                                                      ThemeModeApp.of(context)
+                                                          .bodyLarge
+                                                          .copyWith()),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      text: 'Continue com Google',
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.google,
+                                        size: 20.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width: double.infinity,
+                                        height: 44.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: Colors.white,
+                                        textStyle: ThemeModeApp.of(context)
+                                            .titleSmall
+                                            .copyWith(
+                                              fontFamily: 'Plus Jakarta Sans',
+                                              color: Color(0xFF101213),
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        elevation: 0.0,
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFE0E3E7),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        hoverColor: Color(0xFFF1F4F8),
+                                      ),
+                                    ),
+                                  ),
                                   Align(
                                     alignment: AlignmentDirectional(0.00, 0.00),
                                     child: Padding(
@@ -367,7 +519,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.pushNamed('forgotPassword');
+                                          context.pushNamed('createaccount');
                                         },
                                         child: RichText(
                                           textScaleFactor:
@@ -376,11 +528,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           text: TextSpan(
                                             children: [
                                               TextSpan(
-                                                text: 'Esqueceu sua conta?',
+                                                text: 'Não criou sua conta?',
                                                 style: TextStyle(),
                                               ),
                                               TextSpan(
-                                                text: 'Recupere já',
+                                                text: 'Crie já',
                                                 style: ThemeModeApp.of(context)
                                                     .bodyMedium
                                                     .copyWith(
@@ -407,6 +559,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                     ),
                                   ),
+
+                                  // You will have to add an action on this rich text to go to your login page.
                                 ],
                               ),
                             ),

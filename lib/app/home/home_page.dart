@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/profile04/profile04_widget.dart';
 import 'package:provider/provider.dart';
@@ -307,6 +308,7 @@ class HomeMobileWebPage extends StatefulWidget {
 class _HomeMobileWebPageState extends State<HomeMobileWebPage> {
   @override
   Widget build(BuildContext context) {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
     return Align(
       alignment: AlignmentDirectional(0.00, -1.00),
       child: Container(
@@ -335,7 +337,7 @@ class _HomeMobileWebPageState extends State<HomeMobileWebPage> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 20.0, 0.0, 0.0),
                             child: Text(
-                              "Olá, Andrew ",
+                              "Olá, ${globalStore.user!.name!} ",
                               style: ThemeModeApp.of(context)
                                   .headlineMedium
                                   .copyWith(

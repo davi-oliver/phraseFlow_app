@@ -1,4 +1,6 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/login_page/login_functions.dart';
 
 import '../../../components/flutter_flow/flutter_flow_util.dart';
 import '../../../components/flutter_flow/flutter_flow_widgets.dart';
@@ -25,12 +27,12 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
     super.initState();
     _model = createModel(context, () => CreateaccountModel());
 
-    _model.emailAddressController ??= TextEditingController();
-    _model.emailAddressFocusNode ??= FocusNode();
-    _model.passwordController ??= TextEditingController();
-    _model.passwordFocusNode ??= FocusNode();
-    _model.passwordConfirmController ??= TextEditingController();
-    _model.passwordConfirmFocusNode ??= FocusNode();
+    // // _model.emailAddressController ??= TextEditingController();
+    // _model.emailAddressFocusNode ??= FocusNode();
+    // _model.passwordController ??= TextEditingController();
+    // _model.passwordFocusNode ??= FocusNode();
+    // _model.passwordConfirmController ??= TextEditingController();
+    // _model.passwordConfirmFocusNode ??= FocusNode();
   }
 
   @override
@@ -135,7 +137,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
-                                        controller: _model.nameController,
+                                        controller: nameController,
                                         focusNode:
                                             _model.nameControllerFocusNode,
                                         autofocus: true,
@@ -147,8 +149,8 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                               .labelLarge,
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: ThemeModeApp.of(context)
-                                                  .primaryBackground,
+                                              color:
+                                                  Color.fromARGB(255, 4, 7, 10),
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -193,31 +195,36 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                       ),
                                     ),
                                   ),
+                                  TextFieldEmail(model: _model),
+                                  TextFieldDataNasc(
+                                    model: _model,
+                                  ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 16.0),
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
-                                        controller:
-                                            _model.emailAddressController,
-                                        focusNode: _model.emailAddressFocusNode,
+                                        controller: controllerNacionalidade,
+                                        focusNode: _model
+                                            .controllerNacionalidadeFocusNode,
                                         autofocus: true,
                                         autofillHints: [AutofillHints.email],
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          labelText: "Email",
+                                          labelText: "Digite sua Nacionalidade",
                                           labelStyle: ThemeModeApp.of(context)
                                               .labelLarge,
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: ThemeModeApp.of(context)
-                                                  .primaryBackground,
+                                              color:
+                                                  Color.fromARGB(255, 4, 7, 10),
                                               width: 2.0,
                                             ),
                                             borderRadius:
                                                 BorderRadius.circular(12.0),
                                           ),
+                                          hintText: "Ex: Brasileiro",
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: ThemeModeApp.of(context)
@@ -252,11 +259,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         ),
                                         style:
                                             ThemeModeApp.of(context).bodyLarge,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: _model
-                                            .emailAddressControllerValidator
-                                            .asValidator(context),
+                                        keyboardType: TextInputType.text,
                                       ),
                                     ),
                                   ),
@@ -266,7 +269,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
-                                        controller: _model.passwordController,
+                                        controller: passwordController,
                                         focusNode: _model.passwordFocusNode,
                                         autofocus: true,
                                         autofillHints: [AutofillHints.password],
@@ -277,8 +280,8 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                               .labelLarge,
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: ThemeModeApp.of(context)
-                                                  .primaryBackground,
+                                              color:
+                                                  Color.fromARGB(255, 4, 7, 10),
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -347,8 +350,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
-                                        controller:
-                                            _model.passwordConfirmController,
+                                        controller: passwordConfirmController,
                                         focusNode:
                                             _model.passwordConfirmFocusNode,
                                         autofocus: true,
@@ -361,8 +363,8 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                               .labelLarge,
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: ThemeModeApp.of(context)
-                                                  .primaryBackground,
+                                              color:
+                                                  Color.fromARGB(255, 4, 7, 10),
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -437,7 +439,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                             await _model.validateSubmit();
                                         if (validate.isValid) {
                                           Result result =
-                                              await _model.createUser(context);
+                                              await createUser(context);
                                           if (!result.isValid) {
                                             return ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -498,6 +500,97 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(12.0),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Divider(
+                                          color: ThemeModeApp.of(context)
+                                              .secondaryText,
+                                          thickness: 1.0,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 0.0, 8.0, 0.0),
+                                        child: Text(
+                                          "ou",
+                                          style: ThemeModeApp.of(context)
+                                              .bodyMedium
+                                              .copyWith(
+                                                color: ThemeModeApp.of(context)
+                                                    .secondaryText,
+                                              ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Divider(
+                                          color: ThemeModeApp.of(context)
+                                              .secondaryText,
+                                          thickness: 1.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 16.0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        var resp = await LoginFunctions(context)
+                                            .signInGoogle();
+                                        if (resp) {
+                                          context.pushNamed(
+                                              'acompanhamenttodasatividades');
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  ThemeModeApp.of(context)
+                                                      .primaryBackground,
+                                              content: Text(
+                                                  "Erro ao logar com o Google",
+                                                  style:
+                                                      ThemeModeApp.of(context)
+                                                          .bodyLarge
+                                                          .copyWith()),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      text: 'Continue com Google',
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.google,
+                                        size: 20.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width: double.infinity,
+                                        height: 44.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: Colors.white,
+                                        textStyle: ThemeModeApp.of(context)
+                                            .titleSmall
+                                            .copyWith(
+                                              fontFamily: 'Plus Jakarta Sans',
+                                              color: Color(0xFF101213),
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        elevation: 0.0,
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFE0E3E7),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        hoverColor: Color(0xFFF1F4F8),
                                       ),
                                     ),
                                   ),
@@ -727,6 +820,135 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TextFieldDataNasc extends StatelessWidget {
+  const TextFieldDataNasc({
+    super.key,
+    required CreateaccountModel model,
+  }) : _model = model;
+
+  final CreateaccountModel _model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+      child: Container(
+        width: double.infinity,
+        child: TextFormField(
+          controller: controllerDataNasc,
+          focusNode: _model.controllerDataNascFocusNode,
+          autofocus: true,
+          autofillHints: [AutofillHints.email],
+          obscureText: false,
+          decoration: InputDecoration(
+            labelText: "Data de Nascimento",
+            labelStyle: ThemeModeApp.of(context).labelLarge,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 4, 7, 10),
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeModeApp.of(context).primary,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeModeApp.of(context).error,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeModeApp.of(context).error,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            filled: true,
+            fillColor: ThemeModeApp.of(context).primaryBackground,
+          ),
+          style: ThemeModeApp.of(context).bodyLarge,
+          keyboardType: TextInputType.number,
+        ),
+      ),
+    );
+  }
+}
+
+class TextFieldEmail extends StatelessWidget {
+  const TextFieldEmail({
+    super.key,
+    required CreateaccountModel model,
+  }) : _model = model;
+
+  final CreateaccountModel _model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+      child: Container(
+        width: double.infinity,
+        child: TextFormField(
+          controller: emailAddressController,
+          focusNode: _model.emailAddressFocusNode,
+          autofocus: true,
+          autofillHints: [AutofillHints.email],
+          obscureText: false,
+          decoration: InputDecoration(
+            labelText: "Email",
+            labelStyle: ThemeModeApp.of(context).labelLarge,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 4, 7, 10),
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color(0xFF4B39EF),
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color(0xFFFF5963),
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color(0xFFFF5963),
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            filled: true,
+            fillColor: Color(0xFFF1F4F8),
+            // filled: true,
+            // fillColor: ThemeModeApp.of(context)
+            //     .primaryBackground,
+          ),
+          style: ThemeModeApp.of(context).bodyLarge,
+          keyboardType: TextInputType.emailAddress,
+          validator:
+              _model.emailAddressControllerValidator.asValidator(context),
         ),
       ),
     );
