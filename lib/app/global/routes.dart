@@ -1,0 +1,17 @@
+const String acompanhamenttodasatividades = "acompanhamenttodasatividades";
+const String updateAccount = "updateAccount";
+const String updateProfile = "updateProfile";
+const String createaccount = "createaccount";
+const String loginPage = "loginPage";
+const String questionarioTipos = "questionarioTipos";
+const String questionaryTypeSelectOption = "questionaryTypeSelectOption";
+const String questionaryTipeSelectImage = "questionaryTipeSelectImage";
+const String answerIdea2 = "answerIdea2";
+const String timelineatividade = "timelineatividade";
+const String introAppWidget = "introAppWidget";
+const String profile04 = "profile04";
+const String successPage = "successPage";
+const String splashPage = "splashPage";
+const String questionaryTypeWriteWidget = "questionaryTypeWriteWidget";
+const String chatPage = "chatPage";
+const String planoPage = "planoPage";

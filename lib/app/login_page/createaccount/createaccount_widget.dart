@@ -1,4 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_radio_button.dart';
@@ -543,7 +544,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                             );
                                           } else {
                                             context.pushNamed(
-                                                'acompanhamenttodasatividades');
+                                                '$acompanhamenttodasatividades');
                                           }
                                         }
 
@@ -626,7 +627,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                             .signInGoogle();
                                         if (resp) {
                                           context.pushNamed(
-                                              'acompanhamenttodasatividades');
+                                              '$acompanhamenttodasatividades');
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -690,7 +691,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.pushNamed('LoginPage');
+                                          context.pushNamed('$loginPage');
                                         },
                                         child: RichText(
                                           textScaleFactor:

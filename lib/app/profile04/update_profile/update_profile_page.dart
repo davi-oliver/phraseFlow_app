@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_radio_button.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
@@ -598,7 +599,7 @@ class _UpdateAccountState extends State<UpdateAccount> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('acompanhamenttodasatividades');
+                        context.pushNamed('$acompanhamenttodasatividades');
                       },
                       text: "Salvar Dados",
                       options: FFButtonOptions(

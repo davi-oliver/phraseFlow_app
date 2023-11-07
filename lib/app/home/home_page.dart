@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/profile04/profile04_widget.dart';
@@ -670,7 +671,7 @@ class cardWeb extends StatelessWidget {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
-            context.pushNamed('questionaryTypeWriteWidget');
+            context.pushNamed('$questionaryTypeWriteWidget');
           },
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -873,7 +874,7 @@ class cardMobile extends StatelessWidget {
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () async {
-              context.pushNamed('questionaryTypeWriteWidget');
+              context.pushNamed('$questionaryTypeWriteWidget');
             },
             child: Column(
               mainAxisSize: MainAxisSize.max,

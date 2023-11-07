@@ -1,3 +1,4 @@
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
@@ -27,7 +28,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      context.pushNamed('acompanhamenttodasatividades');
+      context.pushNamed('$acompanhamenttodasatividades');
     });
   }
 
@@ -98,7 +99,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    context.pushNamed('acompanhamenttodasatividades');
+                    context.pushNamed('$acompanhamenttodasatividades');
                   },
                   text: FFLocalizations.of(context).getText(
                     's7rngm6w' /* Go Home */,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.dart';
@@ -275,90 +276,44 @@ class HomeWidgets {
                             ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: double.infinity,
-                        height: 44.0,
-                        decoration: BoxDecoration(
-                          color: ThemeModeApp.of(context).lineColor,
-                          borderRadius: BorderRadius.circular(12.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 6.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.space_dashboard,
-                                color: ThemeModeApp.of(context).primary,
-                                size: 24.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  "Dashboard",
-                                  style: ThemeModeApp.of(context)
-                                      .bodyMedium
-                                      .copyWith(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: double.infinity,
-                        height: 44.0,
-                        decoration: BoxDecoration(
-                          color: ThemeModeApp.of(context).lineColor,
-                          borderRadius: BorderRadius.circular(12.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 6.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.forum_rounded,
-                                color: ThemeModeApp.of(context).primary,
-                                size: 24.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  "Chats",
-                                  style: ThemeModeApp.of(context)
-                                      .bodyMedium
-                                      .copyWith(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    globalStore.indexPage == 1
+                        ? ItemCardMenuSelect(
+                            icon: Icons.home_sharp,
+                            title: "Inicio",
+                            onTap: () {
+                              globalStore.setIndexPage(1);
+                              context
+                                  .pushNamed("$acompanhamenttodasatividades");
+                            },
+                            context: context)
+                        : ItemCardMenu(
+                            context: context,
+                            title: "Inicio",
+                            icon: Icons.home_sharp,
+                            onTap: () {
+                              globalStore.setIndexPage(1);
+                              context
+                                  .pushNamed("$acompanhamenttodasatividades");
+                            },
+                            index: 1),
+                    globalStore.indexPage == 2
+                        ? ItemCardMenuSelect(
+                            icon: Icons.chat_bubble_sharp,
+                            title: "Chats",
+                            onTap: () {
+                              globalStore.setIndexPage(2);
+                              context.pushNamed("$chatPage");
+                            },
+                            context: context)
+                        : ItemCardMenu(
+                            context: context,
+                            title: "Chats",
+                            icon: Icons.chat_bubble_sharp,
+                            onTap: () {
+                              globalStore.setIndexPage(2);
+                              context.pushNamed("$chatPage");
+                            },
+                            index: 2),
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
@@ -371,90 +326,42 @@ class HomeWidgets {
                             ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: double.infinity,
-                        height: 44.0,
-                        decoration: BoxDecoration(
-                          color: ThemeModeApp.of(context).lineColor,
-                          borderRadius: BorderRadius.circular(12.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 6.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.attach_money_rounded,
-                                color: ThemeModeApp.of(context).primary,
-                                size: 24.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  "Plano Atual",
-                                  style: ThemeModeApp.of(context)
-                                      .bodyMedium
-                                      .copyWith(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        width: double.infinity,
-                        height: 44.0,
-                        decoration: BoxDecoration(
-                          color: ThemeModeApp.of(context).lineColor,
-                          borderRadius: BorderRadius.circular(12.0),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 6.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.settings_outlined,
-                                color: ThemeModeApp.of(context).primary,
-                                size: 24.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  "Configurações e Privacidade",
-                                  style: ThemeModeApp.of(context)
-                                      .bodyMedium
-                                      .copyWith(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    globalStore.indexPage == 3
+                        ? ItemCardMenuSelect(
+                            icon: Icons.attach_money_rounded,
+                            title: "Plano Atual",
+                            onTap: () {
+                              globalStore.setIndexPage(3);
+                              context.pushNamed("$planoPage");
+                            },
+                            context: context)
+                        : ItemCardMenu(
+                            context: context,
+                            title: "Plano Atual",
+                            icon: Icons.attach_money_rounded,
+                            onTap: () {
+                              globalStore.setIndexPage(3);
+                              context.pushNamed("$planoPage");
+                            },
+                            index: 3),
+                    globalStore.indexPage == 4
+                        ? ItemCardMenuSelect(
+                            icon: Icons.settings_outlined,
+                            title: "Configurações e Privacidade",
+                            onTap: () {
+                              globalStore.setIndexPage(4);
+                              context.pushNamed("$profile04");
+                            },
+                            context: context)
+                        : ItemCardMenu(
+                            context: context,
+                            title: "Configurações e Privacidade",
+                            icon: Icons.settings_outlined,
+                            onTap: () {
+                              globalStore.setIndexPage(4);
+                              context.pushNamed("$profile04");
+                            },
+                            index: 3),
                   ].divide(SizedBox(height: 12.0)),
                 ),
               ),
@@ -466,7 +373,7 @@ class HomeWidgets {
             ),
             GestureDetector(
               onTap: () {
-                context.pushNamed("Profile04");
+                context.pushNamed("$profile04");
               },
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
@@ -549,6 +456,129 @@ class HomeWidgets {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ItemCardMenu extends StatelessWidget {
+  ItemCardMenu({
+    Key? key,
+    required this.context,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+    required this.index,
+  }) : super(key: key);
+
+  String title;
+  IconData icon;
+  void Function()? onTap;
+  int index;
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          width: double.infinity,
+          height: 44.0,
+          decoration: BoxDecoration(
+            color:
+                ThemeModeApp.of(context).secondaryBackground.withOpacity(0.6),
+            borderRadius: BorderRadius.circular(12.0),
+            shape: BoxShape.rectangle,
+          ),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 6.0, 0.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Icon(
+                  icon,
+                  color: ThemeModeApp.of(context).primary,
+                  size: 24.0,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                  child: Text(
+                    title,
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemCardMenuSelect extends StatelessWidget {
+  ItemCardMenuSelect({
+    Key? key,
+    required this.context,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
+
+  String title;
+  IconData icon;
+  void Function()? onTap;
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          width: double.infinity,
+          height: 44.0,
+          decoration: BoxDecoration(
+            color: ThemeModeApp.of(context).primary.withOpacity(0.6),
+            borderRadius: BorderRadius.circular(12.0),
+            shape: BoxShape.rectangle,
+          ),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 6.0, 0.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Icon(
+                  icon,
+                  color: ThemeModeApp.of(context).primaryBackground,
+                  size: 24.0,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                  child: Text(
+                    title,
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

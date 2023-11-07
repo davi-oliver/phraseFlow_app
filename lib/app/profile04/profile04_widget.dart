@@ -1,3 +1,4 @@
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
@@ -426,7 +427,7 @@ class _Profile04WidgetState extends State<Profile04Widget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('loginPage');
+                        context.pushNamed('$loginPage');
                       },
                       text: "Sair",
                       options: FFButtonOptions(

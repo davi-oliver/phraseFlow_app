@@ -1,3 +1,4 @@
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/intro_app/intro_app_model.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
@@ -333,7 +334,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('createaccount');
+                        context.pushNamed('$createaccount');
                       },
                       text: 'Continue',
                       options: FFButtonOptions(

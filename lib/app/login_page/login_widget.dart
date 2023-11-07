@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
@@ -327,7 +328,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         context.pushNamed(
-                                            'acompanhamenttodasatividades');
+                                            '$acompanhamenttodasatividades');
                                       },
                                       text: 'Entrar',
                                       options: FFButtonOptions(
@@ -457,7 +458,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             .signInGoogle();
                                         if (resp) {
                                           context.pushNamed(
-                                              'acompanhamenttodasatividades');
+                                              '$acompanhamenttodasatividades');
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -519,7 +520,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.pushNamed('createaccount');
+                                          context.pushNamed('$createaccount');
                                         },
                                         child: RichText(
                                           textScaleFactor:

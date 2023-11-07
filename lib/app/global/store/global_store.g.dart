@@ -24,6 +24,22 @@ mixin _$GlobalStore on _GlobalStoreBase, Store {
     });
   }
 
+  late final _$indexPageAtom =
+      Atom(name: '_GlobalStoreBase.indexPage', context: context);
+
+  @override
+  int get indexPage {
+    _$indexPageAtom.reportRead();
+    return super.indexPage;
+  }
+
+  @override
+  set indexPage(int value) {
+    _$indexPageAtom.reportWrite(value, super.indexPage, () {
+      super.indexPage = value;
+    });
+  }
+
   late final _$_GlobalStoreBaseActionController =
       ActionController(name: '_GlobalStoreBase', context: context);
 
@@ -39,9 +55,21 @@ mixin _$GlobalStore on _GlobalStoreBase, Store {
   }
 
   @override
+  void setIndexPage(int value) {
+    final _$actionInfo = _$_GlobalStoreBaseActionController.startAction(
+        name: '_GlobalStoreBase.setIndexPage');
+    try {
+      return super.setIndexPage(value);
+    } finally {
+      _$_GlobalStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+indexPage: ${indexPage}
     ''';
   }
 }
