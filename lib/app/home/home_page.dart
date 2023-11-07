@@ -337,7 +337,7 @@ class _HomeMobileWebPageState extends State<HomeMobileWebPage> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 20.0, 0.0, 0.0),
                             child: Text(
-                              "Olá, ${globalStore.user!.name!} ",
+                              "Olá, ${globalStore.user?.name! ?? "Nome"} ",
                               style: ThemeModeApp.of(context)
                                   .headlineMedium
                                   .copyWith(

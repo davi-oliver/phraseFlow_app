@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/profile04/update_profile/update_profile_page.dart';
 import 'package:provider/provider.dart';
 
 import '/index.dart';
@@ -111,6 +112,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'questionaryTypeWriteWidget',
               path: 'questionaryTypeWriteWidget',
               builder: (context, params) => QuestionarioTipos(),
+            ),
+            FFRoute(
+              name: 'updateAccount',
+              path: 'updateAccount',
+              builder: (context, params) => UpdateAccount(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

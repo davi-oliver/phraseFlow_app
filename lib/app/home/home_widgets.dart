@@ -464,68 +464,74 @@ class HomeWidgets {
               thickness: 2.0,
               color: ThemeModeApp.of(context).lineColor,
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      color: Color(0x4D9489F5),
-                      borderRadius: BorderRadius.circular(12.0),
-                      border: Border.all(
-                        color: Color(0xFF6F61EF),
-                        width: 2.0,
+            GestureDetector(
+              onTap: () {
+                context.pushNamed("Profile04");
+              },
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: Color(0x4D9489F5),
+                        borderRadius: BorderRadius.circular(12.0),
+                        border: Border.all(
+                          color: Color(0xFF6F61EF),
+                          width: 2.0,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(2.0, 2.0, 2.0, 2.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CachedNetworkImage(
-                          fadeInDuration: Duration(milliseconds: 500),
-                          fadeOutDuration: Duration(milliseconds: 500),
-                          imageUrl:
-                              'https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjJ8fHVzZXJzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-                          width: 44.0,
-                          height: 44.0,
-                          fit: BoxFit.cover,
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(2.0, 2.0, 2.0, 2.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 500),
+                            fadeOutDuration: Duration(milliseconds: 500),
+                            imageUrl:
+                                'https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjJ8fHVzZXJzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+                            width: 44.0,
+                            height: 44.0,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            globalStore.user!.name!,
-                            style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                          Text(
-                            globalStore.user!.email!,
-                            style:
-                                ThemeModeApp.of(context).labelMedium.copyWith(
-                                      color: Color(0xFF606A85),
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                          ),
-                        ],
+                    Expanded(
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              globalStore.user?.name ?? "Nome do Usuário",
+                              style:
+                                  ThemeModeApp.of(context).bodyLarge.copyWith(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                            ),
+                            Text(
+                              globalStore.user?.email! ?? "Email do Usuário",
+                              style:
+                                  ThemeModeApp.of(context).labelMedium.copyWith(
+                                        color: Color(0xFF606A85),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Padding(
