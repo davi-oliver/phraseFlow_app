@@ -10,4 +10,10 @@ abstract class _GlobalStoreBase with Store {
 
   @action
   void setUser(ModelUser? value) => user = value;
+
+  @observable
+  int indexPage = 0;
+
+  @action
+  void setIndexPage(int value) => indexPage = value;
 }

@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/chats/chats.dart';
+import 'package:phrase_flow/app/global/routes.dart';
+import 'package:phrase_flow/app/plano/planos.dart';
+import 'package:phrase_flow/app/profile04/update_profile/update_profile_page.dart';
 import 'package:provider/provider.dart';
 
 import '/index.dart';
@@ -57,60 +61,75 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : IntroAppWidget(),
           routes: [
             FFRoute(
-              name: 'acompanhamenttodasatividades',
-              path: 'acompanhamenttodasatividades',
+              name: '$acompanhamenttodasatividades',
+              path: '$acompanhamenttodasatividades',
               builder: (context, params) =>
                   AcompanhamenttodasatividadesWidget(),
             ),
             FFRoute(
-              name: 'Profile04',
-              path: 'profile04',
+              name: '$profile04',
+              path: '$profile04',
               builder: (context, params) => Profile04Widget(),
             ),
             FFRoute(
-              name: 'SuccessPage',
-              path: 'successPage',
+              name: '$successPage',
+              path: '$successPage',
               builder: (context, params) => SuccessPageWidget(),
             ),
             FFRoute(
-              name: 'answer_idea2',
-              path: 'answerIdea2',
+              name: '$answerIdea2',
+              path: '$answerIdea2',
               builder: (context, params) => AnswerIdea2Widget(),
             ),
             FFRoute(
-              name: 'Timelineatividade',
-              path: 'timelineatividade',
+              name: '$timelineatividade',
+              path: '$timelineatividade',
               builder: (context, params) => TimelineatividadeWidget(),
             ),
             FFRoute(
-              name: 'IntroAppWidget',
-              path: 'IntroAppWidget',
+              name: '$introAppWidget',
+              path: '$introAppWidget',
               builder: (context, params) => IntroAppWidget(),
             ),
             FFRoute(
-              name: 'loginPage',
-              path: 'loginPage',
+              name: '$loginPage',
+              path: '$loginPage',
               builder: (context, params) => LoginWidget(),
             ),
             FFRoute(
-              name: 'questionaryTypeSelectOption',
-              path: 'questionaryTypeSelectOption',
+              name: '$questionaryTypeSelectOption',
+              path: '$questionaryTypeSelectOption',
               builder: (context, params) => QuestionaryTypeSelectOptionWidget(),
             ),
             FFRoute(
-              name: 'createaccount',
-              path: 'createaccount',
+              name: '$createaccount',
+              path: '$createaccount',
               builder: (context, params) => CreateaccountWidget(),
             ),
             FFRoute(
-              name: 'questionaryTipeSelectImage',
-              path: 'questionaryTipeSelectImage',
+              name: '$questionaryTipeSelectImage',
+              path: '$questionaryTipeSelectImage',
               builder: (context, params) => QuestionaryTipeSelectImageWidget(),
             ),
             FFRoute(
-              name: 'questionaryTypeWriteWidget',
-              path: 'questionaryTypeWriteWidget',
+              name: '$questionaryTypeWriteWidget',
+              path: '$questionaryTypeWriteWidget',
               builder: (context, params) => QuestionarioTipos(),
+            ),
+            FFRoute(
+              name: '$updateAccount',
+              path: '$updateAccount',
+              builder: (context, params) => UpdateAccount(),
+            ),
+            FFRoute(
+              name: '$chatPage',
+              path: '$chatPage',
+              builder: (context, params) => ChatsPage(),
+            ),
+            FFRoute(
+              name: '$planoPage',
+              path: '$planoPage',
+              builder: (context, params) => PlanosPage(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

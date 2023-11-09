@@ -12,7 +12,20 @@
           "package_name": "com.unifei.br.phraseflow"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "775460929292-9394m5a1620kn06ivm8rvi9lkrp6ptdn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unifei.br.phraseflow",
+            "certificate_hash": "cba7c92cc034e1b6df934edb5b23bf8eaf92629b"
+          }
+        },
+        {
+          "client_id": "775460929292-sle40hf9bnsj9b22l9ju35nrrsmbbcvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAxfpZuFRHOVHk5BLnm5bPF4GtY27psrVM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775460929292-sle40hf9bnsj9b22l9ju35nrrsmbbcvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

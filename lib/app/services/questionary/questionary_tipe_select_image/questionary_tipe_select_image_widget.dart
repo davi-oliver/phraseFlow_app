@@ -1,3 +1,4 @@
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 
 import '../../../../components/flutter_flow/flutter_flow_icon_button.dart';
@@ -230,7 +231,7 @@ class _QuestionaryTipeSelectImageWidgetState
               hoverColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () async {
-                context.pushNamed('SuccessPage');
+                context.pushNamed('$successPage');
               },
               child: Container(
                 width: double.infinity,

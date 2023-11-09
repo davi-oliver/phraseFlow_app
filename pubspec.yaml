@@ -27,11 +27,17 @@ dependencies:
     sdk: flutter
 
   auto_size_text: 3.0.0
+  connectivity: ^3.0.6
   cached_network_image: 3.2.1
 
+  
 
+  firebase_auth: ^4.2.10
   flutter_animate: 4.1.1+1
+  fl_country_code_picker: ^0.1.6+1
   flutter_mobx: ^2.1.1
+  firebase_core: ^2.7.1 
+
 
   flutter_cache_manager: 3.3.0
   flutter_rating_bar: 4.0.1
@@ -59,6 +65,7 @@ dependencies:
   shared_preferences_web: 2.1.0
   sqflite: 2.2.6
   stop_watch_timer: 3.0.2
+  sign_in_with_apple: ^4.3.0
   stream_transform: 2.1.0
   timeago: 3.2.2
   url_launcher: 6.1.10
@@ -75,6 +82,9 @@ dependencies:
   dartz: ^0.10.1
   flutter_spinkit: ^5.2.0
   smooth_page_indicator: ^1.1.0
+  google_sign_in: ^6.0.2
+  flutter_masked_text2: ^0.9.1
+
  
 dev_dependencies:
   flutter_launcher_icons: 0.13.1

@@ -1,11 +1,24 @@
+import 'dart:developer';
+
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/backend/datasource/post.dart';
+import 'package:phrase_flow/components/flutter_flow/form_field_controller.dart';
 import 'package:phrase_flow/model/user.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/flutter_flow/flutter_flow_util.dart';
 import 'createaccount_widget.dart' show CreateaccountWidget;
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+
+TextEditingController nameController = TextEditingController();
+TextEditingController emailAddressController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController passwordConfirmController = TextEditingController();
+MaskedTextController controllerDataNasc =
+    MaskedTextController(mask: '00/00/0000');
+TextEditingController controllerNacionalidade = TextEditingController();
+var sexo;
 
 class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   ///  State fields for stateful widgets in this page.
@@ -13,21 +26,30 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   final unfocusNode = FocusNode();
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode;
-  TextEditingController? emailAddressController;
+  // TextEditingController? emailAddressController;
   String? Function(BuildContext, String?)? emailAddressControllerValidator;
 
-  TextEditingController? nameController;
+  // TextEditingController? nameController;
   String? Function(BuildContext, String?)? nameControllerValidator;
   FocusNode? nameControllerFocusNode;
 
+  String? Function(BuildContext, String?)? controllerDataNascValidator;
+  FocusNode? controllerDataNascFocusNode;
+  FormFieldController<String>? radioButtonValueController;
+
+  // TextEditingController? controllerNacionalidade;
+
+  String? Function(BuildContext, String?)? controllerNacionalidadeValidator;
+  FocusNode? controllerNacionalidadeFocusNode;
+
   // State field(s) for password widget.
   FocusNode? passwordFocusNode;
-  TextEditingController? passwordController;
+  // TextEditingController? passwordController;
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordControllerValidator;
   // State field(s) for passwordConfirm widget.
   FocusNode? passwordConfirmFocusNode;
-  TextEditingController? passwordConfirmController;
+  // TextEditingController? passwordConfirmController;
   late bool passwordConfirmVisibility;
   String? Function(BuildContext, String?)? passwordConfirmControllerValidator;
 
@@ -58,35 +80,6 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
     return Result(true, message: 'Sucesso');
   }
 
-  Future createUser(context) async {
-    final globalInfo = Provider.of<GlobalStore>(context, listen: false);
-    final httprequest = PostHttpRequestApp(context);
-
-    final result =
-        await httprequest.makeJsonRequestDynamc(url: "users/create", params: {
-      "email": emailAddressController.text,
-      "name": nameController.text,
-      "password": passwordController.text,
-    });
-
-    Result res = await result.fold((l) async {
-      return Result(false, message: l.descricao);
-    }, (r) async {
-      if (r['error'] != null) {
-        return Result(false, message: r['error']);
-      }
-
-      globalInfo.setUser(ModelUser(
-          name: nameController.text,
-          email: emailAddressController.text,
-          password: passwordController.text));
-
-      return Result(true, message: 'Sucesso');
-    });
-
-    return res;
-  }
-
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
@@ -97,13 +90,13 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   void dispose() {
     unfocusNode.dispose();
     emailAddressFocusNode?.dispose();
-    emailAddressController?.dispose();
+    emailAddressController.dispose();
 
     passwordFocusNode?.dispose();
-    passwordController?.dispose();
+    passwordController.dispose();
 
     passwordConfirmFocusNode?.dispose();
-    passwordConfirmController?.dispose();
+    passwordConfirmController.dispose();
   }
 
   /// Action blocks are added here.
@@ -115,4 +108,46 @@ class Result {
   bool isValid;
   String? message;
   Result(this.isValid, {this.message});
+}
+
+Future createUser(context) async {
+  final globalInfo = Provider.of<GlobalStore>(context, listen: false);
+  final httprequest = PostHttpRequestApp(context);
+
+//2023-11-07T03:58:02.515Z
+  var dataFormatada =
+      controllerDataNasc.text.split("/").reversed.join('-') + 'T00:00:00.000Z';
+
+  log("dataFormatada: $dataFormatada");
+
+  final result =
+      await httprequest.makeJsonRequestDynamc(url: "users/create", params: {
+    "email": emailAddressController.text,
+    "name": nameController.text,
+    "password": passwordController.text,
+    "birthDate": dataFormatada,
+    "country": controllerNacionalidade.text,
+    "sex": sexo
+  });
+
+  Result res = await result.fold((l) async {
+    return Result(false, message: l.descricao);
+  }, (r) async {
+    if (r['error'] != null) {
+      return Result(false, message: r['error']);
+    }
+    log("result: $r");
+
+    globalInfo.setUser(ModelUser(
+        name: nameController.text,
+        email: emailAddressController.text,
+        password: passwordController.text,
+        birthDate: controllerDataNasc.text,
+        country: controllerNacionalidade.text,
+        sex: r["sex"]));
+
+    return Result(true, message: 'Sucesso');
+  });
+
+  return res;
 }

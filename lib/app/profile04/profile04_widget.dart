@@ -1,3 +1,4 @@
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
@@ -324,47 +325,51 @@ class _Profile04WidgetState extends State<Profile04Widget> {
           Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    color: ThemeModeApp.of(context).secondaryBackground,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 5.0,
-                        color: Color(0x3416202A),
-                        offset: Offset(0.0, 2.0),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(12.0),
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              12.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            "Alterar Cadastro",
-                            style: ThemeModeApp.of(context).labelMedium,
-                          ),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: AlignmentDirectional(0.90, 0.00),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: ThemeModeApp.of(context).secondaryText,
-                              size: 18.0,
+              GestureDetector(
+                onTap: () => context.pushNamed("updateAccount"),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      color: ThemeModeApp.of(context).secondaryBackground,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5.0,
+                          color: Color(0x3416202A),
+                          offset: Offset(0.0, 2.0),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12.0),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              "Alterar Cadastro",
+                              style: ThemeModeApp.of(context).labelMedium,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional(0.90, 0.00),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: ThemeModeApp.of(context).secondaryText,
+                                size: 18.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -422,7 +427,7 @@ class _Profile04WidgetState extends State<Profile04Widget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('loginPage');
+                        context.pushNamed('$loginPage');
                       },
                       text: "Sair",
                       options: FFButtonOptions(
