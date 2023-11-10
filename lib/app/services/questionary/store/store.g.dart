@@ -9,6 +9,22 @@ part of 'store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
+  late final _$listAllLessonsAtom =
+      Atom(name: '_QuestionarioStoreBase.listAllLessons', context: context);
+
+  @override
+  ObservableList<ModelLesson> get listAllLessons {
+    _$listAllLessonsAtom.reportRead();
+    return super.listAllLessons;
+  }
+
+  @override
+  set listAllLessons(ObservableList<ModelLesson> value) {
+    _$listAllLessonsAtom.reportWrite(value, super.listAllLessons, () {
+      super.listAllLessons = value;
+    });
+  }
+
   late final _$questionsAtom =
       Atom(name: '_QuestionarioStoreBase.questions', context: context);
 
@@ -75,6 +91,17 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
 
   late final _$_QuestionarioStoreBaseActionController =
       ActionController(name: '_QuestionarioStoreBase', context: context);
+
+  @override
+  void setListAllLessons(dynamic value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setListAllLessons');
+    try {
+      return super.setListAllLessons(value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setSelectedIndex(int value) {
@@ -156,6 +183,7 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
   @override
   String toString() {
     return '''
+listAllLessons: ${listAllLessons},
 questions: ${questions},
 controllerPageView: ${controllerPageView},
 selectedIndex: ${selectedIndex},

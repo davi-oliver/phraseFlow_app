@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -574,6 +575,771 @@ class ItemCardMenuSelect extends StatelessWidget {
                     style: ThemeModeApp.of(context).bodyMedium.copyWith(
                           color: Colors.white,
                         ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CorpoHomePage extends StatefulWidget {
+  const CorpoHomePage({super.key, required this.model});
+  final AcompanhamenttodasatividadesModel model;
+  @override
+  State<CorpoHomePage> createState() => _CorpoHomePageState();
+}
+
+class _CorpoHomePageState extends State<CorpoHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
+    return Align(
+      alignment: AlignmentDirectional(0.00, -1.00),
+      child: Container(
+        width: double.infinity,
+        constraints: BoxConstraints(
+          maxWidth: 1170.0,
+        ),
+        decoration: BoxDecoration(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 20.0, 0.0, 0.0),
+                            child: Text(
+                              "Olá, ${globalStore.user?.name! ?? "Nome"} ",
+                              style: ThemeModeApp.of(context)
+                                  .headlineMedium
+                                  .copyWith(
+                                    color: ThemeModeApp.of(context).primaryText,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 4.0, 0.0, 0.0),
+                            child: Text(
+                              "Seus idiomas",
+                              textAlign: TextAlign.start,
+                              style: ThemeModeApp.of(context)
+                                  .labelMedium
+                                  .copyWith(
+                                    color:
+                                        ThemeModeApp.of(context).secondaryText,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (responsiveVisibility(
+                      context: context,
+                      phone: false,
+                    ))
+                      HomeWidgets(context).atetresidiomas(),
+                    HomeWidgets(context).botaoAdicionarIdioma(),
+                  ],
+                ),
+              ),
+              HomeWidgets(context).filtroProgresso(widget.model),
+              if (responsiveVisibility(
+                  context: context, phone: false, tablet: false))
+                HomePageLandScapeDesktop(),
+              if (responsiveVisibility(
+                context: context,
+                phone: false,
+                desktop: false,
+                tabletLandscape: false,
+              ))
+                HomePageTablet(),
+              // // mobile
+              if (responsiveVisibility(
+                context: context,
+                tablet: false,
+                desktop: false,
+                tabletLandscape: false,
+              ))
+                HomePageMobile(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomePageLandScapeDesktop extends StatelessWidget {
+  const HomePageLandScapeDesktop({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: homeStore.listLessonUser.isEmpty
+          ? Center(
+              child: Text(
+              "Nenhuma lição encontrada",
+              style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                    color: ThemeModeApp.of(context).primaryText,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ))
+          : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 1.5,
+              ),
+              itemCount: homeStore.listLessonUser.length,
+              primary: false,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                return cardWeb();
+              },
+            ),
+    );
+  }
+}
+
+class HomePageTablet extends StatelessWidget {
+  const HomePageTablet({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: homeStore.listLessonUser.isEmpty
+          ? Center(
+              child: Text(
+              "Nenhuma lição encontrada",
+              style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                    color: ThemeModeApp.of(context).primaryText,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ))
+          : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 1.5,
+              ),
+              itemCount: homeStore.listLessonUser.length,
+              primary: false,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                return cardWeb();
+              },
+            ),
+    );
+  }
+}
+
+class HomePageMobile extends StatelessWidget {
+  const HomePageMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: homeStore.listLessonUser.isEmpty
+          ? Center(
+              child: Text(
+              "Nenhuma lição encontrada",
+              style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                    color: ThemeModeApp.of(context).primaryText,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ))
+          : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 1.5,
+              ),
+              itemCount: homeStore.listLessonUser.length,
+              primary: false,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                return CardMobile();
+              },
+            ),
+    );
+  }
+}
+
+class cardWeb2 extends StatelessWidget {
+  const cardWeb2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 500.0,
+      height: 89.0,
+      constraints: BoxConstraints(
+        maxWidth: 870.0,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: Color(0xFFE5E7EB),
+          width: 1.0,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            context.pushNamed('questionaryTypeWrite');
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 8.0),
+                child: RichText(
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: FFLocalizations.of(context).getText(
+                          'oiits2ej' /* Idioma : */,
+                        ),
+                        style: TextStyle(),
+                      ),
+                      TextSpan(
+                        text: FFLocalizations.of(context).getText(
+                          'bfi8gidz' /* Espanhol */,
+                        ),
+                        style: TextStyle(
+                          color: Color(0xFF6F61EF),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          fontFamily: 'Plus Jakarta Sans',
+                          color: Color(0xFF15161E),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                child: Text(
+                  FFLocalizations.of(context).getText(
+                    'ux1urqjk' /* Avançado */,
+                  ),
+                  textAlign: TextAlign.end,
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        fontFamily: 'Outfit',
+                        color: Color(0xFF15161E),
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                thickness: 1.0,
+                color: Color(0xFFE5E7EB),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            color: Color(0x4D9489F5),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.network(
+                                'https://images.unsplash.com/photo-1455274111113-575d080ce8cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwyNHx8cHJvZmlsZXxlbnwwfHx8fDE2OTE0NDY5MzJ8MA&ixlib=rb-4.0.3&q=80&w=400',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            color: Color(0x4D9489F5),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.network(
+                                'https://cdn-icons-png.flaticon.com/512/197/197593.png',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 4.0)),
+                    ),
+                    Container(
+                      height: 32.0,
+                      decoration: BoxDecoration(
+                        color: Color(0x4C39D2C0),
+                        borderRadius: BorderRadius.circular(12.0),
+                        border: Border.all(
+                          color: Color(0xFF39D2C0),
+                          width: 2.0,
+                        ),
+                      ),
+                      child: Align(
+                        alignment: AlignmentDirectional(0.00, 0.00),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 0.0, 8.0, 0.0),
+                          child: Text(
+                            FFLocalizations.of(context).getText(
+                              'kfd2tttb' /* Ativo */,
+                            ),
+                            style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                                  fontFamily: 'Plus Jakarta Sans',
+                                  color: Color(0xFF15161E),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class cardWeb extends StatelessWidget {
+  const cardWeb({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: ThemeModeApp.of(context).secondaryBackground,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color.fromARGB(57, 105, 102, 102),
+            width: 1.0,
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 4.0,
+              color: Color(0x3A000000),
+              offset: Offset(0.0, 2.0),
+            )
+          ]),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 10.0, 0.0),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            context.pushNamed('$questionaryTypeWriteWidget');
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 0.0),
+                child: RichText(
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Idioma:",
+                        style: ThemeModeApp.of(context).bodyLarge,
+                      ),
+                      TextSpan(
+                        text: " Frances",
+                        style: TextStyle(
+                          color: Color(0xFF6F61EF),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          fontFamily: 'Plus Jakarta Sans',
+                          color: Color(0xFF15161E),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                child: Text(
+                  "Avançado",
+                  textAlign: TextAlign.end,
+                  style: ThemeModeApp.of(context).headlineSmall,
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                thickness: 1.0,
+                color: Color(0xFFE5E7EB),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            color: Color(0x4D9489F5),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.network(
+                                'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            color: Color(0x4D9489F5),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.network(
+                                'https://cdn-icons-png.flaticon.com/512/197/197560.png',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 4.0)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DividerMobile extends StatelessWidget {
+  const DividerMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: Container(
+        width: 500.0,
+        constraints: BoxConstraints(
+          maxWidth: 570.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFE5E7EB),
+            width: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class cardMobile2 extends StatelessWidget {
+  const cardMobile2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: Container(
+        width: 500.0,
+        constraints: BoxConstraints(
+          maxWidth: 570.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFE5E7EB),
+            width: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardMobile extends StatelessWidget {
+  const CardMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: Container(
+        width: 300.0,
+        constraints: BoxConstraints(
+          maxWidth: 570.0,
+        ),
+        decoration: BoxDecoration(
+          color: ThemeModeApp.of(context).primaryBackground,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFE5E7EB),
+            width: 1.0,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+          child: InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              context.pushNamed('$questionaryTypeWriteWidget');
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 8.0),
+                  child: RichText(
+                    textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Idioma:",
+                          style: ThemeModeApp.of(context).bodyLarge,
+                        ),
+                        TextSpan(
+                            text: " Frances",
+                            style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                                color: ThemeModeApp.of(context).primary))
+                      ],
+                      style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                            color: Color(0xFF15161E),
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                  child: Text(
+                    "Avançado",
+                    textAlign: TextAlign.end,
+                    style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                Divider(
+                  height: 2.0,
+                  thickness: 1.0,
+                  color: Color(0xFFE5E7EB),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: Color(0x4D9489F5),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Color(0xFF6F61EF),
+                                width: 2.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  2.0, 2.0, 2.0, 2.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(40.0),
+                                child: Image.network(
+                                  'https://cdn-icons-png.flaticon.com/512/197/197560.png',
+                                  width: 60.0,
+                                  height: 60.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ].divide(SizedBox(width: 4.0)),
+                      ),
+                      Container(
+                        height: 32.0,
+                        decoration: BoxDecoration(
+                          color: Color(0x4D9489F5),
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: Color(0xFF6F61EF),
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0.00, 0.00),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 0.0, 8.0, 0.0),
+                            child: Text(
+                              "Acessar",
+                              style:
+                                  ThemeModeApp.of(context).bodyMedium.copyWith(
+                                        color: Color(0xFF6F61EF),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

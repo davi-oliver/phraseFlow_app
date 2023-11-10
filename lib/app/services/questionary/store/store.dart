@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:phrase_flow/model/lesson.dart';
 import 'package:phrase_flow/model/question.dart';
 part 'store.g.dart';
 
@@ -7,12 +8,19 @@ class QuestionarioStore = _QuestionarioStoreBase with _$QuestionarioStore;
 
 abstract class _QuestionarioStoreBase with Store {
   @observable
+  ObservableList<ModelLesson> listAllLessons = ObservableList<ModelLesson>();
+
+  @observable
   ObservableList<ModelQuestion> questions = ObservableList<ModelQuestion>();
   @observable
   PageController controllerPageView = PageController(initialPage: 0);
 
   @observable
   int selectedIndex = 0;
+
+  @action
+  void setListAllLessons(value) =>
+      listAllLessons.add(ModelLesson.fromJson(value));
 
   @action
   void setSelectedIndex(int value) => selectedIndex = value;

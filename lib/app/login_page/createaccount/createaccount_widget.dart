@@ -193,8 +193,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         ),
                                         style:
                                             ThemeModeApp.of(context).bodyLarge,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
+                                        keyboardType: TextInputType.text,
                                       ),
                                     ),
                                   ),
@@ -1004,30 +1003,27 @@ class TextFieldEmail extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Color(0xFF4B39EF),
+                color: ThemeModeApp.of(context).primary,
                 width: 2.0,
               ),
               borderRadius: BorderRadius.circular(12.0),
             ),
             errorBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Color(0xFFFF5963),
+                color: ThemeModeApp.of(context).error,
                 width: 2.0,
               ),
               borderRadius: BorderRadius.circular(12.0),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Color(0xFFFF5963),
+                color: ThemeModeApp.of(context).error,
                 width: 2.0,
               ),
               borderRadius: BorderRadius.circular(12.0),
             ),
             filled: true,
-            fillColor: Color(0xFFF1F4F8),
-            // filled: true,
-            // fillColor: ThemeModeApp.of(context)
-            //     .primaryBackground,
+            fillColor: ThemeModeApp.of(context).primaryBackground,
           ),
           style: ThemeModeApp.of(context).bodyLarge,
           keyboardType: TextInputType.emailAddress,
