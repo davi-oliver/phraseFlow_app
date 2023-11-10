@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
@@ -184,6 +185,7 @@ class HomeWidgets {
       child: FFButtonWidget(
         onPressed: () {
           print('Button pressed ...');
+          context.pushNamed(addLessonPage);
         },
         text: "Adicionar",
         options: FFButtonOptions(
@@ -696,35 +698,37 @@ class HomePageLandScapeDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeStore = Provider.of<HomeStore>(context, listen: false);
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: homeStore.listLessonUser.isEmpty
-          ? Center(
-              child: Text(
-              "Nenhuma lição encontrada",
-              style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                    color: ThemeModeApp.of(context).primaryText,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 1.5,
+    final homeStoreT = Provider.of<HomeStore>(context, listen: true);
+    return Observer(builder: (_) {
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        child: homeStoreT.listLessonUser.isEmpty
+            ? Center(
+                child: Text(
+                "Nenhuma lição encontrada",
+                style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                      color: ThemeModeApp.of(context).primaryText,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ))
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  childAspectRatio: 1.5,
+                ),
+                itemCount: homeStoreT.listLessonUser.length,
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  return cardWeb();
+                },
               ),
-              itemCount: homeStore.listLessonUser.length,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return cardWeb();
-              },
-            ),
-    );
+      );
+    });
   }
 }
 
@@ -775,36 +779,41 @@ class HomePageMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    final homeStore = Provider.of<HomeStore>(context, listen: true);
 
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: homeStore.listLessonUser.isEmpty
-          ? Center(
-              child: Text(
-              "Nenhuma lição encontrada",
-              style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                    color: ThemeModeApp.of(context).primaryText,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 1.5,
+    return Observer(builder: (_) {
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        child: homeStore.listLessonUser.isEmpty
+            ? Center(
+                child: Text(
+                "Nenhuma lição encontrada",
+                style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                      color: ThemeModeApp.of(context).primaryText,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ))
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  childAspectRatio: 1.5,
+                ),
+                itemCount: homeStore.listLessonUser.length,
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  return CardMobile(
+                    titulo: homeStore.listLessonUser[index].title,
+                    conteudo: homeStore.listLessonUser[index].content,
+                  );
+                },
               ),
-              itemCount: homeStore.listLessonUser.length,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return CardMobile();
-              },
-            ),
-    );
+      );
+    });
   }
 }
 
@@ -1200,9 +1209,14 @@ class cardMobile2 extends StatelessWidget {
 }
 
 class CardMobile extends StatelessWidget {
-  const CardMobile({
+  CardMobile({
     super.key,
+    required this.titulo,
+    required this.conteudo,
   });
+
+  var titulo;
+  var conteudo;
 
   @override
   Widget build(BuildContext context) {
@@ -1246,7 +1260,7 @@ class CardMobile extends StatelessWidget {
                           style: ThemeModeApp.of(context).bodyLarge,
                         ),
                         TextSpan(
-                            text: " Frances",
+                            text: "${titulo ?? "Nome do Idioma"}",
                             style: ThemeModeApp.of(context).bodyLarge.copyWith(
                                 color: ThemeModeApp.of(context).primary))
                       ],
@@ -1261,7 +1275,7 @@ class CardMobile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                   child: Text(
-                    "Avançado",
+                    "$conteudo ",
                     textAlign: TextAlign.end,
                     style: ThemeModeApp.of(context).headlineSmall.copyWith(
                           fontSize: 22.0,

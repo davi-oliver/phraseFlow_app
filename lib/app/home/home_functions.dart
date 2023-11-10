@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/backend/datasource/get.dart';
 import 'package:phrase_flow/backend/datasource/results.dart';
@@ -95,19 +96,18 @@ class HomeFunctions {
       log("r runtype ${r.runtimeType}");
 
       for (var i = 0; i < r.length; i++) {
-        log("item>> $i");
         store.addQuestion(r[i]);
       }
       return Results(sucess: true, message: "Questões carregadas com sucesso");
     });
     log(name: "QuestionarioStore", "store: ${store.questions.length}");
-    log("response>> $response");
+
     if (res.sucess) return true;
     return false;
   }
 
   Future getLessonFindUserId() async {
-    final store = Provider.of<QuestionarioStore>(context, listen: false);
+    final store = Provider.of<HomeStore>(context, listen: false);
 
     final response = await GetHttpRequestApp(context).makeGetJsonRequest(
       url: "questions",
@@ -183,7 +183,7 @@ class HomeFunctions {
           }
         ];
         for (var i = 0; i < map.length; i++) {
-          store.setListAllLessons(map[i]);
+          store.setListLessonUser(map[i]);
         }
       }
       return Results(sucess: false, message: "Erro ao buscar Lições");
@@ -192,11 +192,13 @@ class HomeFunctions {
 
       for (var i = 0; i < r.length; i++) {
         log("item>> $i");
-        store.setListAllLessons(r[i]);
+        store.setListLessonUser(r[i]);
       }
       return Results(sucess: true, message: "Lições carregadas com sucesso");
     });
-    log(name: "QuestionarioStore", "store: ${store.questions.length}");
+    log(
+        name: "HomeStoresetListAllLessons ",
+        "store: ${store.listLessonUser.length}");
     log("response>> $response");
     if (res.sucess) return true;
     return false;

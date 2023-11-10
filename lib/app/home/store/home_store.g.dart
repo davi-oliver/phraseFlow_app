@@ -25,8 +25,62 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$selectIdiomaAtom =
+      Atom(name: '_HomeStoreBase.selectIdioma', context: context);
+
+  @override
+  String get selectIdioma {
+    _$selectIdiomaAtom.reportRead();
+    return super.selectIdioma;
+  }
+
+  @override
+  set selectIdioma(String value) {
+    _$selectIdiomaAtom.reportWrite(value, super.selectIdioma, () {
+      super.selectIdioma = value;
+    });
+  }
+
+  late final _$selectNivelAtom =
+      Atom(name: '_HomeStoreBase.selectNivel', context: context);
+
+  @override
+  String get selectNivel {
+    _$selectNivelAtom.reportRead();
+    return super.selectNivel;
+  }
+
+  @override
+  set selectNivel(String value) {
+    _$selectNivelAtom.reportWrite(value, super.selectNivel, () {
+      super.selectNivel = value;
+    });
+  }
+
   late final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase', context: context);
+
+  @override
+  void setSelectIdioma(dynamic value) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setSelectIdioma');
+    try {
+      return super.setSelectIdioma(value);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectNivel(dynamic value) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setSelectNivel');
+    try {
+      return super.setSelectNivel(value);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setListLessonUser(dynamic value) {
@@ -53,7 +107,9 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-listLessonUser: ${listLessonUser}
+listLessonUser: ${listLessonUser},
+selectIdioma: ${selectIdioma},
+selectNivel: ${selectNivel}
     ''';
   }
 }

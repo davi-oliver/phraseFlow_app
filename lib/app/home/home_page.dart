@@ -39,8 +39,9 @@ class _AcompanhamenttodasatividadesWidgetState
 
   @override
   void initState() {
-    super.initState();
     init();
+    super.initState();
+
     _model = createModel(context, () => AcompanhamenttodasatividadesModel());
 
     // On page load action.
