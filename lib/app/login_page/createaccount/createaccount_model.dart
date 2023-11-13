@@ -139,6 +139,7 @@ Future createUser(context) async {
     log("result: $r");
 
     globalInfo.setUser(ModelUser(
+        id: r["id"],
         name: nameController.text,
         email: emailAddressController.text,
         password: passwordController.text,

@@ -1,5 +1,5 @@
 class ModelLesson {
-  String? id;
+  var id;
   String? title;
   String? content;
   String? createdAt;
@@ -15,7 +15,7 @@ class ModelLesson {
       this.lessonQuestions});
 
   ModelLesson.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as String?;
+    id = json['id'];
     title = json['title'];
     content = json['content'];
     createdAt = json['createdAt'];

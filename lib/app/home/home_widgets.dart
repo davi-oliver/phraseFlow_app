@@ -717,14 +717,17 @@ class HomePageLandScapeDesktop extends StatelessWidget {
                   crossAxisCount: 3,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  childAspectRatio: 1.5,
+                  childAspectRatio: 1.0,
                 ),
                 itemCount: homeStoreT.listLessonUser.length,
                 primary: false,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  return cardWeb();
+                  return CardWeb(
+                    title: homeStoreT.listLessonUser[index].title,
+                    content: homeStoreT.listLessonUser[index].content,
+                  );
                 },
               ),
       );
@@ -765,7 +768,10 @@ class HomePageTablet extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (BuildContext context, int index) {
-                return cardWeb();
+                return CardWeb(
+                  title: homeStore.listLessonUser[index].title,
+                  content: homeStore.listLessonUser[index].content,
+                );
               },
             ),
     );
@@ -817,198 +823,11 @@ class HomePageMobile extends StatelessWidget {
   }
 }
 
-class cardWeb2 extends StatelessWidget {
-  const cardWeb2({
-    super.key,
-  });
+class CardWeb extends StatelessWidget {
+  CardWeb({super.key, required this.title, required this.content});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 500.0,
-      height: 89.0,
-      constraints: BoxConstraints(
-        maxWidth: 870.0,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(
-          color: Color(0xFFE5E7EB),
-          width: 1.0,
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
-        child: InkWell(
-          splashColor: Colors.transparent,
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () async {
-            context.pushNamed('questionaryTypeWrite');
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 8.0),
-                child: RichText(
-                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: FFLocalizations.of(context).getText(
-                          'oiits2ej' /* Idioma : */,
-                        ),
-                        style: TextStyle(),
-                      ),
-                      TextSpan(
-                        text: FFLocalizations.of(context).getText(
-                          'bfi8gidz' /* Espanhol */,
-                        ),
-                        style: TextStyle(
-                          color: Color(0xFF6F61EF),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                          fontFamily: 'Plus Jakarta Sans',
-                          color: Color(0xFF15161E),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                child: Text(
-                  FFLocalizations.of(context).getText(
-                    'ux1urqjk' /* Avançado */,
-                  ),
-                  textAlign: TextAlign.end,
-                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
-                        fontFamily: 'Outfit',
-                        color: Color(0xFF15161E),
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              Divider(
-                height: 2.0,
-                thickness: 1.0,
-                color: Color(0xFFE5E7EB),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: 40.0,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            color: Color(0x4D9489F5),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Color(0xFF6F61EF),
-                              width: 2.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                2.0, 2.0, 2.0, 2.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(40.0),
-                              child: Image.network(
-                                'https://images.unsplash.com/photo-1455274111113-575d080ce8cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwyNHx8cHJvZmlsZXxlbnwwfHx8fDE2OTE0NDY5MzJ8MA&ixlib=rb-4.0.3&q=80&w=400',
-                                width: 60.0,
-                                height: 60.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 40.0,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            color: Color(0x4D9489F5),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Color(0xFF6F61EF),
-                              width: 2.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                2.0, 2.0, 2.0, 2.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(40.0),
-                              child: Image.network(
-                                'https://cdn-icons-png.flaticon.com/512/197/197593.png',
-                                width: 60.0,
-                                height: 60.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ].divide(SizedBox(width: 4.0)),
-                    ),
-                    Container(
-                      height: 32.0,
-                      decoration: BoxDecoration(
-                        color: Color(0x4C39D2C0),
-                        borderRadius: BorderRadius.circular(12.0),
-                        border: Border.all(
-                          color: Color(0xFF39D2C0),
-                          width: 2.0,
-                        ),
-                      ),
-                      child: Align(
-                        alignment: AlignmentDirectional(0.00, 0.00),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 8.0, 0.0),
-                          child: Text(
-                            FFLocalizations.of(context).getText(
-                              'kfd2tttb' /* Ativo */,
-                            ),
-                            style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  color: Color(0xFF15161E),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class cardWeb extends StatelessWidget {
-  const cardWeb({
-    super.key,
-  });
+  var title;
+  var content;
 
   @override
   Widget build(BuildContext context) {
@@ -1052,7 +871,7 @@ class cardWeb extends StatelessWidget {
                         style: ThemeModeApp.of(context).bodyLarge,
                       ),
                       TextSpan(
-                        text: " Frances",
+                        text: "$title",
                         style: TextStyle(
                           color: Color(0xFF6F61EF),
                           fontWeight: FontWeight.bold,
@@ -1060,8 +879,6 @@ class cardWeb extends StatelessWidget {
                       )
                     ],
                     style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                          fontFamily: 'Plus Jakarta Sans',
-                          color: Color(0xFF15161E),
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
                         ),
@@ -1069,10 +886,10 @@ class cardWeb extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, .0, 10.0),
                 child: Text(
-                  "Avançado",
-                  textAlign: TextAlign.end,
+                  "$content",
+                  textAlign: TextAlign.start,
                   style: ThemeModeApp.of(context).headlineSmall,
                 ),
               ),
@@ -1095,7 +912,6 @@ class cardWeb extends StatelessWidget {
                           width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
-                            color: Color(0x4D9489F5),
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: Color(0xFF6F61EF),
@@ -1107,8 +923,8 @@ class cardWeb extends StatelessWidget {
                                 2.0, 2.0, 2.0, 2.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(40.0),
-                              child: Image.network(
-                                'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                              child: Image.asset(
+                                'assets/images/app_launcher_icon.png',
                                 width: 60.0,
                                 height: 60.0,
                                 fit: BoxFit.cover,
@@ -1120,7 +936,6 @@ class cardWeb extends StatelessWidget {
                           width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
-                            color: Color(0x4D9489F5),
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: Color(0xFF6F61EF),
@@ -1131,14 +946,11 @@ class cardWeb extends StatelessWidget {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 2.0, 2.0, 2.0, 2.0),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(40.0),
-                              child: Image.network(
-                                'https://cdn-icons-png.flaticon.com/512/197/197560.png',
-                                width: 60.0,
-                                height: 60.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                borderRadius: BorderRadius.circular(40.0),
+                                child: Icon(
+                                  Icons.g_translate_rounded,
+                                  color: ThemeModeApp.of(context).primary,
+                                )),
                           ),
                         ),
                       ].divide(SizedBox(width: 4.0)),
@@ -1156,33 +968,6 @@ class cardWeb extends StatelessWidget {
 
 class DividerMobile extends StatelessWidget {
   const DividerMobile({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: Container(
-        width: 500.0,
-        constraints: BoxConstraints(
-          maxWidth: 570.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Color(0xFFE5E7EB),
-            width: 1.0,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class cardMobile2 extends StatelessWidget {
-  const cardMobile2({
     super.key,
   });
 
@@ -1275,7 +1060,7 @@ class CardMobile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                   child: Text(
-                    "$conteudo ",
+                    "$conteudo 1",
                     textAlign: TextAlign.end,
                     style: ThemeModeApp.of(context).headlineSmall.copyWith(
                           fontSize: 22.0,

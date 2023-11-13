@@ -1,16 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:phrase_flow/app/global/global_info.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/home/home_widgets.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/add_lesson/add_lesson_model.dart';
+import 'package:phrase_flow/app/services/questionary/store/store.dart';
+import 'package:phrase_flow/backend/datasource/post.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class AddLesson extends StatefulWidget {
   const AddLesson({super.key});
@@ -85,6 +91,7 @@ class CorpoAdicionarLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<QuestionarioStore>(context, listen: false);
     final homeStore = Provider.of<HomeStore>(context, listen: false);
     final globalStore = Provider.of<GlobalStore>(context, listen: false);
     return Align(
@@ -149,14 +156,14 @@ class CorpoAdicionarLesson extends StatelessWidget {
 
               if (responsiveVisibility(
                   context: context, phone: false, tablet: false))
-                HomePageLandScapeDesktop(),
+                CardAdicionarLicao(),
               if (responsiveVisibility(
                 context: context,
                 phone: false,
                 desktop: false,
                 tabletLandscape: false,
               ))
-                HomePageTablet(),
+                CardAdicionarLicao(),
               // // mobile
               if (responsiveVisibility(
                 context: context,
@@ -164,196 +171,140 @@ class CorpoAdicionarLesson extends StatelessWidget {
                 desktop: false,
                 tabletLandscape: false,
               ))
-                Padding(
-                  padding: const EdgeInsets.all(28.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset(
-                              "assets/images/image-removebg-preview_(1).png",
-                              width: 50.0,
-                              height: 54.0,
-                              fit: BoxFit.cover,
-                            ),
-                            Text(
-                              "Qual idioma você deseja aprendender?",
-                              textAlign: TextAlign.start,
-                              style: ThemeModeApp.of(context)
-                                  .labelMedium
-                                  .copyWith(
-                                    color:
-                                        ThemeModeApp.of(context).secondaryText,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 30.0, 0.0, 0.0),
-                        child: Text(
-                          "Selecione um idioma para começar",
-                          textAlign: TextAlign.start,
-                          style: ThemeModeApp.of(context)
-                              .headlineSmall
-                              .copyWith(
-                                color: ThemeModeApp.of(context).secondaryText,
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Observer(builder: (_) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DropdownButton<String>(
-                                  value: homeStore.selectIdioma,
-                                  onChanged: (String? newValue) {
-                                    homeStore.setSelectIdioma(newValue);
-                                  },
-                                  style: ThemeModeApp.of(context).bodyLarge,
-                                  icon: Icon(
-                                    Icons.arrow_drop_down, // Ícone dropdown
-                                    color: Colors.blue,
-                                  ),
-                                  elevation: 16, // Elevação do dropdown
-                                  underline: Container(
-                                      height: 2,
-                                      color: ThemeModeApp.of(context)
-                                          .lineColor // Cor da linha abaixo do dropdown
-                                      ),
-                                  items: <String>[
-                                    'Básico',
-                                    'Intermediário',
-                                    'Avançado',
-                                    'Fluente'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                          fontSize:
-                                              16.0, // Tamanho do texto das opções
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          "O quão bem você fala esse idioma?",
-                          textAlign: TextAlign.start,
-                          style: ThemeModeApp.of(context)
-                              .headlineSmall
-                              .copyWith(
-                                color: ThemeModeApp.of(context).secondaryText,
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Observer(builder: (_) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DropdownButton<String>(
-                                  value: homeStore.selectIdioma,
-                                  onChanged: (String? newValue) {
-                                    homeStore.setSelectIdioma(newValue);
-                                  },
-                                  style: ThemeModeApp.of(context).bodyLarge,
-                                  icon: Icon(
-                                    Icons.arrow_drop_down, // Ícone dropdown
-                                    color: Colors.blue,
-                                  ),
-                                  elevation: 16, // Elevação do dropdown
-                                  underline: Container(
-                                      height: 2,
-                                      color: ThemeModeApp.of(context)
-                                          .lineColor // Cor da linha abaixo do dropdown
-                                      ),
-                                  items: <String>[
-                                    'Básico',
-                                    'Intermediário',
-                                    'Avançado',
-                                    'Fluente'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                          fontSize:
-                                              16.0, // Tamanho do texto das opções
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                      FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
-                          context.pushReplacementNamed(
-                              acompanhamenttodasatividades);
-                        },
-                        text: 'Adicionar',
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          color: ThemeModeApp.of(context).primary,
-                          textStyle: ThemeModeApp.of(context)
-                              .bodyLarge
-                              .copyWith(
-                                color:
-                                    ThemeModeApp.of(context).primaryBackground,
-                                fontWeight: FontWeight.w500,
-                              ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 0,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                CardAdicionarLicao(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class CardAdicionarLicao extends StatefulWidget {
+  const CardAdicionarLicao({super.key});
+
+  @override
+  State<CardAdicionarLicao> createState() => _CardAdicionarLicaoState();
+}
+
+class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<QuestionarioStore>(context, listen: false);
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image.asset(
+                "assets/images/image-removebg-preview_(1).png",
+                width: 50.0,
+                height: 54.0,
+                fit: BoxFit.cover,
+              ),
+              Text(
+                "Qual idioma você deseja aprendender?",
+                textAlign: TextAlign.start,
+                style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                      color: ThemeModeApp.of(context).secondaryText,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        Observer(builder: (_) {
+          return Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(40.0, 20.0, 40.0, 0.0),
+            child: DropdownButton(
+              isExpanded: true,
+              items: store.listAllLessons.map((language) {
+                return DropdownMenuItem(
+                  value: language,
+                  child: Text(language.title!),
+                );
+              }).toList(),
+              onChanged: (value) {
+                // Faça algo quando uma opção for selec
+                homeStore.setSelectIdioma(value!.title?.toString());
+                homeStore.setSelectNivel(value.id);
+                print('Opção selecionada: $value');
+              },
+              hint: Text(
+                '${homeStore.selectIdioma}',
+                style: ThemeModeApp.of(context).headlineSmall,
+              ),
+            ),
+          );
+        }),
+        FFButtonWidget(
+          onPressed: () async {
+            print('Button pressed ...');
+            var result = PostHttpRequestApp(context);
+            final _body = {
+              "userId": globalStore.user?.id,
+              "lessonId": int.parse(homeStore.selectNivel),
+              "progress": 0,
+            };
+            final response = await http.post(
+              Uri.parse("$urlProd/users/subscribe"),
+              body: jsonEncode(_body),
+            );
+
+            if (response.statusCode == 200) {
+              print("response.body ${response.body}");
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Adicionado com sucesso",
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          color: ThemeModeApp.of(context).primaryBackground,
+                        ),
+                  ),
+                  backgroundColor: ThemeModeApp.of(context).primary,
+                  duration: Duration(seconds: 3),
+                ),
+              );
+              await Future.delayed(Duration(seconds: 3));
+              context.pushReplacementNamed(acompanhamenttodasatividades);
+            } else {
+              log("response.body ${response.body}");
+              log("response.statusCode ${response.statusCode}");
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Erro ao adicionar",
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          color: ThemeModeApp.of(context).primaryBackground,
+                        ),
+                  ),
+                  backgroundColor: ThemeModeApp.of(context).primary,
+                  duration: Duration(seconds: 3),
+                ),
+              );
+            }
+          },
+          text: 'Adicionar',
+          options: FFButtonOptions(
+            width: 130,
+            height: 40,
+            color: ThemeModeApp.of(context).primary,
+            textStyle: ThemeModeApp.of(context).bodyLarge.copyWith(
+                  color: ThemeModeApp.of(context).primaryBackground,
+                  fontWeight: FontWeight.w500,
+                ),
+            borderSide: BorderSide(
+              color: Colors.transparent,
+              width: 0,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ],
     );
   }
 }

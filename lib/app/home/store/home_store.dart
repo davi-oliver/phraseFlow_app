@@ -10,7 +10,10 @@ abstract class _HomeStoreBase with Store {
       ObservableList<ModelUserLesson>();
 
   @observable
-  var selectIdioma = "Selecione um idioma";
+  List<Map<String, dynamic>> languages = [];
+
+  @observable
+  var selectIdioma = "Selecione uma lição";
 
   @action
   void setSelectIdioma(value) => selectIdioma = value;
@@ -22,8 +25,8 @@ abstract class _HomeStoreBase with Store {
   void setSelectNivel(value) => selectNivel = value;
 
   @action
-  void setListLessonUser(value) =>
-      listLessonUser.add(ModelUserLesson.fromJson(value));
+  void setListLessonUser(model) =>
+      listLessonUser.add(ModelUserLesson.fromJson(model));
 
   @action
   void clearListLessonUser() => listLessonUser.clear();

@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phrase_flow/app/global/routes.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/login_page/createaccount/createaccount_model.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
+import 'package:phrase_flow/backend/datasource/post.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
+import 'package:phrase_flow/model/user.dart';
+import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -50,6 +57,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         ),
       );
     }
+    final globalInfo = Provider.of<GlobalStore>(context, listen: false);
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -327,8 +335,65 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         0.0, 0.0, 0.0, 16.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        context.pushNamed(
-                                            '$acompanhamenttodasatividades');
+                                        final httprequest =
+                                            PostHttpRequestApp(context);
+
+                                        final result = await httprequest
+                                            .makeJsonRequestDynamc(
+                                                url: "users/login",
+                                                params: {
+                                              "email": _model
+                                                  .emailAddressController.text,
+                                              "password": _model
+                                                  .passwordController.text,
+                                            });
+
+                                        Result res =
+                                            await result.fold((l) async {
+                                          return Result(false,
+                                              message: l.descricao);
+                                        }, (r) async {
+                                          if (r['error'] != null) {
+                                            return Result(false,
+                                                message: r['error']);
+                                          }
+                                          log("result: $r");
+
+                                          globalInfo.setUser(ModelUser(
+                                              id: r["id"],
+                                              name: nameController.text,
+                                              email:
+                                                  emailAddressController.text,
+                                              password: passwordController.text,
+                                              birthDate:
+                                                  controllerDataNasc.text,
+                                              country:
+                                                  controllerNacionalidade.text,
+                                              sex: r["sex"]));
+
+                                          return Result(true,
+                                              message: 'Sucesso');
+                                        });
+
+                                        if (res.isValid) {
+                                          context.pushNamed(
+                                              '$acompanhamenttodasatividades');
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  ThemeModeApp.of(context)
+                                                      .primaryBackground,
+                                              content: Text(
+                                                  "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                                  style:
+                                                      ThemeModeApp.of(context)
+                                                          .bodyLarge
+                                                          .copyWith()),
+                                            ),
+                                          );
+                                        }
                                       },
                                       text: 'Entrar',
                                       options: FFButtonOptions(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/backend/datasource/get.dart';
@@ -12,11 +13,72 @@ class HomeFunctions {
 
   HomeFunctions(this.context);
 
+  Future getLanguages() async {
+    final store = Provider.of<HomeStore>(context, listen: false);
+
+    final response =
+        await GetHttpRequestApp(context).makeGetJsonRequest(url: "languages");
+    Results res = await response.fold((l) async {
+      log("l descrição ${l.descricao} ");
+      final mock = [
+        {
+          "id": 3,
+          "name": "English",
+          "createdAt": "2023-11-09T14:16:29.416Z",
+          "updatedAt": "2023-11-09T11:16:25.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Frances",
+          "createdAt": "2023-11-09T14:17:17.650Z",
+          "updatedAt": "2023-11-09T14:17:17.650Z"
+        },
+        {
+          "id": 5,
+          "name": "Espanhol",
+          "createdAt": "2023-11-09T14:17:40.817Z",
+          "updatedAt": "2023-11-09T14:17:40.817Z"
+        }
+      ];
+      store.languages = mock;
+      return Results(sucess: true, message: "Erro ao buscar questões");
+    }, (r) async {
+      log("r runtype ${r.runtimeType}");
+      final mock = [
+        {
+          "id": 3,
+          "name": "English",
+          "createdAt": "2023-11-09T14:16:29.416Z",
+          "updatedAt": "2023-11-09T11:16:25.000Z"
+        },
+        {
+          "id": 4,
+          "name": "Frances",
+          "createdAt": "2023-11-09T14:17:17.650Z",
+          "updatedAt": "2023-11-09T14:17:17.650Z"
+        },
+        {
+          "id": 5,
+          "name": "Espanhol",
+          "createdAt": "2023-11-09T14:17:40.817Z",
+          "updatedAt": "2023-11-09T14:17:40.817Z"
+        }
+      ];
+      store.languages = mock;
+
+      return Results(sucess: true, message: "Questões carregadas com sucesso");
+    });
+    // log(name: "QuestionarioStore", "store: ${store.questions.length}");
+
+    if (res.sucess) return true;
+    return false;
+  }
+
   Future getQuestions() async {
     final store = Provider.of<QuestionarioStore>(context, listen: false);
 
-    final response = await GetHttpRequestApp(context)
-        .makeGetJsonRequest(url: "lessons/user", params: "1");
+    final response =
+        await GetHttpRequestApp(context).makeGetJsonRequest(url: "questions");
     Results res = await response.fold((l) async {
       log("l descrição ${l.descricao} ");
       if (l.code == 0) {
@@ -93,14 +155,14 @@ class HomeFunctions {
       }
       return Results(sucess: false, message: "Erro ao buscar questões");
     }, (r) async {
-      log("r runtype ${r.runtimeType}");
+      // log("r runtype ${r.runtimeType}");
 
       for (var i = 0; i < r.length; i++) {
         store.addQuestion(r[i]);
       }
       return Results(sucess: true, message: "Questões carregadas com sucesso");
     });
-    log(name: "QuestionarioStore", "store: ${store.questions.length}");
+    // log(name: "QuestionarioStore", "store: ${store.questions.length}");
 
     if (res.sucess) return true;
     return false;
@@ -108,107 +170,118 @@ class HomeFunctions {
 
   Future getLessonFindUserId() async {
     final store = Provider.of<HomeStore>(context, listen: false);
-
-    final response = await GetHttpRequestApp(context).makeGetJsonRequest(
-      url: "questions",
-    );
-    Results res = await response.fold((l) async {
-      log("l descrição ${l.descricao} ");
-      if (l.code == 0) {
-        final map = [
-          {
-            "id": "cln9ejjtg0000yc5zjcn9x5n5",
-            "question": "I love to travel and explore new places.",
-            "answer": "Eu amo viajar e explorar novos lugares.",
-            "type": "translation",
-            "createdAt": "2023-10-02T21:27:40.881Z",
-            "updatedAt": "2023-10-02T21:27:40.881Z"
-          },
-          {
-            "id": "cln9ejjth0001yc5zuypsw1k5",
-            "question": "The sunsets in this city are breathtaking.",
-            "answer": "Os pores do sol nesta cidade são deslumbrantes.",
-            "type": "translation",
-            "createdAt": "2023-10-02T21:27:40.881Z",
-            "updatedAt": "2023-10-02T21:27:40.881Z"
-          },
-          {
-            "id": "cln9ejjth0002yc5zse5phjen",
-            "question": "Learning new languages is a rewarding experience.",
-            "answer": "Aprender novos idiomas é uma experiência gratificante.",
-            "type": "translation",
-            "createdAt": "2023-10-02T21:27:40.881Z",
-            "updatedAt": "2023-10-02T21:27:40.881Z"
-          },
-          {
-            "id": "clo7fsnsp00001k9rucxqkabq",
-            "question": "The weather today is beautiful and sunny.",
-            "answer": "O tempo hoje está lindo e ensolarado.",
-            "type": "translation",
-            "createdAt": "2023-10-26T17:06:56.108Z",
-            "updatedAt": "2023-10-26T17:06:56.108Z"
-          },
-          {
-            "id": "clo7fsnwu00011k9r7ofmdg1z",
-            "question": "I enjoy reading books in my free time.",
-            "answer": "Eu gosto de ler livros no meu tempo livre.",
-            "type": "translation",
-            "createdAt": "2023-10-26T17:06:56.910Z",
-            "updatedAt": "2023-10-26T17:06:56.910Z"
-          },
-          {
-            "id": "clo7fsnyx00021k9rb554gcl5",
-            "question": "Can you please pass me the salt and pepper?",
-            "answer": "Você pode por favor me passar o sal e a pimenta?",
-            "type": "translation",
-            "createdAt": "2023-10-26T17:06:56.985Z",
-            "updatedAt": "2023-10-26T17:06:56.985Z"
-          },
-          {
-            "id": "clo7fso1000031k9raa6u1wcx",
-            "question": "Learning a new language is a rewarding challenge.",
-            "answer": "Aprender um novo idioma é um desafio gratificante.",
-            "type": "translation",
-            "createdAt": "2023-10-26T17:06:57.060Z",
-            "updatedAt": "2023-10-26T17:06:57.060Z"
-          },
-          {
-            "id": "clo7fso3300041k9rhtxvw3e7",
-            "question": "I need directions to the nearest train station.",
-            "answer":
-                "Preciso de direções para a estação de trem mais próxima.",
-            "type": "translation",
-            "createdAt": "2023-10-26T17:06:57.135Z",
-            "updatedAt": "2023-10-26T17:06:57.135Z"
+    final gstore = Provider.of<GlobalStore>(context, listen: false);
+    store.listLessonUser.clear();
+    try {
+      final response = await GetHttpRequestApp(context).makeGetJsonRequest(
+        url: "lessons/user",
+        params: "${gstore.user!.id ?? "1"}",
+      );
+      Results res = await response.fold((l) async {
+        log("l descrição ${l.descricao} ");
+        if (l.code == 0) {
+          final map = [
+            {
+              "id": "cln9ejjtg0000yc5zjcn9x5n5",
+              "question": "I love to travel and explore new places.",
+              "answer": "Eu amo viajar e explorar novos lugares.",
+              "type": "translation",
+              "createdAt": "2023-10-02T21:27:40.881Z",
+              "updatedAt": "2023-10-02T21:27:40.881Z"
+            },
+            {
+              "id": "cln9ejjth0001yc5zuypsw1k5",
+              "question": "The sunsets in this city are breathtaking.",
+              "answer": "Os pores do sol nesta cidade são deslumbrantes.",
+              "type": "translation",
+              "createdAt": "2023-10-02T21:27:40.881Z",
+              "updatedAt": "2023-10-02T21:27:40.881Z"
+            },
+            {
+              "id": "cln9ejjth0002yc5zse5phjen",
+              "question": "Learning new languages is a rewarding experience.",
+              "answer":
+                  "Aprender novos idiomas é uma experiência gratificante.",
+              "type": "translation",
+              "createdAt": "2023-10-02T21:27:40.881Z",
+              "updatedAt": "2023-10-02T21:27:40.881Z"
+            },
+            {
+              "id": "clo7fsnsp00001k9rucxqkabq",
+              "question": "The weather today is beautiful and sunny.",
+              "answer": "O tempo hoje está lindo e ensolarado.",
+              "type": "translation",
+              "createdAt": "2023-10-26T17:06:56.108Z",
+              "updatedAt": "2023-10-26T17:06:56.108Z"
+            },
+            {
+              "id": "clo7fsnwu00011k9r7ofmdg1z",
+              "question": "I enjoy reading books in my free time.",
+              "answer": "Eu gosto de ler livros no meu tempo livre.",
+              "type": "translation",
+              "createdAt": "2023-10-26T17:06:56.910Z",
+              "updatedAt": "2023-10-26T17:06:56.910Z"
+            },
+            {
+              "id": "clo7fsnyx00021k9rb554gcl5",
+              "question": "Can you please pass me the salt and pepper?",
+              "answer": "Você pode por favor me passar o sal e a pimenta?",
+              "type": "translation",
+              "createdAt": "2023-10-26T17:06:56.985Z",
+              "updatedAt": "2023-10-26T17:06:56.985Z"
+            },
+            {
+              "id": "clo7fso1000031k9raa6u1wcx",
+              "question": "Learning a new language is a rewarding challenge.",
+              "answer": "Aprender um novo idioma é um desafio gratificante.",
+              "type": "translation",
+              "createdAt": "2023-10-26T17:06:57.060Z",
+              "updatedAt": "2023-10-26T17:06:57.060Z"
+            },
+            {
+              "id": "clo7fso3300041k9rhtxvw3e7",
+              "question": "I need directions to the nearest train station.",
+              "answer":
+                  "Preciso de direções para a estação de trem mais próxima.",
+              "type": "translation",
+              "createdAt": "2023-10-26T17:06:57.135Z",
+              "updatedAt": "2023-10-26T17:06:57.135Z"
+            }
+          ];
+          for (var i = 0; i < map.length; i++) {
+            store.setListLessonUser(map[i]);
           }
-        ];
-        for (var i = 0; i < map.length; i++) {
-          store.setListLessonUser(map[i]);
         }
-      }
-      return Results(sucess: false, message: "Erro ao buscar Lições");
-    }, (r) async {
-      log("r runtype ${r.runtimeType}");
+        return Results(sucess: false, message: "Erro ao buscar Lições");
+      }, (r) async {
+        log("r runtype ${r.runtimeType}");
 
-      for (var i = 0; i < r.length; i++) {
-        log("item>> $i");
-        store.setListLessonUser(r[i]);
-      }
-      return Results(sucess: true, message: "Lições carregadas com sucesso");
-    });
-    log(
-        name: "HomeStoresetListAllLessons ",
-        "store: ${store.listLessonUser.length}");
-    log("response>> $response");
-    if (res.sucess) return true;
-    return false;
+        for (var i = 0; i < r.length; i++) {
+          log("item>> ${r[i]}");
+          store.setListLessonUser(r[i]);
+        }
+        return Results(sucess: true, message: "Lições carregadas com sucesso");
+      });
+      // log(
+      //     name: "HomeStoresetListAllLessons ",
+      //     "store: ${store.listLessonUser.length}");
+      // log("response>> $response");
+      log(
+          name: "HomeStoresetListAllLessons ",
+          "store: ${store.listLessonUser.first.title} ${store.listLessonUser.first.content}");
+      if (res.sucess) return true;
+      return false;
+    } on Exception catch (e) {
+      log(name: "HomeStoresetListAllLessons ", "ERRO: ${e.toString()} ");
+      return false;
+    }
   }
 
   Future getAllLessons() async {
     final store = Provider.of<QuestionarioStore>(context, listen: false);
-
+    store.listAllLessons.clear();
     final response = await GetHttpRequestApp(context).makeGetJsonRequest(
-      url: "questions",
+      url: "lessons",
     );
     Results res = await response.fold((l) async {
       log("l descrição ${l.descricao} ");
@@ -219,16 +292,16 @@ class HomeFunctions {
       }
       return Results(sucess: false, message: "Erro ao buscar Lições");
     }, (r) async {
-      log("r runtype ${r.runtimeType}");
+      // log("r runtype ${r.runtimeType}");
 
       for (var i = 0; i < r.length; i++) {
-        log("item>> $i");
+        // log("item>> $i");
         store.setListAllLessons(r[i]);
       }
       return Results(sucess: true, message: "Lições carregadas com sucesso");
     });
-    log(name: "QuestionarioStore", "store: ${store.questions.length}");
-    log("response>> $response");
+    // log(name: "QuestionarioStore", "store: ${store.questions.length}");
+    // log("response>> $response");
     if (res.sucess) return true;
     return false;
   }

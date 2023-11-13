@@ -83,11 +83,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void setListLessonUser(dynamic value) {
+  void setListLessonUser(dynamic model) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.setListLessonUser');
     try {
-      return super.setListLessonUser(value);
+      return super.setListLessonUser(model);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

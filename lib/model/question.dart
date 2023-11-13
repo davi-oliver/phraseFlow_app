@@ -1,5 +1,5 @@
 class ModelQuestion {
-  int? id;
+  String? id;
   String? question;
   String? answer;
   String? type;

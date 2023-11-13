@@ -2,6 +2,7 @@ import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/home/home_functions.dart';
 import 'package:phrase_flow/app/profile04/profile04_widget.dart';
+import 'package:phrase_flow/app/services/add_lesson/add_lesson_page.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _AcompanhamenttodasatividadesWidgetState
     await HomeFunctions(context).getQuestions();
     await HomeFunctions(context).getAllLessons();
     await HomeFunctions(context).getLessonFindUserId();
+    await HomeFunctions(context).getLanguages();
 
     final pageControlerAux = PageController(initialPage: 0);
     setState(() {
@@ -69,7 +71,7 @@ class _AcompanhamenttodasatividadesWidgetState
           );
           break;
         case 1:
-          _child = AcompanhamenttodasatividadesWidget();
+          _child = AddLesson();
           _pageController.animateToPage(
             index,
             duration: Duration(milliseconds: 500),
@@ -154,6 +156,7 @@ class _AcompanhamenttodasatividadesWidgetState
                     CorpoHomePage(
                       model: _model,
                     ),
+                    AddLesson(),
                     Profile04Widget()
                   ]),
                 ),

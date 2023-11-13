@@ -1,5 +1,5 @@
 class ModelUserLesson {
-  String? id;
+  var id;
   String? title;
   String? content;
   String? createdAt;
@@ -14,7 +14,7 @@ class ModelUserLesson {
       this.updatedAt,
       this.lessonQuestions});
 
-  ModelUserLesson.fromJson(Map<String, dynamic> json) {
+  ModelUserLesson.fromJson(json) {
     id = json['id'];
     title = json['title'];
     content = json['content'];

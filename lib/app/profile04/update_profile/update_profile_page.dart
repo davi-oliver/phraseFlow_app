@@ -26,12 +26,18 @@ class _UpdateAccountState extends State<UpdateAccount> {
   @override
   void initState() {
     super.initState();
+
     _model = createModel(context, () => CreateaccountModel());
   }
 
   @override
   void dispose() {
     _model.dispose();
+    controllerDataNasc.dispose();
+    controllerNacionalidade.dispose();
+    nameController.dispose();
+    passwordConfirmController.dispose();
+    passwordController.dispose();
 
     super.dispose();
   }
@@ -271,29 +277,29 @@ class _UpdateAccountState extends State<UpdateAccount> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              width: 120.0,
-              height: 120.0,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/images/app_laucher_icon.png',
-              ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Atualise sua foto',
-                    textAlign: TextAlign.center,
-                    style: ThemeModeApp.of(context).bodyMedium,
-                  ),
-                ),
-              ],
-            ),
+            // Container(
+            //   width: 120.0,
+            //   height: 120.0,
+            //   clipBehavior: Clip.antiAlias,
+            //   decoration: BoxDecoration(
+            //     shape: BoxShape.circle,
+            //   ),
+            //   child: Image.asset(
+            //     'assets/images/app_laucher_icon.png',
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisSize: MainAxisSize.max,
+            //   children: [
+            //     Expanded(
+            //       child: Text(
+            //         'Atualise sua foto',
+            //         textAlign: TextAlign.center,
+            //         style: ThemeModeApp.of(context).bodyMedium,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Column(

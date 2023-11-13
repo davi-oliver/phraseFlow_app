@@ -64,7 +64,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                     Image.asset(
                       'assets/images/app_launcher_icon.png',
                       width: 200.0,
-                      height: 100.0,
+                      height: 80.0,
                       fit: BoxFit.fitHeight,
                     ),
                   if (!(Theme.of(context).brightness == Brightness.dark))
@@ -83,7 +83,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    height: MediaQuery.sizeOf(context).height * 0.6,
+                    height: MediaQuery.sizeOf(context).height * 0.9,
                     child: Stack(
                       children: [
                         Padding(
@@ -178,7 +178,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                                             'assets/images/onboarding_2@2x.png',
                                             width: 150.0,
                                             height: 200.0,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fitWidth,
                                           ),
                                         ),
                                       ],
@@ -254,7 +254,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              'Encontre sintomas e fatores comuns',
+                                              'Encontre seus idiomas preferidos',
                                               textAlign: TextAlign.center,
                                               style: ThemeModeApp.of(context)
                                                   .displaySmall,
@@ -271,7 +271,7 @@ class _IntroAppWidgetState extends State<IntroAppWidget> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              'Encontre sintomas e fatores comuns entre seus pacientes e tenha um diagnóstico mais preciso.',
+                                              'Encontre seus idiomas preferidos e faça lições com facilidade.',
                                               textAlign: TextAlign.center,
                                               style: ThemeModeApp.of(context)
                                                   .titleMedium,
