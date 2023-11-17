@@ -35,4 +35,10 @@ class LocalPath {
     final path = await _localPath;
     return File('$path/users.text');
   }
+
+  // armazenar lessons completed
+  Future<File> get lessonsCompleted async {
+    final path = await _localPath;
+    return File('$path/lessonsCompleted.text');
+  }
 }

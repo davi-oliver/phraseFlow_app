@@ -1,8 +1,10 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/home/home_functions.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/profile04/profile04_widget.dart';
 import 'package:phrase_flow/app/services/add_lesson/add_lesson_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class _AcompanhamenttodasatividadesWidgetState
   int _selectedIndex = 0;
 
   init() async {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
     // await HomeFunctions(context).getQuestions();
     await HomeFunctions(context).getAllLessons();
     await HomeFunctions(context).getLessonFindUserId();
@@ -38,6 +41,7 @@ class _AcompanhamenttodasatividadesWidgetState
     setState(() {
       _pageController = pageControlerAux;
       carregando = false;
+      homeStore.listLessonUser;
     });
   }
 

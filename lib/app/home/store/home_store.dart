@@ -8,6 +8,9 @@ abstract class _HomeStoreBase with Store {
   @observable
   ObservableList<ModelUserLesson> listLessonUser =
       ObservableList<ModelUserLesson>();
+  @observable
+  ObservableList<ModelUserLesson> listLessonUserCompleted =
+      ObservableList<ModelUserLesson>();
 
   @observable
   List<Map<String, dynamic>> languages = [];
@@ -30,4 +33,11 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void clearListLessonUser() => listLessonUser.clear();
+
+  @action
+  void setListLessonUserCompleted(model) =>
+      listLessonUserCompleted.add(ModelUserLesson.fromJson(model));
+
+  @action
+  void clearListLessonUserCompleted() => listLessonUserCompleted.clear();
 }

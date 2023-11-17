@@ -25,6 +25,39 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$listLessonUserCompletedAtom =
+      Atom(name: '_HomeStoreBase.listLessonUserCompleted', context: context);
+
+  @override
+  ObservableList<ModelUserLesson> get listLessonUserCompleted {
+    _$listLessonUserCompletedAtom.reportRead();
+    return super.listLessonUserCompleted;
+  }
+
+  @override
+  set listLessonUserCompleted(ObservableList<ModelUserLesson> value) {
+    _$listLessonUserCompletedAtom
+        .reportWrite(value, super.listLessonUserCompleted, () {
+      super.listLessonUserCompleted = value;
+    });
+  }
+
+  late final _$languagesAtom =
+      Atom(name: '_HomeStoreBase.languages', context: context);
+
+  @override
+  List<Map<String, dynamic>> get languages {
+    _$languagesAtom.reportRead();
+    return super.languages;
+  }
+
+  @override
+  set languages(List<Map<String, dynamic>> value) {
+    _$languagesAtom.reportWrite(value, super.languages, () {
+      super.languages = value;
+    });
+  }
+
   late final _$selectIdiomaAtom =
       Atom(name: '_HomeStoreBase.selectIdioma', context: context);
 
@@ -105,9 +138,33 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void setListLessonUserCompleted(dynamic model) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setListLessonUserCompleted');
+    try {
+      return super.setListLessonUserCompleted(model);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearListLessonUserCompleted() {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.clearListLessonUserCompleted');
+    try {
+      return super.clearListLessonUserCompleted();
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listLessonUser: ${listLessonUser},
+listLessonUserCompleted: ${listLessonUserCompleted},
+languages: ${languages},
 selectIdioma: ${selectIdioma},
 selectNivel: ${selectNivel}
     ''';

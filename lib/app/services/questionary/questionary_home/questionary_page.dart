@@ -2,12 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:phrase_flow/app/global/global_functions.dart';
+import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/questionary/questionary_home/questionary_home_model.dart';
 import 'package:phrase_flow/app/services/questionary/questionary_home/questionary_widgets.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../components/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -165,6 +169,7 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
         Provider.of<QuestionarioStore>(context, listen: true);
     final questionarioStore =
         Provider.of<QuestionarioStore>(context, listen: false);
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
     if (isiOS) {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(
@@ -219,21 +224,99 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                     if (questionarioStoreT.selectedIndex ==
                                         questionarioStoreT.questions.length -
                                             1) {
+                                      final local =
+                                          await LocalPath().lessonsCompleted;
+                                      final localLessonUser =
+                                          await LocalPath().lessonsByUser;
+                                      // await local.delete();
+
+                                      if (await local.exists()) {
+                                        var resultLocal = await local
+                                            .readAsString()
+                                            .then((value) => jsonDecode(value));
+                                        log("resolt local $resultLocal");
+                                        var dados = resultLocal;
+                                        log("Dados: $dados");
+                                        List listaDadosLocal = [];
+                                        if (dados.length == 1) {
+                                          listaDadosLocal.add(dados);
+                                          await local.writeAsString(
+                                              jsonEncode([listaDadosLocal]));
+                                        } else {
+                                          for (var i = 0;
+                                              i < dados.length;
+                                              i++) {
+                                            listaDadosLocal.add(dados[i]);
+                                          }
+                                          await local.writeAsString(
+                                              jsonEncode(listaDadosLocal));
+                                        }
+                                      } else {
+                                        await local.writeAsString(jsonEncode([
+                                          homeStore.listLessonUser[
+                                                  questionarioStore.indexLesson]
+                                              .toJson()
+                                        ]));
+                                        log("adicionou lo local ${await local.readAsString()}");
+                                        homeStore.listLessonUser.removeAt(
+                                            questionarioStore.indexLesson);
+                                      }
+                                      if (await localLessonUser.exists()) {
+                                        List aux = [];
+                                        for (var element
+                                            in homeStore.listLessonUser) {
+                                          aux.add(element.toJson());
+                                        }
+                                        await localLessonUser
+                                            .writeAsString(jsonEncode([aux]));
+                                      }
                                       log("O index é ${questionarioStoreT.selectedIndex} e o length é ${questionarioStoreT.questions.length - 1}.");
-                                      context
-                                          .pushReplacementNamed("SuccessPage");
+                                      return context
+                                          .pushReplacementNamed("$successPage");
                                     }
-                                    setState(() {
-                                      questionarioStore
-                                          .animateControllerPageView();
-                                      questionarioStore.controllerPageView
-                                          .nextPage(
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              curve: Curves.fastOutSlowIn);
-                                      questionarioStore
-                                          .setSelectedIndex(index + 1);
-                                    });
+                                    if (questionarioStore
+                                            .questions[index].answer
+                                            .toString()
+                                            .toLowerCase() ==
+                                        questionarioStore
+                                            .controllers[index].text
+                                            .toLowerCase()) {
+                                      setState(() {
+                                        questionarioStore
+                                            .animateControllerPageView();
+                                        questionarioStore.controllerPageView
+                                            .nextPage(
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.fastOutSlowIn);
+                                        questionarioStore
+                                            .setSelectedIndex(index + 1);
+                                      });
+                                    } else {
+                                      log("Resposta digitada: ${questionarioStore.controllers[index].text}.");
+                                      log("Resposta correta: ${questionarioStore.questions[index].answer}.");
+                                      await alertErroQuestion(
+                                          "A sua resposta inserida não confere com a tradução. O que deseja fazer? ",
+                                          () {
+                                        Navigator.of(context).pop();
+                                        questionarioStore.controllers[index]
+                                            .clear();
+                                      }, () {
+                                        Navigator.of(context).pop();
+
+                                        setState(() {
+                                          questionarioStore
+                                              .animateControllerPageView();
+                                          questionarioStore.controllerPageView
+                                              .nextPage(
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.fastOutSlowIn);
+                                          questionarioStore
+                                              .setSelectedIndex(index + 1);
+                                        });
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     width:
@@ -281,5 +364,58 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
         ),
       ),
     );
+  }
+
+  alertErroQuestion(
+      String texto, Function()? onPressed, Function()? onPressed2) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromLeft,
+      isOverlayTapDismiss: false,
+      isCloseButton: false,
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: ThemeModeApp.of(context).primaryBackground,
+        ),
+      ),
+      titleStyle: ThemeModeApp.of(context).headlineSmall,
+      descStyle: ThemeModeApp.of(context).bodyMedium,
+      descTextAlign: TextAlign.center,
+      isButtonVisible: true,
+      overlayColor: Color(0x55000000),
+    );
+
+    return Alert(
+      context: context,
+      style: alertStyle,
+      title: "Atenção!",
+      desc: texto,
+      image: Image.asset("assets/images/error_image.png"),
+      buttons: [
+        DialogButton(
+          color: ThemeModeApp.of(context).primary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed,
+          child: Text(
+            "Tentar novamente",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryBtnText),
+          ),
+        ),
+        DialogButton(
+          color: ThemeModeApp.of(context).secondary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed2,
+          child: Text(
+            "Pular",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryText),
+          ),
+        ),
+      ],
+    ).show();
   }
 }

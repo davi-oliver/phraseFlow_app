@@ -174,10 +174,12 @@ class HomeFunctions {
   Future getLessonFindUserId() async {
     final store = Provider.of<HomeStore>(context, listen: false);
     final gstore = Provider.of<GlobalStore>(context, listen: false);
-    store.listLessonUser.clear();
+    store.clearListLessonUser();
+
     try {
       final local = await LocalPath().lessonsByUser;
-      // await local.delete();
+      final localCompleted = await LocalPath().lessonsCompleted;
+      await local.delete();
 
       if (await local.exists()) {
         final response = await local.readAsString();
@@ -186,8 +188,20 @@ class HomeFunctions {
         for (var i = 0; i < map.length; i++) {
           store.setListLessonUser(map[i]);
         }
+        log("homestore ${store.listLessonUser.length} ");
       } else {
-        store.listLessonUser.clear();
+        store.clearListLessonUser();
+      }
+
+      if (await localCompleted.exists()) {
+        final response = await localCompleted.readAsString();
+        log("response: $response");
+        final map = json.decode(response);
+        for (var i = 0; i < map.length; i++) {
+          store.setListLessonUserCompleted(map[i]);
+        }
+      } else {
+        store.clearListLessonUserCompleted();
       }
 
       // final response = await GetHttpRequestApp(context).makeGetJsonRequest(

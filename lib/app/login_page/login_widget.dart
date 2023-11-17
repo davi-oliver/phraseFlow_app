@@ -31,7 +31,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   inituser() async {
     final local = await LocalPath().users;
-    await local.delete();
+    // await local.delete();
     if (!await local.exists()) await local.writeAsString(jsonEncode(usersBD));
 
     var localStore;

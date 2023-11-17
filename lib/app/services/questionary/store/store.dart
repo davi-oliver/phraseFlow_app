@@ -21,6 +21,8 @@ abstract class _QuestionarioStoreBase with Store {
   @observable
   int indexLesson = 0;
 
+  ObservableList<bool> visibilidadeResposta = ObservableList<bool>();
+
   @action
   void setIndexLesson(int value) => indexLesson = value;
 
@@ -47,7 +49,18 @@ abstract class _QuestionarioStoreBase with Store {
   @action
   void addQuestion(question) {
     controllers.add(TextEditingController());
+    visibilidadeResposta.add(false);
     questions.add(ModelQuestion.fromJson(question));
+  }
+
+  @action
+  void clearQuestion() {
+    questions.clear();
+  }
+
+  @action
+  void setVisibilidade(int index, value) {
+    visibilidadeResposta[index] = value;
   }
 
   @action

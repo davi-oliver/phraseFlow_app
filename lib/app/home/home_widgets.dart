@@ -800,38 +800,40 @@ class HomePageTablet extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeStore = Provider.of<HomeStore>(context, listen: false);
 
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: homeStore.listLessonUser.isEmpty
-          ? Center(
-              child: Text(
-              "Nenhuma lição encontrada",
-              style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                    color: ThemeModeApp.of(context).primaryText,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 1.5,
+    return Observer(builder: (_) {
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        child: homeStore.listLessonUser.isEmpty
+            ? Center(
+                child: Text(
+                "Nenhuma lição encontrada",
+                style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                      color: ThemeModeApp.of(context).primaryText,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ))
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  childAspectRatio: 1.5,
+                ),
+                itemCount: homeStore.listLessonUser.length,
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  return CardWeb(
+                    title: homeStore.listLessonUser[index].title,
+                    content: homeStore.listLessonUser[index].content,
+                    index: index,
+                  );
+                },
               ),
-              itemCount: homeStore.listLessonUser.length,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return CardWeb(
-                  title: homeStore.listLessonUser[index].title,
-                  content: homeStore.listLessonUser[index].content,
-                  index: index,
-                );
-              },
-            ),
-    );
+      );
+    });
   }
 }
 
@@ -919,6 +921,7 @@ class CardWeb extends StatelessWidget {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
+            questionarioStore.clearQuestion();
             for (var element
                 in homeStore.listLessonUser[index].lessonQuestions!) {
               questionarioStore.addQuestionByModel(ModelQuestion(

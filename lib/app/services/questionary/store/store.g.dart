@@ -73,6 +73,22 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
     });
   }
 
+  late final _$indexLessonAtom =
+      Atom(name: '_QuestionarioStoreBase.indexLesson', context: context);
+
+  @override
+  int get indexLesson {
+    _$indexLessonAtom.reportRead();
+    return super.indexLesson;
+  }
+
+  @override
+  set indexLesson(int value) {
+    _$indexLessonAtom.reportWrite(value, super.indexLesson, () {
+      super.indexLesson = value;
+    });
+  }
+
   late final _$loadingAtom =
       Atom(name: '_QuestionarioStoreBase.loading', context: context);
 
@@ -91,6 +107,17 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
 
   late final _$_QuestionarioStoreBaseActionController =
       ActionController(name: '_QuestionarioStoreBase', context: context);
+
+  @override
+  void setIndexLesson(int value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setIndexLesson');
+    try {
+      return super.setIndexLesson(value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setListAllLessons(dynamic value) {
@@ -148,6 +175,39 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
   }
 
   @override
+  void clearQuestion() {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.clearQuestion');
+    try {
+      return super.clearQuestion();
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setVisibilidade(int index, dynamic value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setVisibilidade');
+    try {
+      return super.setVisibilidade(index, value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addQuestionByModel(ModelQuestion question) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.addQuestionByModel');
+    try {
+      return super.addQuestionByModel(question);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void removeQuestion(ModelQuestion question) {
     final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
         name: '_QuestionarioStoreBase.removeQuestion');
@@ -187,6 +247,7 @@ listAllLessons: ${listAllLessons},
 questions: ${questions},
 controllerPageView: ${controllerPageView},
 selectedIndex: ${selectedIndex},
+indexLesson: ${indexLesson},
 loading: ${loading}
     ''';
   }
