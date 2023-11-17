@@ -28,7 +28,7 @@ class CardInputOrSpeetch extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextFormField(
-              maxLines: 9,
+              maxLines: 3,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 labelText: 'Resposta',
@@ -83,7 +83,7 @@ class cardTextTranslate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+      padding: EdgeInsetsDirectional.fromSTEB(18.0, 12.0, 18.0, 18.0),
       child: ListView(
         padding: EdgeInsets.zero,
         primary: false,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:phrase_flow/app/global/global_info.dart';
+import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
@@ -12,11 +12,10 @@ import 'package:phrase_flow/app/home/home_widgets.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/add_lesson/add_lesson_model.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
-import 'package:phrase_flow/backend/datasource/post.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddLesson extends StatefulWidget {
   const AddLesson({super.key});
@@ -231,7 +230,7 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
               onChanged: (value) {
                 // Faça algo quando uma opção for selec
                 homeStore.setSelectIdioma(value!.title?.toString());
-                homeStore.setSelectNivel(value.id);
+                homeStore.setSelectNivel(value.id.toString());
                 print('Opção selecionada: $value');
               },
               hint: Text(
@@ -244,48 +243,37 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
         FFButtonWidget(
           onPressed: () async {
             print('Button pressed ...');
-            var result = PostHttpRequestApp(context);
-            final _body = {
-              "userId": globalStore.user?.id,
-              "lessonId": int.parse(homeStore.selectNivel),
-              "progress": 0,
-            };
-            final response = await http.post(
-              Uri.parse("$urlProd/users/subscribe"),
-              body: jsonEncode(_body),
-            );
 
-            if (response.statusCode == 200) {
-              print("response.body ${response.body}");
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "Adicionado com sucesso",
-                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                          color: ThemeModeApp.of(context).primaryBackground,
-                        ),
-                  ),
-                  backgroundColor: ThemeModeApp.of(context).primary,
-                  duration: Duration(seconds: 3),
-                ),
-              );
-              await Future.delayed(Duration(seconds: 3));
-              context.pushReplacementNamed(acompanhamenttodasatividades);
+            final local = await LocalPath().lessonsByUser;
+
+            if (await local.exists()) {
+              var result = await jsonDecode(await local.readAsString());
+              List listaAux = [];
+              listaAux.addAll(result);
+
+              for (var element in store.listAllLessons) {
+                if (element.id.toString() == homeStore.selectNivel) {
+                  listaAux.add(element.toJson());
+                }
+              }
+
+              await local.writeAsString(jsonEncode(listaAux));
+              log("listaAux aq $listaAux");
+              await alertSucesso("Nova lição adicionada com sucesso!", () {
+                Navigator.pop(context);
+                context.pushNamed(acompanhamenttodasatividades);
+              });
             } else {
-              log("response.body ${response.body}");
-              log("response.statusCode ${response.statusCode}");
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "Erro ao adicionar",
-                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                          color: ThemeModeApp.of(context).primaryBackground,
-                        ),
-                  ),
-                  backgroundColor: ThemeModeApp.of(context).primary,
-                  duration: Duration(seconds: 3),
-                ),
-              );
+              List listaAux = [];
+
+              for (var element in store.listAllLessons) {
+                if (element.id == homeStore.selectNivel) {
+                  listaAux.add(element.toJson());
+                }
+              }
+
+              await local.writeAsString(jsonEncode(listaAux));
+              log("listaAux aaa $listaAux");
             }
           },
           text: 'Adicionar',
@@ -306,5 +294,46 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
         ),
       ],
     );
+  }
+
+  alertSucesso(String texto, Function()? onPressed) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromLeft,
+      isOverlayTapDismiss: false,
+      isCloseButton: false,
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: ThemeModeApp.of(context).primaryBackground,
+        ),
+      ),
+      titleStyle: ThemeModeApp.of(context).headlineSmall,
+      descStyle: ThemeModeApp.of(context).bodyMedium,
+      descTextAlign: TextAlign.center,
+      isButtonVisible: true,
+      overlayColor: Color(0x55000000),
+    );
+
+    return Alert(
+      context: context,
+      style: alertStyle,
+      title: "Pronto!",
+      desc: texto,
+      image: Image.asset("assets/images/error_image.png"),
+      buttons: [
+        DialogButton(
+          color: ThemeModeApp.of(context).primary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed,
+          child: Text(
+            "Fechar",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryBtnText),
+          ),
+        ),
+      ],
+    ).show();
   }
 }

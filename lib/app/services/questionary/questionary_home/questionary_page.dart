@@ -205,11 +205,9 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * 0.3,
-                                  left: 16.0,
-                                  right: 16),
+                                  top: 10, left: 16.0, bottom: 20, right: 16),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * .6,
+                                width: MediaQuery.of(context).size.width * .3,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 child: InkWell(
@@ -238,7 +236,8 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                     });
                                   },
                                   child: Container(
-                                    width: MediaQuery.of(context).size.width,
+                                    width:
+                                        MediaQuery.of(context).size.width * .2,
                                     decoration: BoxDecoration(
                                       color: Color(0xF313EE0B),
                                       boxShadow: [

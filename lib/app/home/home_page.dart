@@ -22,20 +22,22 @@ class AcompanhamenttodasatividadesWidget extends StatefulWidget {
 class _AcompanhamenttodasatividadesWidgetState
     extends State<AcompanhamenttodasatividadesWidget> {
   late AcompanhamenttodasatividadesModel _model;
+  bool carregando = true;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   PageController _pageController = PageController();
   int _selectedIndex = 0;
 
   init() async {
-    await HomeFunctions(context).getQuestions();
+    // await HomeFunctions(context).getQuestions();
     await HomeFunctions(context).getAllLessons();
     await HomeFunctions(context).getLessonFindUserId();
-    await HomeFunctions(context).getLanguages();
+    // await HomeFunctions(context).getLanguages();
 
     final pageControlerAux = PageController(initialPage: 0);
     setState(() {
       _pageController = pageControlerAux;
+      carregando = false;
     });
   }
 
@@ -107,66 +109,75 @@ class _AcompanhamenttodasatividadesWidgetState
       );
     }
 
-    return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: ThemeModeApp.of(context).secondaryBackground,
-        floatingActionButtonLocation: !responsiveVisibility(
-                context: context,
-                tablet: false,
-                desktop: false,
-                tabletLandscape: false)
-            ? null
-            : FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: !responsiveVisibility(
-                context: context, desktop: false, tabletLandscape: false)
-            ? null
-            : FluidNavBar(
-                icons: [
-                  FluidNavBarIcon(svgPath: "assets/images/home.svg"),
-                  FluidNavBarIcon(svgPath: "assets/images/recentes.svg"),
-                  FluidNavBarIcon(svgPath: "assets/images/person.svg"),
-                ],
-                onChange: _handleNavigationChange,
-                style: FluidNavBarStyle(
-                    barBackgroundColor: ThemeModeApp.of(context).primary,
-                    iconSelectedForegroundColor: Colors.white,
-                    iconUnselectedForegroundColor: Colors.white),
-              ),
-        body: SafeArea(
-          top: true,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (responsiveVisibility(
-                context: context,
-                phone: false,
-                tablet: false,
-              ))
-                HomeWidgets(context).navebarSide(),
-              if (responsiveVisibility(
-                context: context,
-              ))
-                Expanded(
-                  child: PageView(controller: _pageController, children: [
-                    CorpoHomePage(
-                      model: _model,
+    return carregando
+        ? Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: ThemeModeApp.of(context).secondaryBackground,
+            child: Center(
+              child: Container(child: CircularProgressIndicator()),
+            ),
+          )
+        : GestureDetector(
+            onTap: () => _model.unfocusNode.canRequestFocus
+                ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                : FocusScope.of(context).unfocus(),
+            child: Scaffold(
+              key: scaffoldKey,
+              backgroundColor: ThemeModeApp.of(context).secondaryBackground,
+              floatingActionButtonLocation: !responsiveVisibility(
+                      context: context,
+                      tablet: false,
+                      desktop: false,
+                      tabletLandscape: false)
+                  ? null
+                  : FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: !responsiveVisibility(
+                      context: context, desktop: false, tabletLandscape: false)
+                  ? null
+                  : FluidNavBar(
+                      icons: [
+                        FluidNavBarIcon(svgPath: "assets/images/home.svg"),
+                        FluidNavBarIcon(svgPath: "assets/images/recentes.svg"),
+                        FluidNavBarIcon(svgPath: "assets/images/person.svg"),
+                      ],
+                      onChange: _handleNavigationChange,
+                      style: FluidNavBarStyle(
+                          barBackgroundColor: ThemeModeApp.of(context).primary,
+                          iconSelectedForegroundColor: Colors.white,
+                          iconUnselectedForegroundColor: Colors.white),
                     ),
-                    AddLesson(),
-                    Profile04Widget()
-                  ]),
+              body: SafeArea(
+                top: true,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (responsiveVisibility(
+                      context: context,
+                      phone: false,
+                      tablet: false,
+                    ))
+                      HomeWidgets(context).navebarSide(),
+                    if (responsiveVisibility(
+                      context: context,
+                    ))
+                      Expanded(
+                        child: PageView(controller: _pageController, children: [
+                          CorpoHomePage(
+                            model: _model,
+                          ),
+                          AddLesson(),
+                          Profile04Widget()
+                        ]),
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .3,
+                    ),
+                  ],
                 ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .3,
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

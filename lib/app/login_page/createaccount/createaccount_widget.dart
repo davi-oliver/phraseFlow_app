@@ -41,6 +41,18 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
   @override
   void dispose() {
     _model.dispose();
+    nameController.dispose();
+    emailAddressController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    controllerDataNasc.dispose();
+    controllerNacionalidade.dispose();
+    _model.controllerDataNascFocusNode?.dispose();
+    _model.controllerNacionalidadeFocusNode?.dispose();
+    _model.emailAddressFocusNode?.dispose();
+    _model.nameControllerFocusNode?.dispose();
+    _model.passwordConfirmFocusNode?.dispose();
+    _model.passwordFocusNode?.dispose();
 
     super.dispose();
   }

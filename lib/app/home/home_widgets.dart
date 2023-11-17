@@ -9,6 +9,7 @@ import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.da
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import '../../components/flutter_flow/form_field_controller.dart';
@@ -180,10 +181,19 @@ class HomeWidgets {
   }
 
   Widget botaoAdicionarIdioma() {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
       child: FFButtonWidget(
-        onPressed: () {
+        onPressed: () async {
+          if (globalStore.user?.id == null) {
+            await alertErro("Complete seu perfil para começar sua trilha", () {
+              Navigator.of(context).pop();
+              context.pushNamed(updateAccount);
+            });
+
+            return;
+          }
           print('Button pressed ...');
           context.pushNamed(addLessonPage);
         },
@@ -207,6 +217,47 @@ class HomeWidgets {
         ),
       ),
     );
+  }
+
+  alertErro(String texto, Function()? onPressed) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromLeft,
+      isOverlayTapDismiss: false,
+      isCloseButton: false,
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: ThemeModeApp.of(context).primaryBackground,
+        ),
+      ),
+      titleStyle: ThemeModeApp.of(context).headlineSmall,
+      descStyle: ThemeModeApp.of(context).bodyMedium,
+      descTextAlign: TextAlign.center,
+      isButtonVisible: true,
+      overlayColor: Color(0x55000000),
+    );
+
+    return Alert(
+      context: context,
+      style: alertStyle,
+      title: "Atenção!",
+      desc: texto,
+      image: Image.asset("assets/images/error_image.png"),
+      buttons: [
+        DialogButton(
+          color: ThemeModeApp.of(context).primary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed,
+          child: Text(
+            "Completar cadastro",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryBtnText),
+          ),
+        ),
+      ],
+    ).show();
   }
 
   Widget navebarSide() {

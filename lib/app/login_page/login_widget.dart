@@ -1,15 +1,15 @@
-import 'dart:developer';
+import 'dart:developer' as loggerger;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
-import 'package:phrase_flow/app/login_page/createaccount/createaccount_model.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
-import 'package:phrase_flow/backend/datasource/post.dart';
+import 'package:phrase_flow/backend/users.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:phrase_flow/model/user.dart';
@@ -29,6 +29,21 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  inituser() async {
+    final local = await LocalPath().users;
+    await local.delete();
+    if (!await local.exists()) await local.writeAsString(jsonEncode(usersBD));
+
+    var localStore;
+    if (await local.exists()) {
+      localStore = jsonDecode(await local.readAsString());
+      localStore.add(usersBD);
+      await local.writeAsString(jsonEncode(localStore));
+    }
+
+    loggerger.log("yuser local path: ${await local.readAsString()}");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +53,8 @@ class _LoginWidgetState extends State<LoginWidget> {
     _model.emailAddressFocusNode ??= FocusNode();
     _model.passwordController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
+
+    inituser();
   }
 
   @override
@@ -335,65 +352,128 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         0.0, 0.0, 0.0, 16.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        final httprequest =
-                                            PostHttpRequestApp(context);
+                                        final local = await LocalPath().users;
 
-                                        final result = await httprequest
-                                            .makeJsonRequestDynamc(
-                                                url: "users/login",
-                                                params: {
-                                              "email": _model
-                                                  .emailAddressController.text,
-                                              "password": _model
-                                                  .passwordController.text,
-                                            });
+                                        if (await local.exists()) {
+                                          var response = jsonDecode(
+                                              await local.readAsString());
+                                          loggerger.log("runtype $response");
 
-                                        Result res =
-                                            await result.fold((l) async {
-                                          return Result(false,
-                                              message: l.descricao);
-                                        }, (r) async {
-                                          if (r['error'] != null) {
-                                            return Result(false,
-                                                message: r['error']);
+                                          // verificar se o email existe e se a senha é igual
+                                          var result = response.where(
+                                              (element) =>
+                                                  element["email"] ==
+                                                      _model
+                                                          .emailAddressController
+                                                          .text &&
+                                                  element["password"] ==
+                                                      _model.passwordController
+                                                          .text);
+
+                                          if (result.isNotEmpty) {
+                                            // set globaluser
+                                            var user = result.first;
+                                            globalInfo.setUser(ModelUser(
+                                                id: user["id"],
+                                                name: user["name"],
+                                                email: user["email"],
+                                                password: user["password"],
+                                                birthDate: user["birthDate"],
+                                                country: user["country"],
+                                                sex: user["sex"]));
+
+                                            return context.pushNamed(
+                                                '$acompanhamenttodasatividades');
+                                          } else {
+                                            return ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor:
+                                                    ThemeModeApp.of(context)
+                                                        .primaryBackground,
+                                                content: Text(
+                                                    "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                                    style:
+                                                        ThemeModeApp.of(context)
+                                                            .bodyLarge
+                                                            .copyWith()),
+                                              ),
+                                            );
                                           }
-                                          log("result: $r");
-
-                                          globalInfo.setUser(ModelUser(
-                                              id: r["id"],
-                                              name: nameController.text,
-                                              email:
-                                                  emailAddressController.text,
-                                              password: passwordController.text,
-                                              birthDate:
-                                                  controllerDataNasc.text,
-                                              country:
-                                                  controllerNacionalidade.text,
-                                              sex: r["sex"]));
-
-                                          return Result(true,
-                                              message: 'Sucesso');
-                                        });
-
-                                        if (res.isValid) {
-                                          context.pushNamed(
-                                              '$acompanhamenttodasatividades');
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              backgroundColor:
-                                                  ThemeModeApp.of(context)
-                                                      .primaryBackground,
-                                              content: Text(
-                                                  "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
-                                                  style:
-                                                      ThemeModeApp.of(context)
-                                                          .bodyLarge
-                                                          .copyWith()),
-                                            ),
-                                          );
                                         }
+                                        return ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor:
+                                                ThemeModeApp.of(context)
+                                                    .primaryBackground,
+                                            content: Text(
+                                                "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                                style: ThemeModeApp.of(context)
+                                                    .bodyLarge
+                                                    .copyWith()),
+                                          ),
+                                        );
+
+                                        // final httprequest =
+                                        //     PostHttpRequestApp(context);
+
+                                        // final result = await httprequest
+                                        //     .makeJsonRequestDynamc(
+                                        //         url: "users/login",
+                                        //         params: {
+                                        //       "email": _model
+                                        //           .emailAddressController.text,
+                                        //       "password": _model
+                                        //           .passwordController.text,
+                                        //     });
+
+                                        // Result res =
+                                        //     await result.fold((l) async {
+                                        //   return Result(false,
+                                        //       message: l.descricao);
+                                        // }, (r) async {
+                                        //   if (r['error'] != null) {
+                                        //     return Result(false,
+                                        //         message: r['error']);
+                                        //   }
+                                        //   log("result: $r");
+
+                                        //   globalInfo.setUser(ModelUser(
+                                        //       id: r["id"],
+                                        //       name: nameController.text,
+                                        //       email:
+                                        //           emailAddressController.text,
+                                        //       password: passwordController.text,
+                                        //       birthDate:
+                                        //           controllerDataNasc.text,
+                                        //       country:
+                                        //           controllerNacionalidade.text,
+                                        //       sex: r["sex"]));
+
+                                        //   return Result(true,
+                                        //       message: 'Sucesso');
+                                        // });
+
+                                        // if (res.isValid) {
+                                        //   context.pushNamed(
+                                        //       '$acompanhamenttodasatividades');
+                                        // } else {
+                                        //   ScaffoldMessenger.of(context)
+                                        //       .showSnackBar(
+                                        //     SnackBar(
+                                        //       backgroundColor:
+                                        //           ThemeModeApp.of(context)
+                                        //               .primaryBackground,
+                                        //       content: Text(
+                                        //           "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                        //           style:
+                                        //               ThemeModeApp.of(context)
+                                        //                   .bodyLarge
+                                        //                   .copyWith()),
+                                        //     ),
+                                        //   );
+                                        // }
                                       },
                                       text: 'Entrar',
                                       options: FFButtonOptions(
