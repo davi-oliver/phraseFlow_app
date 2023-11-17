@@ -18,6 +18,12 @@ abstract class _QuestionarioStoreBase with Store {
   @observable
   int selectedIndex = 0;
 
+  @observable
+  int indexLesson = 0;
+
+  @action
+  void setIndexLesson(int value) => indexLesson = value;
+
   @action
   void setListAllLessons(value) =>
       listAllLessons.add(ModelLesson.fromJson(value));
@@ -42,6 +48,12 @@ abstract class _QuestionarioStoreBase with Store {
   void addQuestion(question) {
     controllers.add(TextEditingController());
     questions.add(ModelQuestion.fromJson(question));
+  }
+
+  @action
+  void addQuestionByModel(ModelQuestion question) {
+    controllers.add(TextEditingController());
+    questions.add(question);
   }
 
   @action

@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
+import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
+import 'package:phrase_flow/model/question.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -778,6 +782,7 @@ class HomePageLandScapeDesktop extends StatelessWidget {
                   return CardWeb(
                     title: homeStoreT.listLessonUser[index].title,
                     content: homeStoreT.listLessonUser[index].content,
+                    index: index,
                   );
                 },
               ),
@@ -822,6 +827,7 @@ class HomePageTablet extends StatelessWidget {
                 return CardWeb(
                   title: homeStore.listLessonUser[index].title,
                   content: homeStore.listLessonUser[index].content,
+                  index: index,
                 );
               },
             ),
@@ -875,13 +881,21 @@ class HomePageMobile extends StatelessWidget {
 }
 
 class CardWeb extends StatelessWidget {
-  CardWeb({super.key, required this.title, required this.content});
+  CardWeb(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.index});
 
   var title;
   var content;
+  int index;
 
   @override
   Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
           color: ThemeModeApp.of(context).secondaryBackground,
@@ -905,6 +919,18 @@ class CardWeb extends StatelessWidget {
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () async {
+            for (var element
+                in homeStore.listLessonUser[index].lessonQuestions!) {
+              questionarioStore.addQuestionByModel(ModelQuestion(
+                answer: element.question?.answer,
+                question: element.question?.question,
+                type: element.question?.type,
+                createdAt: element.createdAt,
+                updatedAt: element.updatedAt,
+              ));
+            }
+            questionarioStore.setIndexLesson(index);
+            log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
             context.pushNamed('$questionaryTypeWriteWidget');
           },
           child: Column(
