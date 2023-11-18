@@ -179,26 +179,32 @@ class HomeFunctions {
     try {
       final local = await LocalPath().lessonsByUser;
       final localCompleted = await LocalPath().lessonsCompleted;
-      await local.delete();
+      // await local.delete();
+      // await localCompleted.delete();
 
       if (await local.exists()) {
         final response = await local.readAsString();
-        log("response: $response");
         final map = json.decode(response);
+        log("map local lessonByUser: $map is list ? ${map is List}");
         for (var i = 0; i < map.length; i++) {
           store.setListLessonUser(map[i]);
         }
         log("homestore ${store.listLessonUser.length} ");
       } else {
+        log("não existe local de lições por usuario");
         store.clearListLessonUser();
       }
 
       if (await localCompleted.exists()) {
         final response = await localCompleted.readAsString();
-        log("response: $response");
         final map = json.decode(response);
-        for (var i = 0; i < map.length; i++) {
-          store.setListLessonUserCompleted(map[i]);
+        log("response localCompleted: $map is list ? ${map is List}");
+        if (map is List) {
+          for (var i = 0; i < map.length; i++) {
+            store.setListLessonUserCompleted(map[i]);
+          }
+        } else {
+          store.setListLessonUserCompleted(map);
         }
       } else {
         store.clearListLessonUserCompleted();
@@ -316,19 +322,19 @@ class HomeFunctions {
 
     if (await local.exists()) {
       final response = await local.readAsString();
-      log("response: $response");
+      // log("response: $response");
       final map = json.decode(response);
       for (var i = 0; i < map.length; i++) {
         store.setListAllLessons(map[i]);
       }
-      log("pegou do local lessons ${await local.readAsString()}");
+      // log("pegou do local lessons ${await local.readAsString()}");
     } else {
       store.listAllLessons.clear();
       for (var i = 0; i < lessonsBD.length; i++) {
         store.setListAllLessons(lessonsBD[i]);
       }
       await local.writeAsString(jsonEncode(lessonsBD));
-      log("adicionou local lessons ${await local.readAsString()}");
+      // log("adicionou local lessons ${await local.readAsString()}");
     }
     // final response = await GetHttpRequestApp(context).makeGetJsonRequest(
     //   url: "lessons",

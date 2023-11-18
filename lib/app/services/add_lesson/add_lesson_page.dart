@@ -247,6 +247,7 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
             final local = await LocalPath().lessonsByUser;
 
             if (await local.exists()) {
+              log("EXISTE LOCAL");
               var result = await jsonDecode(await local.readAsString());
               List listaAux = [];
               listaAux.addAll(result);
@@ -264,6 +265,7 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
                 context.pushNamed(acompanhamenttodasatividades);
               });
             } else {
+              log("NAO EXISTE LOCAL");
               List listaAux = [];
 
               for (var element in store.listAllLessons) {
