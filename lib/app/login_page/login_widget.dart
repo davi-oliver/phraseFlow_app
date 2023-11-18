@@ -82,7 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: ThemeModeApp.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Row(
@@ -94,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   width: 100.0,
                   height: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ThemeModeApp.of(context).primaryBackground,
                   ),
                   alignment: AlignmentDirectional(0.00, -1.00),
                   child: SingleChildScrollView(
@@ -106,7 +106,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           width: double.infinity,
                           height: 140.0,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ThemeModeApp.of(context).primaryBackground,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(16.0),
                               bottomRight: Radius.circular(16.0),
@@ -123,7 +123,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                               style: ThemeModeApp.of(context)
                                   .displaySmall
                                   .copyWith(
-                                    color: Color(0xFF101213),
                                     fontSize: 36.0,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -136,7 +135,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             maxWidth: 430.0,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ThemeModeApp.of(context).secondaryBackground,
                           ),
                           child: Align(
                             alignment: AlignmentDirectional(0.00, 0.00),
@@ -156,7 +155,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             .headlineLarge
                                             .copyWith(
                                               fontFamily: 'Urbanist',
-                                              color: Color(0xFF101213),
                                               fontSize: 32.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -180,7 +178,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           .labelMedium
                                           .copyWith(
                                             fontFamily: 'Plus Jakarta Sans',
-                                            color: Color(0xFF57636C),
+                                            color: ThemeModeApp.of(context)
+                                                .secondaryText,
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -204,13 +203,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               .labelLarge
                                               .copyWith(
                                                 fontFamily: 'Plus Jakarta Sans',
-                                                color: Color(0xFF57636C),
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color(0xFFF1F4F8),
+                                              color: ThemeModeApp.of(context)
+                                                  .lineColor,
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -242,13 +241,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           filled: true,
-                                          fillColor: Color(0xFFF1F4F8),
+                                          fillColor: ThemeModeApp.of(context)
+                                              .primaryBackground,
                                         ),
                                         style: ThemeModeApp.of(context)
                                             .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -283,7 +282,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color(0xFFF1F4F8),
+                                              color: ThemeModeApp.of(context)
+                                                  .lineColor,
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -315,7 +315,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           filled: true,
-                                          fillColor: Color(0xFFF1F4F8),
+                                          fillColor: ThemeModeApp.of(context)
+                                              .secondaryBackground,
                                           suffixIcon: InkWell(
                                             onTap: () => setState(
                                               () => _model.passwordVisibility =
@@ -337,7 +338,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -551,7 +551,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .copyWith(
                                                       fontFamily:
                                                           'Plus Jakarta Sans',
-                                                      color: Color(0xFF101213),
                                                       fontSize: 14.0,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -634,12 +633,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         iconPadding:
                                             EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
-                                        color: Colors.white,
+                                        color: ThemeModeApp.of(context)
+                                            .secondaryBackground,
                                         textStyle: ThemeModeApp.of(context)
-                                            .titleSmall
+                                            .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -696,7 +695,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 .copyWith(
                                                   fontFamily:
                                                       'Plus Jakarta Sans',
-                                                  color: Color(0xFF101213),
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -752,7 +750,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 maxWidth: 400.0,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color:
+                                    ThemeModeApp.of(context).primaryBackground,
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 3.0,
@@ -842,7 +841,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .copyWith(
                                                       fontFamily:
                                                           'Plus Jakarta Sans',
-                                                      color: Color(0xFF101213),
                                                       fontSize: 12.0,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -864,8 +862,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           .copyWith(
                                                             fontFamily:
                                                                 'Plus Jakarta Sans',
-                                                            color: Color(
-                                                                0xFF101213),
                                                             fontSize: 24.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -898,7 +894,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .copyWith(
                                                     fontFamily:
                                                         'Plus Jakarta Sans',
-                                                    color: Color(0xFF101213),
                                                     fontSize: 14.0,
                                                     fontWeight: FontWeight.w500,
                                                   ),

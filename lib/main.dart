@@ -79,6 +79,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _locale,
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [
         Locale('pt'),
         Locale('en'),

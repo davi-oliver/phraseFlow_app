@@ -1,0 +1,14 @@
+io.flutter.plugins.firebase.core.firebase_core-jetified-firebase-common-20.4.2-0 C:\Users\User\.gradle\caches\transforms-3\34e6e361663a8bf0471381bc38f3ae3a\transformed\jetified-firebase-common-20.4.2\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-window-java-1.0.0-beta04-1 C:\Users\User\.gradle\caches\transforms-3\4c9d27516dfa8f5e6e6d5592e5e58082\transformed\jetified-window-java-1.0.0-beta04\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-annotation-experimental-1.1.0-2 C:\Users\User\.gradle\caches\transforms-3\7465245b9f2ce084018f77d15e36ae59\transformed\jetified-annotation-experimental-1.1.0\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-window-1.0.0-beta04-3 C:\Users\User\.gradle\caches\transforms-3\8d77281bddb4089da850e8961b18e3b6\transformed\jetified-window-1.0.0-beta04\res
+io.flutter.plugins.firebase.core.firebase_core-jetified-play-services-basement-18.1.0-4 C:\Users\User\.gradle\caches\transforms-3\9c6f112ffbd5a7f242f3b4cc821917c5\transformed\jetified-play-services-basement-18.1.0\res
+io.flutter.plugins.firebase.core.firebase_core-core-1.6.0-5 C:\Users\User\.gradle\caches\transforms-3\ab1ab2ca9259bab8fc0c81aa2068f32c\transformed\core-1.6.0\res
+io.flutter.plugins.firebase.core.firebase_core-main-6 C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.21.0\android\src\main\res
+io.flutter.plugins.firebase.core.firebase_core-release-7 C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-2.21.0\android\src\release\res
+io.flutter.plugins.firebase.core.firebase_core-pngs-8 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\generated\res\pngs\release
+io.flutter.plugins.firebase.core.firebase_core-resValues-9 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\generated\res\resValues\release
+io.flutter.plugins.firebase.core.firebase_core-rs-10 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\generated\res\rs\release
+io.flutter.plugins.firebase.core.firebase_core-mergeReleaseResources-11 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\intermediates\incremental\release\mergeReleaseResources\merged.dir
+io.flutter.plugins.firebase.core.firebase_core-mergeReleaseResources-12 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+io.flutter.plugins.firebase.core.firebase_core-merged_res-13 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\intermediates\merged_res\release
