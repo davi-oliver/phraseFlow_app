@@ -245,6 +245,7 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
             print('Button pressed ...');
 
             final local = await LocalPath().lessonsByUser;
+            homeStore.clearListLessonUserCompleted();
 
             if (await local.exists()) {
               log("EXISTE LOCAL");

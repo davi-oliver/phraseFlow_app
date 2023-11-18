@@ -755,37 +755,95 @@ class HomePageLandScapeDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeStoreT = Provider.of<HomeStore>(context, listen: true);
     return Observer(builder: (_) {
-      return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-        child: homeStoreT.listLessonUser.isEmpty
-            ? Center(
-                child: Text(
-                "Nenhuma lição encontrada",
-                style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                      color: ThemeModeApp.of(context).primaryText,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStoreT.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
                     ),
-              ))
-            : GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 1.0,
+                    itemCount: homeStoreT.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStoreT.listLessonUser[index].title,
+                        content: homeStoreT.listLessonUser[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
                 ),
-                itemCount: homeStoreT.listLessonUser.length,
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return CardWeb(
-                    title: homeStoreT.listLessonUser[index].title,
-                    content: homeStoreT.listLessonUser[index].content,
-                    index: index,
-                  );
-                },
-              ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStoreT.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Você não concluiu nenhuma lição ainda",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: homeStoreT.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStoreT.listLessonUserCompleted[index].title,
+                        content:
+                            homeStoreT.listLessonUserCompleted[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+        ],
       );
     });
   }
@@ -801,37 +859,95 @@ class HomePageTablet extends StatelessWidget {
     final homeStore = Provider.of<HomeStore>(context, listen: false);
 
     return Observer(builder: (_) {
-      return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-        child: homeStore.listLessonUser.isEmpty
-            ? Center(
-                child: Text(
-                "Nenhuma lição encontrada",
-                style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                      color: ThemeModeApp.of(context).primaryText,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
                     ),
-              ))
-            : GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 1.5,
+                    itemCount: homeStore.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStore.listLessonUser[index].title,
+                        content: homeStore.listLessonUser[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
                 ),
-                itemCount: homeStore.listLessonUser.length,
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return CardWeb(
-                    title: homeStore.listLessonUser[index].title,
-                    content: homeStore.listLessonUser[index].content,
-                    index: index,
-                  );
-                },
-              ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Você não concluiu nenhuma lição ainda",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStore.listLessonUserCompleted[index].title,
+                        content:
+                            homeStore.listLessonUserCompleted[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+        ],
       );
     });
   }
@@ -847,36 +963,93 @@ class HomePageMobile extends StatelessWidget {
     final homeStore = Provider.of<HomeStore>(context, listen: true);
 
     return Observer(builder: (_) {
-      return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-        child: homeStore.listLessonUser.isEmpty
-            ? Center(
-                child: Text(
-                "Nenhuma lição encontrada",
-                style: ThemeModeApp.of(context).bodyMedium.copyWith(
-                      color: ThemeModeApp.of(context).primaryText,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
                     ),
-              ))
-            : GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 1.5,
+                    itemCount: homeStore.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardMobile(
+                        titulo: homeStore.listLessonUser[index].title,
+                        conteudo: homeStore.listLessonUser[index].content,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
                 ),
-                itemCount: homeStore.listLessonUser.length,
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return CardMobile(
-                    titulo: homeStore.listLessonUser[index].title,
-                    conteudo: homeStore.listLessonUser[index].content,
-                  );
-                },
-              ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardMobile(
+                        titulo: homeStore.listLessonUserCompleted[index].title,
+                        conteudo:
+                            homeStore.listLessonUserCompleted[index].content,
+                      );
+                    },
+                  ),
+          ),
+        ],
       );
     });
   }

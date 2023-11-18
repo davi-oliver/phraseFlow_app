@@ -18,6 +18,12 @@ abstract class _HomeStoreBase with Store {
   @observable
   var selectIdioma = "Selecione uma lição";
 
+  @observable
+  bool showLessonCompleted = false;
+
+  @action
+  void setShowLessonCompleted(value) => showLessonCompleted = value;
+
   @action
   void setSelectIdioma(value) => selectIdioma = value;
 
