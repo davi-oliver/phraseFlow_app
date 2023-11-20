@@ -224,72 +224,93 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                     if (questionarioStoreT.selectedIndex ==
                                         questionarioStoreT.questions.length -
                                             1) {
-                                      final localLessonCompleted =
-                                          await LocalPath().lessonsCompleted;
-                                      final localLessonUser =
-                                          await LocalPath().lessonsByUser;
-                                      // await local.delete();
+                                      if (questionarioStore
+                                              .questions[index].answer
+                                              .toString()
+                                              .toLowerCase() ==
+                                          questionarioStore
+                                              .controllers[index].text
+                                              .toLowerCase()) {
+                                        final localLessonCompleted =
+                                            await LocalPath().lessonsCompleted;
+                                        final localLessonUser =
+                                            await LocalPath().lessonsByUser;
+                                        // await local.delete();
 
-                                      // verifica se o arquivo lessonsCompleted existe
-                                      if (await localLessonCompleted.exists()) {
-                                        // adiciona a lição atual a lista de lições concluídas
-                                        await localLessonCompleted
-                                            .writeAsString(jsonEncode(
-                                                homeStore.listLessonUser[
-                                                    questionarioStoreT
-                                                        .indexLesson]));
-                                        // mostra o arquivo
-                                        log("Arquivo Existe\nadiciona a lição atual a lista de lições concluídas");
-                                        print(await localLessonCompleted
-                                            .readAsString());
-                                      } else if (!await localLessonCompleted
-                                          .exists()) {
-                                        // cria o arquivo
-                                        await localLessonCompleted.create();
-                                        // adiciona a lição atual a lista de lições concluídas
-                                        await localLessonCompleted
-                                            .writeAsString(jsonEncode(
-                                                homeStore.listLessonUser[
-                                                    questionarioStoreT
-                                                        .indexLesson]));
-                                        // mostra o arquivo
-                                        log("criou o arquivo e \nadiciona a lição atual a lista de lições concluídas");
-                                        print(await localLessonCompleted
-                                            .readAsString());
-                                      }
+                                        // verifica se o arquivo lessonsCompleted existe
+                                        if (await localLessonCompleted
+                                            .exists()) {
+                                          // adiciona a lição atual a lista de lições concluídas
+                                          await localLessonCompleted
+                                              .writeAsString(jsonEncode(
+                                                  homeStore.listLessonUser[
+                                                      questionarioStoreT
+                                                          .indexLesson]));
+                                          // mostra o arquivo
+                                          log("Arquivo Existe\nadiciona a lição atual a lista de lições concluídas");
+                                          print(await localLessonCompleted
+                                              .readAsString());
+                                        } else if (!await localLessonCompleted
+                                            .exists()) {
+                                          // cria o arquivo
+                                          await localLessonCompleted.create();
+                                          // adiciona a lição atual a lista de lições concluídas
+                                          await localLessonCompleted
+                                              .writeAsString(jsonEncode(
+                                                  homeStore.listLessonUser[
+                                                      questionarioStoreT
+                                                          .indexLesson]));
+                                          // mostra o arquivo
+                                          log("criou o arquivo e \nadiciona a lição atual a lista de lições concluídas");
+                                          print(await localLessonCompleted
+                                              .readAsString());
+                                        }
 
-                                      // remove do arquivo lessonsByUser a lição atual
-                                      if (await localLessonUser.exists()) {
-                                        // remove a lição atual da lista de lições do usuário
-                                        homeStore.listLessonUser.removeAt(
-                                            questionarioStoreT.indexLesson);
+                                        // remove do arquivo lessonsByUser a lição atual
+                                        if (await localLessonUser.exists()) {
+                                          // remove a lição atual da lista de lições do usuário
+                                          homeStore.listLessonUser.removeAt(
+                                              questionarioStoreT.indexLesson);
+                                          // mostra o arquivo
+                                          log("Arquivo Existe\nremovendo a lição atual da lista de lições do usuário");
+                                          print(await localLessonUser
+                                              .readAsString());
+                                        } else if (!await localLessonUser
+                                            .exists()) {
+                                          // cria o arquivo
+                                          await localLessonUser.create();
+                                          // remove a lição atual da lista de lições do usuário
+                                          log("Criou o arquivo e \nremovendo a lição atual da lista de lições do usuário");
+                                          homeStore.listLessonUser.removeAt(
+                                              questionarioStoreT.indexLesson);
+                                          // mostra o arquivo
+                                          print(await localLessonUser
+                                              .readAsString());
+                                        }
+
+                                        // atualiza o arquivo de lições do usuário
+                                        await localLessonUser.writeAsString(
+                                            jsonEncode(
+                                                homeStore.listLessonUser));
                                         // mostra o arquivo
-                                        log("Arquivo Existe\nremovendo a lição atual da lista de lições do usuário");
                                         print(await localLessonUser
                                             .readAsString());
-                                      } else if (!await localLessonUser
-                                          .exists()) {
-                                        // cria o arquivo
-                                        await localLessonUser.create();
-                                        // remove a lição atual da lista de lições do usuário
-                                        log("Criou o arquivo e \nremovendo a lição atual da lista de lições do usuário");
-                                        homeStore.listLessonUser.removeAt(
-                                            questionarioStoreT.indexLesson);
-                                        // mostra o arquivo
-                                        print(await localLessonUser
-                                            .readAsString());
+
+                                        // envia para a tela de sucesso
+                                        context.pushNamed(successPage);
+                                        return;
+                                      } else {
+                                        log("Resposta digitada: ${questionarioStore.controllers[index].text}");
+                                        log("Resposta correta: ${questionarioStore.questions[index].answer}");
+                                        await alertErroQuestionUltima(
+                                          "A sua resposta inserida não confere com a tradução.Verifique e tente novamente",
+                                          () {
+                                            Navigator.of(context).pop();
+                                            questionarioStore.controllers[index]
+                                                .clear();
+                                          },
+                                        );
                                       }
-
-                                      // atualiza o arquivo de lições do usuário
-                                      await localLessonUser.writeAsString(
-                                          jsonEncode(homeStore.listLessonUser));
-                                      // mostra o arquivo
-                                      print(
-                                          await localLessonUser.readAsString());
-
-                                      // envia para a tela de sucesso
-                                      context.pushNamed(successPage);
-                                      return;
                                     }
 
                                     if (questionarioStore
@@ -311,8 +332,9 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                             .setSelectedIndex(index + 1);
                                       });
                                     } else {
-                                      log("Resposta digitada: ${questionarioStore.controllers[index].text}.");
-                                      log("Resposta correta: ${questionarioStore.questions[index].answer}.");
+                                      log("Resposta digitada: ${questionarioStore.controllers[index].text}");
+                                      log("Resposta correta: ${questionarioStore.questions[index].answer}");
+                                      log("é igual ? ${questionarioStore.questions[index].answer.toString().toLowerCase() == questionarioStore.controllers[index].text.toLowerCase()}}");
                                       await alertErroQuestion(
                                           "A sua resposta inserida não confere com a tradução. O que deseja fazer? ",
                                           () {
@@ -431,6 +453,50 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
             style: ThemeModeApp.of(context)
                 .bodyMedium
                 .copyWith(color: ThemeModeApp.of(context).primaryText),
+          ),
+        ),
+      ],
+    ).show();
+  }
+
+  alertErroQuestionUltima(
+    String texto,
+    Function()? onPressed,
+  ) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromLeft,
+      isOverlayTapDismiss: false,
+      isCloseButton: false,
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: ThemeModeApp.of(context).primaryBackground,
+        ),
+      ),
+      titleStyle: ThemeModeApp.of(context).headlineSmall,
+      descStyle: ThemeModeApp.of(context).bodyMedium,
+      descTextAlign: TextAlign.center,
+      isButtonVisible: true,
+      overlayColor: Color(0x55000000),
+    );
+
+    return Alert(
+      context: context,
+      style: alertStyle,
+      title: "Atenção!",
+      desc: texto,
+      image: Image.asset("assets/images/error_image.png"),
+      buttons: [
+        DialogButton(
+          color: ThemeModeApp.of(context).primary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed,
+          child: Text(
+            "Fechar",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryBtnText),
           ),
         ),
       ],

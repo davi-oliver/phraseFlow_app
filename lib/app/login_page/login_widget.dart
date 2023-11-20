@@ -357,7 +357,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         if (await local.exists()) {
                                           var response = jsonDecode(
                                               await local.readAsString());
-                                          loggerger.log("runtype $response");
+                                          loggerger.log(
+                                              "runtype ${response.runtimeType}");
 
                                           // verificar se o email existe e se a senha é igual
                                           var result = response.where(

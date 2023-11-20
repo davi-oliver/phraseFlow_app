@@ -1,5 +1,7 @@
 import 'package:phrase_flow/app/global/routes.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import '../../components/flutter_flow/flutter_flow_widgets.dart';
@@ -43,6 +45,8 @@ class _Profile04WidgetState extends State<Profile04Widget> {
         ),
       );
     }
+
+    final globalStore = Provider.of<GlobalStore>(context, listen: true);
 
     return Scaffold(
       key: scaffoldKey,
@@ -112,14 +116,14 @@ class _Profile04WidgetState extends State<Profile04Widget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "PhraseFlow",
+                              "${globalStore.user?.name ?? "PhraseFlow"}",
                               style: ThemeModeApp.of(context).headlineSmall,
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 4.0, 0.0, 0.0),
                               child: Text(
-                                "phraseFlow.io.com",
+                                globalStore.user?.email ?? "phraseFlow.io.com",
                                 style: ThemeModeApp.of(context)
                                     .bodySmall
                                     .copyWith(

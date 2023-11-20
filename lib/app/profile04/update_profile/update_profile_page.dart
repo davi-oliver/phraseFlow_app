@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:phrase_flow/app/global/routes.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_radio_button.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:phrase_flow/components/flutter_flow/form_field_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../../login_page/createaccount/createaccount_widget.dart';
 
@@ -32,11 +34,20 @@ class _UpdateAccountState extends State<UpdateAccount> {
   late CreateaccountModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  initCampos() {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
+    updatenameController.text = globalStore.user?.name ?? "";
+    updateemailAddressController.text = globalStore.user?.email ?? "";
+    updatecontrollerNacionalidade.text = globalStore.user?.country ?? "";
+    updatecontrollerDataNasc.text = globalStore.user?.birthDate ?? "";
+  }
 
   @override
   void initState() {
     super.initState();
     // _model.passwordConfirmFocusNode ??= FocusNode();
+    _model = createModel(context, () => CreateaccountModel());
+    initCampos();
   }
 
   @override
@@ -72,6 +83,27 @@ class _UpdateAccountState extends State<UpdateAccount> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: GestureDetector(
+                          onTap: () => context.pop(),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios_rounded,
+                                color: ThemeModeApp.of(context).primaryText,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Atualizar Conta",
+                                style: ThemeModeApp.of(context).headlineLarge,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Container(
                         width: double.infinity,
                         constraints: BoxConstraints(
@@ -89,10 +121,6 @@ class _UpdateAccountState extends State<UpdateAccount> {
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Ataulizar Conta",
-                                  style: ThemeModeApp.of(context).headlineLarge,
-                                ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 16.0, 0.0, 0.0),
@@ -148,10 +176,11 @@ class _UpdateAccountState extends State<UpdateAccount> {
                             20.0, 12.0, 20.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'Como podemos te chamar ?',
-                              style: ThemeModeApp.of(context).bodyMedium,
+                              style: ThemeModeApp.of(context).headlineSmall,
                             ),
                           ],
                         ),
@@ -209,7 +238,7 @@ class _UpdateAccountState extends State<UpdateAccount> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 0.0, 16.0),
+                            20.0, 0.0, 20.0, 16.0),
                         child: FFButtonWidget(
                           onPressed: () async {
                             Result validate = await _model.validateSubmit();

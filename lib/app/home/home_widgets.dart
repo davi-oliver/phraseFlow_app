@@ -992,6 +992,7 @@ class HomePageMobile extends StatelessWidget {
                       return CardMobile(
                         titulo: homeStore.listLessonUser[index].title,
                         conteudo: homeStore.listLessonUser[index].content,
+                        index: index,
                       );
                     },
                   ),
@@ -1045,6 +1046,7 @@ class HomePageMobile extends StatelessWidget {
                         titulo: homeStore.listLessonUserCompleted[index].title,
                         conteudo:
                             homeStore.listLessonUserCompleted[index].content,
+                        index: index,
                       );
                     },
                   ),
@@ -1251,13 +1253,18 @@ class CardMobile extends StatelessWidget {
     super.key,
     required this.titulo,
     required this.conteudo,
+    required this.index,
   });
 
   var titulo;
   var conteudo;
+  int index;
 
   @override
   Widget build(BuildContext context) {
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
       child: Container(
@@ -1281,6 +1288,19 @@ class CardMobile extends StatelessWidget {
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () async {
+              questionarioStore.clearQuestion();
+              for (var element
+                  in homeStore.listLessonUser[index].lessonQuestions!) {
+                questionarioStore.addQuestionByModel(ModelQuestion(
+                  answer: element.question?.answer,
+                  question: element.question?.question,
+                  type: element.question?.type,
+                  createdAt: element.createdAt,
+                  updatedAt: element.updatedAt,
+                ));
+              }
+              questionarioStore.setIndexLesson(index);
+              log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
               context.pushNamed('$questionaryTypeWriteWidget');
             },
             child: Column(

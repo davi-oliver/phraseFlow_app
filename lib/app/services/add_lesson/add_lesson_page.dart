@@ -206,12 +206,14 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
                 height: 54.0,
                 fit: BoxFit.cover,
               ),
-              Text(
-                "Qual idioma você deseja aprendender?",
-                textAlign: TextAlign.start,
-                style: ThemeModeApp.of(context).headlineSmall.copyWith(
-                      color: ThemeModeApp.of(context).secondaryText,
-                    ),
+              Flexible(
+                child: Text(
+                  "Qual idioma você deseja aprendender?",
+                  textAlign: TextAlign.start,
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).secondaryText,
+                      ),
+                ),
               ),
             ],
           ),
