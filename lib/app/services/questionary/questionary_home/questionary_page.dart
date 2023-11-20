@@ -26,12 +26,11 @@ class QuestionarioTipos extends StatefulWidget {
 
 class _QuestionarioTiposState extends State<QuestionarioTipos> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  late QuestionarioStore questionarioStore;
 
   @override
   void initState() {
     super.initState();
-    // Inicialize a variável aqui
-    init();
   }
 
   bool initPage = false;
@@ -40,8 +39,7 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
     if (initPage) {
       return;
     }
-    final questionarioStore =
-        Provider.of<QuestionarioStore>(context, listen: false);
+
     questionarioStore.setControllerPageView(
         await QuestionarioHomeFunctions().initPageController());
     questionarioStore.setSelectedIndex(0);
@@ -49,9 +47,22 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
     initPage = true;
   }
 
+  setDispose() {
+    questionarioStore.controllerPageView.dispose();
+  }
+
+  @override
+  void dispose() {
+    setDispose();
+    super.dispose();
+  }
+
   @override
   void didChangeDependencies() {
+    questionarioStore = Provider.of<QuestionarioStore>(context, listen: false);
     super.didChangeDependencies();
+    // Inicialize a variável aqui
+    init();
   }
 
   double calculateProgress(int currentPosition, int listLength) {
@@ -167,8 +178,6 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
   Widget build(BuildContext context) {
     final questionarioStoreT =
         Provider.of<QuestionarioStore>(context, listen: true);
-    final questionarioStore =
-        Provider.of<QuestionarioStore>(context, listen: false);
     final homeStore = Provider.of<HomeStore>(context, listen: false);
     if (isiOS) {
       SystemChrome.setSystemUIOverlayStyle(
