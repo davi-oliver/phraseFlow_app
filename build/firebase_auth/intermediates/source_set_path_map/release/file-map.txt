@@ -1,0 +1,17 @@
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-play-services-base-18.0.1-0 C:\Users\User\.gradle\caches\transforms-3\1f0d2748591b888d8b6ba894b07e618d\transformed\jetified-play-services-base-18.0.1\res
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-firebase-common-20.4.2-1 C:\Users\User\.gradle\caches\transforms-3\34e6e361663a8bf0471381bc38f3ae3a\transformed\jetified-firebase-common-20.4.2\res
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-window-java-1.0.0-beta04-2 C:\Users\User\.gradle\caches\transforms-3\4c9d27516dfa8f5e6e6d5592e5e58082\transformed\jetified-window-java-1.0.0-beta04\res
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-annotation-experimental-1.1.0-3 C:\Users\User\.gradle\caches\transforms-3\7465245b9f2ce084018f77d15e36ae59\transformed\jetified-annotation-experimental-1.1.0\res
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-window-1.0.0-beta04-4 C:\Users\User\.gradle\caches\transforms-3\8d77281bddb4089da850e8961b18e3b6\transformed\jetified-window-1.0.0-beta04\res
+io.flutter.plugins.firebase.auth.firebase_auth-browser-1.4.0-5 C:\Users\User\.gradle\caches\transforms-3\91780ffffb46f5491deca334c0b0383b\transformed\browser-1.4.0\res
+io.flutter.plugins.firebase.auth.firebase_auth-jetified-play-services-basement-18.1.0-6 C:\Users\User\.gradle\caches\transforms-3\9c6f112ffbd5a7f242f3b4cc821917c5\transformed\jetified-play-services-basement-18.1.0\res
+io.flutter.plugins.firebase.auth.firebase_auth-core-1.6.0-7 C:\Users\User\.gradle\caches\transforms-3\ab1ab2ca9259bab8fc0c81aa2068f32c\transformed\core-1.6.0\res
+io.flutter.plugins.firebase.auth.firebase_auth-main-8 C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-4.12.1\android\src\main\res
+io.flutter.plugins.firebase.auth.firebase_auth-release-9 C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-4.12.1\android\src\release\res
+io.flutter.plugins.firebase.auth.firebase_auth-pngs-10 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\generated\res\pngs\release
+io.flutter.plugins.firebase.auth.firebase_auth-resValues-11 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\generated\res\resValues\release
+io.flutter.plugins.firebase.auth.firebase_auth-rs-12 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\generated\res\rs\release
+io.flutter.plugins.firebase.auth.firebase_auth-mergeReleaseResources-13 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\intermediates\incremental\release\mergeReleaseResources\merged.dir
+io.flutter.plugins.firebase.auth.firebase_auth-mergeReleaseResources-14 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+io.flutter.plugins.firebase.auth.firebase_auth-merged_res-15 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_auth\intermediates\merged_res\release
+io.flutter.plugins.firebase.auth.firebase_auth-packaged_res-16 C:\Users\User\Documents\unifei\WEB\phraseFlow_app\build\firebase_core\intermediates\packaged_res\release

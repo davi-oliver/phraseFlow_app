@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:provider/provider.dart';
 import 'components/flutter_flow/flutter_flow_util.dart';
@@ -23,6 +24,7 @@ void main() async {
     providers: [
       Provider<QuestionarioStore>(create: (_) => QuestionarioStore()),
       Provider<GlobalStore>(create: (_) => GlobalStore()),
+      Provider<HomeStore>(create: (_) => HomeStore()),
     ],
     child: MyApp(),
   ));
@@ -77,6 +79,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _locale,
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [
         Locale('pt'),
         Locale('en'),

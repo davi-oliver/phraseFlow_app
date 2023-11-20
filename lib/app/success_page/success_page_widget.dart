@@ -27,9 +27,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
     _model = createModel(context, () => SuccessPageModel());
 
     // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      context.pushNamed('$acompanhamenttodasatividades');
-    });
+    SchedulerBinding.instance.addPostFrameCallback((_) async {});
   }
 
   @override
@@ -56,7 +54,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFF33EE15),
+        backgroundColor: ThemeModeApp.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -68,28 +66,43 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [],
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        'assets/images/image-removebg-preview_(1).png',
+                        width: 94.0,
+                        height: 216.0,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        'assets/images/error_image.png',
+                        width: 94.0,
+                        height: 216.0,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Text(
-                FFLocalizations.of(context).getText(
-                  'ou93doad' /* Congrats! */,
-                ),
+                "Parabéns",
                 style: ThemeModeApp.of(context).headlineMedium.copyWith(
                       fontFamily: 'Outfit',
-                      color: ThemeModeApp.of(context).primaryBtnText,
+                      color: ThemeModeApp.of(context).primaryText,
                       fontSize: 32.0,
                     ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                 child: Text(
-                  FFLocalizations.of(context).getText(
-                    'ng3eoe47' /* Thanks for taking the quiz. */,
-                  ),
+                  "Você concluiu a lição",
                   style: ThemeModeApp.of(context).titleSmall.copyWith(
                         fontFamily: 'Outfit',
-                        color: ThemeModeApp.of(context).primaryBtnText,
+                        color: ThemeModeApp.of(context).primaryText,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w300,
                       ),
@@ -101,9 +114,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                   onPressed: () async {
                     context.pushNamed('$acompanhamenttodasatividades');
                   },
-                  text: FFLocalizations.of(context).getText(
-                    's7rngm6w' /* Go Home */,
-                  ),
+                  text: "Voltar para o início",
                   options: FFButtonOptions(
                     width: MediaQuery.sizeOf(context).width * 0.5,
                     padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

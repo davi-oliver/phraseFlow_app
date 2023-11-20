@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 
@@ -10,8 +13,10 @@ class QuestionaryWidgets {
 }
 
 class CardInputOrSpeetch extends StatelessWidget {
-  const CardInputOrSpeetch({
+  int index = 0;
+  CardInputOrSpeetch({
     super.key,
+    required this.index,
     required this.questionarioStore,
   });
 
@@ -25,45 +30,48 @@ class CardInputOrSpeetch extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextFormField(
-              maxLines: 9,
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                labelText: 'Resposta',
-                labelStyle: ThemeModeApp.of(context).headlineSmall.copyWith(
-                      color: ThemeModeApp.of(context).primary,
+          Observer(builder: (_) {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextFormField(
+                maxLines: 3,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  labelText: 'Resposta',
+                  labelStyle: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primary,
+                      ),
+                  hintText: 'Digite sua resposta',
+                  hintStyle: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                      ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ThemeModeApp.of(context).secondaryText,
+                      width: 2.0,
                     ),
-                hintText: 'Digite sua resposta',
-                hintStyle: ThemeModeApp.of(context).headlineSmall.copyWith(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ThemeModeApp.of(context).secondary,
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+                ),
+                style: ThemeModeApp.of(context).headlineSmall.copyWith(
                       color: ThemeModeApp.of(context).primaryText,
                     ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ThemeModeApp.of(context).secondaryText,
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ThemeModeApp.of(context).secondary,
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+                onChanged: (value) {
+                  log('Value changed: $value');
+                  questionarioStore.controllers[index].text = value;
+                },
               ),
-              style: ThemeModeApp.of(context).headlineSmall.copyWith(
-                    color: ThemeModeApp.of(context).primaryText,
-                  ),
-              onChanged: (value) {
-                print('Value changed: $value');
-              },
-            ),
-          ),
+            );
+          })
         ].divide(SizedBox(width: 10.0)),
       ),
     );
@@ -83,7 +91,7 @@ class cardTextTranslate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+      padding: EdgeInsetsDirectional.fromSTEB(18.0, 12.0, 18.0, 18.0),
       child: ListView(
         padding: EdgeInsets.zero,
         primary: false,
@@ -149,7 +157,10 @@ class cardTextTranslate extends StatelessWidget {
               ),
             ),
           ),
-          CardInputOrSpeetch(questionarioStore: questionarioStore)
+          CardInputOrSpeetch(
+            questionarioStore: questionarioStore,
+            index: index,
+          )
         ],
       ),
     );
@@ -182,7 +193,10 @@ class _questoesPageWidgetsState extends State<questoesPageWidgets> {
       height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
-          CardInputOrSpeetch(questionarioStore: widget.questionarioStore),
+          CardInputOrSpeetch(
+            questionarioStore: widget.questionarioStore,
+            index: widget.index,
+          ),
         ],
       ),
     );

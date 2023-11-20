@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
+import 'package:phrase_flow/app/home/store/home_store.dart';
+import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_choice_chips.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
+import 'package:phrase_flow/model/question.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../components/flutter_flow/flutter_flow_util.dart';
 import '../../components/flutter_flow/form_field_controller.dart';
@@ -178,11 +185,21 @@ class HomeWidgets {
   }
 
   Widget botaoAdicionarIdioma() {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
       child: FFButtonWidget(
-        onPressed: () {
+        onPressed: () async {
+          if (globalStore.user?.id == null) {
+            await alertErro("Complete seu perfil para começar sua trilha", () {
+              Navigator.of(context).pop();
+              context.pushNamed(updateAccount);
+            });
+
+            return;
+          }
           print('Button pressed ...');
+          context.pushNamed(addLessonPage);
         },
         text: "Adicionar",
         options: FFButtonOptions(
@@ -204,6 +221,47 @@ class HomeWidgets {
         ),
       ),
     );
+  }
+
+  alertErro(String texto, Function()? onPressed) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromLeft,
+      isOverlayTapDismiss: false,
+      isCloseButton: false,
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: ThemeModeApp.of(context).primaryBackground,
+        ),
+      ),
+      titleStyle: ThemeModeApp.of(context).headlineSmall,
+      descStyle: ThemeModeApp.of(context).bodyMedium,
+      descTextAlign: TextAlign.center,
+      isButtonVisible: true,
+      overlayColor: Color(0x55000000),
+    );
+
+    return Alert(
+      context: context,
+      style: alertStyle,
+      title: "Atenção!",
+      desc: texto,
+      image: Image.asset("assets/images/error_image.png"),
+      buttons: [
+        DialogButton(
+          color: ThemeModeApp.of(context).primary,
+          radius: BorderRadius.circular(15),
+          onPressed: onPressed,
+          child: Text(
+            "Completar cadastro",
+            style: ThemeModeApp.of(context)
+                .bodyMedium
+                .copyWith(color: ThemeModeApp.of(context).primaryBtnText),
+          ),
+        ),
+      ],
+    ).show();
   }
 
   Widget navebarSide() {
@@ -574,6 +632,786 @@ class ItemCardMenuSelect extends StatelessWidget {
                     style: ThemeModeApp.of(context).bodyMedium.copyWith(
                           color: Colors.white,
                         ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CorpoHomePage extends StatefulWidget {
+  const CorpoHomePage({super.key, required this.model});
+  final AcompanhamenttodasatividadesModel model;
+  @override
+  State<CorpoHomePage> createState() => _CorpoHomePageState();
+}
+
+class _CorpoHomePageState extends State<CorpoHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    final globalStore = Provider.of<GlobalStore>(context, listen: false);
+    return Align(
+      alignment: AlignmentDirectional(0.00, -1.00),
+      child: Container(
+        width: double.infinity,
+        constraints: BoxConstraints(
+          maxWidth: 1170.0,
+        ),
+        decoration: BoxDecoration(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 20.0, 0.0, 0.0),
+                            child: Text(
+                              "Olá, ${globalStore.user?.name! ?? "Nome"} ",
+                              style: ThemeModeApp.of(context)
+                                  .headlineMedium
+                                  .copyWith(
+                                    color: ThemeModeApp.of(context).primaryText,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 4.0, 0.0, 0.0),
+                            child: Text(
+                              "Seus idiomas",
+                              textAlign: TextAlign.start,
+                              style: ThemeModeApp.of(context)
+                                  .labelMedium
+                                  .copyWith(
+                                    color:
+                                        ThemeModeApp.of(context).secondaryText,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (responsiveVisibility(
+                      context: context,
+                      phone: false,
+                    ))
+                      HomeWidgets(context).atetresidiomas(),
+                    HomeWidgets(context).botaoAdicionarIdioma(),
+                  ],
+                ),
+              ),
+              HomeWidgets(context).filtroProgresso(widget.model),
+              if (responsiveVisibility(
+                  context: context, phone: false, tablet: false))
+                HomePageLandScapeDesktop(),
+              if (responsiveVisibility(
+                context: context,
+                phone: false,
+                desktop: false,
+                tabletLandscape: false,
+              ))
+                HomePageTablet(),
+              // // mobile
+              if (responsiveVisibility(
+                context: context,
+                tablet: false,
+                desktop: false,
+                tabletLandscape: false,
+              ))
+                HomePageMobile(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomePageLandScapeDesktop extends StatelessWidget {
+  const HomePageLandScapeDesktop({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStoreT = Provider.of<HomeStore>(context, listen: true);
+    return Observer(builder: (_) {
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStoreT.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: homeStoreT.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStoreT.listLessonUser[index].title,
+                        content: homeStoreT.listLessonUser[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStoreT.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Você não concluiu nenhuma lição ainda",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: homeStoreT.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStoreT.listLessonUserCompleted[index].title,
+                        content:
+                            homeStoreT.listLessonUserCompleted[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+class HomePageTablet extends StatelessWidget {
+  const HomePageTablet({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+
+    return Observer(builder: (_) {
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStore.listLessonUser[index].title,
+                        content: homeStore.listLessonUser[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Você não concluiu nenhuma lição ainda",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWeb(
+                        title: homeStore.listLessonUserCompleted[index].title,
+                        content:
+                            homeStore.listLessonUserCompleted[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+class HomePageMobile extends StatelessWidget {
+  const HomePageMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: true);
+
+    return Observer(builder: (_) {
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUser.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUser.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardMobile(
+                        titulo: homeStore.listLessonUser[index].title,
+                        conteudo: homeStore.listLessonUser[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 20.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.checklist,
+                  color: ThemeModeApp.of(context).primary,
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  "Lições concluidas",
+                  style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                        color: ThemeModeApp.of(context).primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+            child: homeStore.listLessonUserCompleted.isEmpty
+                ? Center(
+                    child: Text(
+                    "Nenhuma lição encontrada",
+                    style: ThemeModeApp.of(context).bodyMedium.copyWith(
+                          color: ThemeModeApp.of(context).primaryText,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ))
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: homeStore.listLessonUserCompleted.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardMobile(
+                        titulo: homeStore.listLessonUserCompleted[index].title,
+                        conteudo:
+                            homeStore.listLessonUserCompleted[index].content,
+                        index: index,
+                      );
+                    },
+                  ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+class CardWeb extends StatelessWidget {
+  CardWeb(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.index});
+
+  var title;
+  var content;
+  int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
+    return Container(
+      decoration: BoxDecoration(
+          color: ThemeModeApp.of(context).secondaryBackground,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color.fromARGB(57, 105, 102, 102),
+            width: 1.0,
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 4.0,
+              color: Color(0x3A000000),
+              offset: Offset(0.0, 2.0),
+            )
+          ]),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 10.0, 0.0),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            questionarioStore.clearQuestion();
+            for (var element
+                in homeStore.listLessonUser[index].lessonQuestions!) {
+              questionarioStore.addQuestionByModel(ModelQuestion(
+                answer: element.question?.answer,
+                question: element.question?.question,
+                type: element.question?.type,
+                createdAt: element.createdAt,
+                updatedAt: element.updatedAt,
+              ));
+            }
+            questionarioStore.setIndexLesson(index);
+            log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
+            context.pushNamed('$questionaryTypeWriteWidget');
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 0.0),
+                child: RichText(
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Idioma:",
+                        style: ThemeModeApp.of(context).bodyLarge,
+                      ),
+                      TextSpan(
+                        text: "$title",
+                        style: TextStyle(
+                          color: Color(0xFF6F61EF),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, .0, 10.0),
+                child: Text(
+                  "$content",
+                  textAlign: TextAlign.start,
+                  style: ThemeModeApp.of(context).headlineSmall,
+                ),
+              ),
+              Divider(
+                height: 2.0,
+                thickness: 1.0,
+                color: Color(0xFFE5E7EB),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.asset(
+                                'assets/images/app_launcher_icon.png',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(40.0),
+                                child: Icon(
+                                  Icons.g_translate_rounded,
+                                  color: ThemeModeApp.of(context).primary,
+                                )),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 4.0)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DividerMobile extends StatelessWidget {
+  const DividerMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: Container(
+        width: 500.0,
+        constraints: BoxConstraints(
+          maxWidth: 570.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFE5E7EB),
+            width: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardMobile extends StatelessWidget {
+  CardMobile({
+    super.key,
+    required this.titulo,
+    required this.conteudo,
+    required this.index,
+  });
+
+  var titulo;
+  var conteudo;
+  int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
+    final homeStore = Provider.of<HomeStore>(context, listen: false);
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      child: Container(
+        width: 300.0,
+        constraints: BoxConstraints(
+          maxWidth: 570.0,
+        ),
+        decoration: BoxDecoration(
+          color: ThemeModeApp.of(context).primaryBackground,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFE5E7EB),
+            width: 1.0,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+          child: InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              questionarioStore.clearQuestion();
+              for (var element
+                  in homeStore.listLessonUser[index].lessonQuestions!) {
+                questionarioStore.addQuestionByModel(ModelQuestion(
+                  answer: element.question?.answer,
+                  question: element.question?.question,
+                  type: element.question?.type,
+                  createdAt: element.createdAt,
+                  updatedAt: element.updatedAt,
+                ));
+              }
+              questionarioStore.setIndexLesson(index);
+              log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
+              context.pushNamed('$questionaryTypeWriteWidget');
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 8.0),
+                  child: RichText(
+                    textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Idioma:",
+                          style: ThemeModeApp.of(context).bodyLarge,
+                        ),
+                        TextSpan(
+                            text: "${titulo ?? "Nome do Idioma"}",
+                            style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                                color: ThemeModeApp.of(context).primary))
+                      ],
+                      style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                            color: Color(0xFF15161E),
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                  child: Text(
+                    "$conteudo 1",
+                    textAlign: TextAlign.end,
+                    style: ThemeModeApp.of(context).headlineSmall.copyWith(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                Divider(
+                  height: 2.0,
+                  thickness: 1.0,
+                  color: Color(0xFFE5E7EB),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: Color(0x4D9489F5),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Color(0xFF6F61EF),
+                                width: 2.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  2.0, 2.0, 2.0, 2.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(40.0),
+                                child: Image.network(
+                                  'https://cdn-icons-png.flaticon.com/512/197/197560.png',
+                                  width: 60.0,
+                                  height: 60.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ].divide(SizedBox(width: 4.0)),
+                      ),
+                      Container(
+                        height: 32.0,
+                        decoration: BoxDecoration(
+                          color: Color(0x4D9489F5),
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: Color(0xFF6F61EF),
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0.00, 0.00),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 0.0, 8.0, 0.0),
+                            child: Text(
+                              "Acessar",
+                              style:
+                                  ThemeModeApp.of(context).bodyMedium.copyWith(
+                                        color: Color(0xFF6F61EF),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

@@ -1,12 +1,19 @@
+import 'dart:developer' as loggerger;
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/routes.dart';
+import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/login_page/login_functions.dart';
+import 'package:phrase_flow/backend/users.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
+import 'package:phrase_flow/model/user.dart';
+import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -22,6 +29,21 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  inituser() async {
+    final local = await LocalPath().users;
+    // await local.delete();
+    if (!await local.exists()) await local.writeAsString(jsonEncode(usersBD));
+
+    var localStore;
+    if (await local.exists()) {
+      localStore = jsonDecode(await local.readAsString());
+      localStore.add(usersBD);
+      await local.writeAsString(jsonEncode(localStore));
+    }
+
+    loggerger.log("yuser local path: ${await local.readAsString()}");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +53,8 @@ class _LoginWidgetState extends State<LoginWidget> {
     _model.emailAddressFocusNode ??= FocusNode();
     _model.passwordController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
+
+    inituser();
   }
 
   @override
@@ -50,6 +74,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         ),
       );
     }
+    final globalInfo = Provider.of<GlobalStore>(context, listen: false);
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -57,7 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: ThemeModeApp.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Row(
@@ -69,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   width: 100.0,
                   height: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ThemeModeApp.of(context).primaryBackground,
                   ),
                   alignment: AlignmentDirectional(0.00, -1.00),
                   child: SingleChildScrollView(
@@ -81,7 +106,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           width: double.infinity,
                           height: 140.0,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ThemeModeApp.of(context).primaryBackground,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(16.0),
                               bottomRight: Radius.circular(16.0),
@@ -98,7 +123,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                               style: ThemeModeApp.of(context)
                                   .displaySmall
                                   .copyWith(
-                                    color: Color(0xFF101213),
                                     fontSize: 36.0,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -111,7 +135,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             maxWidth: 430.0,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: ThemeModeApp.of(context).secondaryBackground,
                           ),
                           child: Align(
                             alignment: AlignmentDirectional(0.00, 0.00),
@@ -131,7 +155,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             .headlineLarge
                                             .copyWith(
                                               fontFamily: 'Urbanist',
-                                              color: Color(0xFF101213),
                                               fontSize: 32.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -155,7 +178,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           .labelMedium
                                           .copyWith(
                                             fontFamily: 'Plus Jakarta Sans',
-                                            color: Color(0xFF57636C),
+                                            color: ThemeModeApp.of(context)
+                                                .secondaryText,
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -179,13 +203,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               .labelLarge
                                               .copyWith(
                                                 fontFamily: 'Plus Jakarta Sans',
-                                                color: Color(0xFF57636C),
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color(0xFFF1F4F8),
+                                              color: ThemeModeApp.of(context)
+                                                  .lineColor,
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -217,13 +241,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           filled: true,
-                                          fillColor: Color(0xFFF1F4F8),
+                                          fillColor: ThemeModeApp.of(context)
+                                              .primaryBackground,
                                         ),
                                         style: ThemeModeApp.of(context)
                                             .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -258,7 +282,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color(0xFFF1F4F8),
+                                              color: ThemeModeApp.of(context)
+                                                  .lineColor,
                                               width: 2.0,
                                             ),
                                             borderRadius:
@@ -290,7 +315,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           filled: true,
-                                          fillColor: Color(0xFFF1F4F8),
+                                          fillColor: ThemeModeApp.of(context)
+                                              .secondaryBackground,
                                           suffixIcon: InkWell(
                                             onTap: () => setState(
                                               () => _model.passwordVisibility =
@@ -312,7 +338,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -327,8 +352,129 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         0.0, 0.0, 0.0, 16.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        context.pushNamed(
-                                            '$acompanhamenttodasatividades');
+                                        final local = await LocalPath().users;
+
+                                        if (await local.exists()) {
+                                          var response = jsonDecode(
+                                              await local.readAsString());
+                                          loggerger.log(
+                                              "runtype ${response.runtimeType}");
+
+                                          // verificar se o email existe e se a senha é igual
+                                          var result = response.where(
+                                              (element) =>
+                                                  element["email"] ==
+                                                      _model
+                                                          .emailAddressController
+                                                          .text &&
+                                                  element["password"] ==
+                                                      _model.passwordController
+                                                          .text);
+
+                                          if (result.isNotEmpty) {
+                                            // set globaluser
+                                            var user = result.first;
+                                            globalInfo.setUser(ModelUser(
+                                                id: user["id"],
+                                                name: user["name"],
+                                                email: user["email"],
+                                                password: user["password"],
+                                                birthDate: user["birthDate"],
+                                                country: user["country"],
+                                                sex: user["sex"]));
+
+                                            return context.pushNamed(
+                                                '$acompanhamenttodasatividades');
+                                          } else {
+                                            return ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor:
+                                                    ThemeModeApp.of(context)
+                                                        .primaryBackground,
+                                                content: Text(
+                                                    "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                                    style:
+                                                        ThemeModeApp.of(context)
+                                                            .bodyLarge
+                                                            .copyWith()),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                        return ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor:
+                                                ThemeModeApp.of(context)
+                                                    .primaryBackground,
+                                            content: Text(
+                                                "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                                style: ThemeModeApp.of(context)
+                                                    .bodyLarge
+                                                    .copyWith()),
+                                          ),
+                                        );
+
+                                        // final httprequest =
+                                        //     PostHttpRequestApp(context);
+
+                                        // final result = await httprequest
+                                        //     .makeJsonRequestDynamc(
+                                        //         url: "users/login",
+                                        //         params: {
+                                        //       "email": _model
+                                        //           .emailAddressController.text,
+                                        //       "password": _model
+                                        //           .passwordController.text,
+                                        //     });
+
+                                        // Result res =
+                                        //     await result.fold((l) async {
+                                        //   return Result(false,
+                                        //       message: l.descricao);
+                                        // }, (r) async {
+                                        //   if (r['error'] != null) {
+                                        //     return Result(false,
+                                        //         message: r['error']);
+                                        //   }
+                                        //   log("result: $r");
+
+                                        //   globalInfo.setUser(ModelUser(
+                                        //       id: r["id"],
+                                        //       name: nameController.text,
+                                        //       email:
+                                        //           emailAddressController.text,
+                                        //       password: passwordController.text,
+                                        //       birthDate:
+                                        //           controllerDataNasc.text,
+                                        //       country:
+                                        //           controllerNacionalidade.text,
+                                        //       sex: r["sex"]));
+
+                                        //   return Result(true,
+                                        //       message: 'Sucesso');
+                                        // });
+
+                                        // if (res.isValid) {
+                                        //   context.pushNamed(
+                                        //       '$acompanhamenttodasatividades');
+                                        // } else {
+                                        //   ScaffoldMessenger.of(context)
+                                        //       .showSnackBar(
+                                        //     SnackBar(
+                                        //       backgroundColor:
+                                        //           ThemeModeApp.of(context)
+                                        //               .primaryBackground,
+                                        //       content: Text(
+                                        //           "Não foi possivel entrar com esses dados. Por favor, verifique os dados e tente novamente",
+                                        //           style:
+                                        //               ThemeModeApp.of(context)
+                                        //                   .bodyLarge
+                                        //                   .copyWith()),
+                                        //     ),
+                                        //   );
+                                        // }
                                       },
                                       text: 'Entrar',
                                       options: FFButtonOptions(
@@ -406,7 +552,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .copyWith(
                                                       fontFamily:
                                                           'Plus Jakarta Sans',
-                                                      color: Color(0xFF101213),
                                                       fontSize: 14.0,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -489,12 +634,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         iconPadding:
                                             EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
-                                        color: Colors.white,
+                                        color: ThemeModeApp.of(context)
+                                            .secondaryBackground,
                                         textStyle: ThemeModeApp.of(context)
-                                            .titleSmall
+                                            .bodyLarge
                                             .copyWith(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF101213),
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -551,7 +696,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 .copyWith(
                                                   fontFamily:
                                                       'Plus Jakarta Sans',
-                                                  color: Color(0xFF101213),
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -607,7 +751,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 maxWidth: 400.0,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color:
+                                    ThemeModeApp.of(context).primaryBackground,
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 3.0,
@@ -697,7 +842,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .copyWith(
                                                       fontFamily:
                                                           'Plus Jakarta Sans',
-                                                      color: Color(0xFF101213),
                                                       fontSize: 12.0,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -719,8 +863,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           .copyWith(
                                                             fontFamily:
                                                                 'Plus Jakarta Sans',
-                                                            color: Color(
-                                                                0xFF101213),
                                                             fontSize: 24.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -753,7 +895,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .copyWith(
                                                     fontFamily:
                                                         'Plus Jakarta Sans',
-                                                    color: Color(0xFF101213),
                                                     fontSize: 14.0,
                                                     fontWeight: FontWeight.w500,
                                                   ),

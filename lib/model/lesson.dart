@@ -1,12 +1,12 @@
-class ModelAllLessons {
-  int? id;
+class ModelLesson {
+  var id;
   String? title;
   String? content;
   String? createdAt;
   String? updatedAt;
   List<LessonQuestions>? lessonQuestions;
 
-  ModelAllLessons(
+  ModelLesson(
       {this.id,
       this.title,
       this.content,
@@ -14,7 +14,7 @@ class ModelAllLessons {
       this.updatedAt,
       this.lessonQuestions});
 
-  ModelAllLessons.fromJson(Map<String, dynamic> json) {
+  ModelLesson.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     content = json['content'];

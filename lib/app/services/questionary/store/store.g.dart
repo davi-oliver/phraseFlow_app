@@ -9,6 +9,22 @@ part of 'store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
+  late final _$listAllLessonsAtom =
+      Atom(name: '_QuestionarioStoreBase.listAllLessons', context: context);
+
+  @override
+  ObservableList<ModelLesson> get listAllLessons {
+    _$listAllLessonsAtom.reportRead();
+    return super.listAllLessons;
+  }
+
+  @override
+  set listAllLessons(ObservableList<ModelLesson> value) {
+    _$listAllLessonsAtom.reportWrite(value, super.listAllLessons, () {
+      super.listAllLessons = value;
+    });
+  }
+
   late final _$questionsAtom =
       Atom(name: '_QuestionarioStoreBase.questions', context: context);
 
@@ -57,6 +73,22 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
     });
   }
 
+  late final _$indexLessonAtom =
+      Atom(name: '_QuestionarioStoreBase.indexLesson', context: context);
+
+  @override
+  int get indexLesson {
+    _$indexLessonAtom.reportRead();
+    return super.indexLesson;
+  }
+
+  @override
+  set indexLesson(int value) {
+    _$indexLessonAtom.reportWrite(value, super.indexLesson, () {
+      super.indexLesson = value;
+    });
+  }
+
   late final _$loadingAtom =
       Atom(name: '_QuestionarioStoreBase.loading', context: context);
 
@@ -75,6 +107,28 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
 
   late final _$_QuestionarioStoreBaseActionController =
       ActionController(name: '_QuestionarioStoreBase', context: context);
+
+  @override
+  void setIndexLesson(int value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setIndexLesson');
+    try {
+      return super.setIndexLesson(value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListAllLessons(dynamic value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setListAllLessons');
+    try {
+      return super.setListAllLessons(value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setSelectedIndex(int value) {
@@ -121,6 +175,39 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
   }
 
   @override
+  void clearQuestion() {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.clearQuestion');
+    try {
+      return super.clearQuestion();
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setVisibilidade(int index, dynamic value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setVisibilidade');
+    try {
+      return super.setVisibilidade(index, value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addQuestionByModel(ModelQuestion question) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.addQuestionByModel');
+    try {
+      return super.addQuestionByModel(question);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void removeQuestion(ModelQuestion question) {
     final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
         name: '_QuestionarioStoreBase.removeQuestion');
@@ -156,9 +243,11 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
   @override
   String toString() {
     return '''
+listAllLessons: ${listAllLessons},
 questions: ${questions},
 controllerPageView: ${controllerPageView},
 selectedIndex: ${selectedIndex},
+indexLesson: ${indexLesson},
 loading: ${loading}
     ''';
   }

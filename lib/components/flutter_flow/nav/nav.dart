@@ -5,6 +5,7 @@ import 'package:phrase_flow/app/chats/chats.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/plano/planos.dart';
 import 'package:phrase_flow/app/profile04/update_profile/update_profile_page.dart';
+import 'package:phrase_flow/app/services/add_lesson/add_lesson_page.dart';
 import 'package:provider/provider.dart';
 
 import '/index.dart';
@@ -130,6 +131,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: '$planoPage',
               path: '$planoPage',
               builder: (context, params) => PlanosPage(),
+            ),
+            FFRoute(
+              name: '$addLessonPage',
+              path: '$addLessonPage',
+              builder: (context, params) => AddLesson(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

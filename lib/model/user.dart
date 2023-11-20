@@ -1,4 +1,5 @@
 class ModelUser {
+  int? id;
   String? email;
   String? name;
   String? password;
@@ -11,6 +12,7 @@ class ModelUser {
   ModelUser(
       {this.email,
       this.name,
+      this.id,
       this.password,
       this.country,
       this.sex,
@@ -19,6 +21,7 @@ class ModelUser {
       this.updatedAt});
 
   ModelUser.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     email = json['email'];
     name = json['name'];
     password = json['password'];

@@ -15,3 +15,4 @@ const String splashPage = "splashPage";
 const String questionaryTypeWriteWidget = "questionaryTypeWriteWidget";
 const String chatPage = "chatPage";
 const String planoPage = "planoPage";
+const String addLessonPage = "addLessonPage";
