@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/routes.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/home/home_widgets.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
+import 'package:phrase_flow/app/login_page/createaccount/createaccount_model.dart';
 import 'package:phrase_flow/app/services/add_lesson/add_lesson_model.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
+import 'package:phrase_flow/backend/datasource/post.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_widgets.dart';
 import 'package:provider/provider.dart';
@@ -152,25 +153,7 @@ class CorpoAdicionarLesson extends StatelessWidget {
                   ],
                 ),
               ),
-
-              if (responsiveVisibility(
-                  context: context, phone: false, tablet: false))
-                CardAdicionarLicao(),
-              if (responsiveVisibility(
-                context: context,
-                phone: false,
-                desktop: false,
-                tabletLandscape: false,
-              ))
-                CardAdicionarLicao(),
-              // // mobile
-              if (responsiveVisibility(
-                context: context,
-                tablet: false,
-                desktop: false,
-                tabletLandscape: false,
-              ))
-                CardAdicionarLicao(),
+              CardAdicionarLicao(),
             ],
           ),
         ),
@@ -246,39 +229,40 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
           onPressed: () async {
             print('Button pressed ...');
 
-            final local = await LocalPath().lessonsByUser;
-            homeStore.clearListLessonUserCompleted();
+            final iPost = PostHttpRequestApp(context);
+            final globalStore =
+                Provider.of<GlobalStore>(context, listen: false);
+            final homeStore = Provider.of<HomeStore>(context, listen: false);
+            final jsonP = {
+              "userId": globalStore.user?.id,
+              "lessonId": homeStore.selectNivel,
+              "progress": 0
+            };
 
-            if (await local.exists()) {
-              log("EXISTE LOCAL");
-              var result = await jsonDecode(await local.readAsString());
-              List listaAux = [];
-              listaAux.addAll(result);
+            final result = await iPost.makeJsonRequest(
+                url: 'users/subscribe', params: jsonEncode(jsonP));
 
-              for (var element in store.listAllLessons) {
-                if (element.id.toString() == homeStore.selectNivel) {
-                  listaAux.add(element.toJson());
-                }
-              }
+            Result resultPost = await result.fold((l) async {
+              log("error: ${l.descricao}");
+              return Result(false, message: l.descricao);
+            }, (r) async {
+              log("result: $r");
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Lição adicionada com sucesso!"),
+                ),
+              );
+              return Result(true, message: 'Sucesso');
+            });
 
-              await local.writeAsString(jsonEncode(listaAux));
-              log("listaAux aq $listaAux");
-              await alertSucesso("Nova lição adicionada com sucesso!", () {
-                Navigator.pop(context);
-                context.pushNamed(acompanhamenttodasatividades);
-              });
+            if (resultPost.isValid == true) {
+              context.pushReplacementNamed(acompanhamenttodasatividades);
             } else {
-              log("NAO EXISTE LOCAL");
-              List listaAux = [];
-
-              for (var element in store.listAllLessons) {
-                if (element.id == homeStore.selectNivel) {
-                  listaAux.add(element.toJson());
-                }
-              }
-
-              await local.writeAsString(jsonEncode(listaAux));
-              log("listaAux aaa $listaAux");
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Erro ao adicionar lição!"),
+                ),
+              );
             }
           },
           text: 'Adicionar',

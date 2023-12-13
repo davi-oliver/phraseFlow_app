@@ -1,7 +1,5 @@
 import 'dart:developer' as loggerger;
-import 'dart:math';
 
-import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/backend/datasource/post.dart';
 import 'package:phrase_flow/components/flutter_flow/form_field_controller.dart';
@@ -122,89 +120,89 @@ Future createUser(context) async {
 
   loggerger.log("dataFormatada: $dataFormatada");
 
-  final local = await LocalPath().users;
-  final id = Random().nextInt(1000);
-  if (await local.exists()) {
-    var response = jsonDecode(await local.readAsString());
+  // final local = await LocalPath().users;
+  // final id = Random().nextInt(1000);
+  // if (await local.exists()) {
+  //   var response = jsonDecode(await local.readAsString());
 
-    loggerger.log("response: $response");
+  //   loggerger.log("response: $response");
 
-    var result = response.where((element) =>
-        element["email"] == emailAddressController.text ||
-        element["name"] == nameController.text);
+  //   var result = response.where((element) =>
+  //       element["email"] == emailAddressController.text ||
+  //       element["name"] == nameController.text);
 
-    if (result.isNotEmpty) {
-      return Result(false, message: 'Usuário já cadastrado');
-    }
-    final json = {
-      "id": id,
-      "email": emailAddressController.text,
-      "name": nameController.text,
-      "password": passwordController.text,
-      "birthDate": dataFormatada,
-      "country": controllerNacionalidade.text,
-      "sex": sexo
-    };
-    await local.writeAsString(jsonEncode(json));
-
-    loggerger.log("salvou local ${await local.readAsString()}");
-    return Result(true, message: 'Sucesso');
-  } else {
-    final json = {
-      "id": id,
-      "email": emailAddressController.text,
-      "name": nameController.text,
-      "password": passwordController.text,
-      "birthDate": dataFormatada,
-      "country": controllerNacionalidade.text,
-      "sex": sexo
-    };
-    await local.writeAsString(jsonEncode(json));
-
-    loggerger.log("salvou local ${await local.readAsString()}");
-
-    // set globaluser
-
-    globalInfo.setUser(ModelUser(
-        id: id,
-        name: nameController.text,
-        email: emailAddressController.text,
-        password: passwordController.text,
-        birthDate: controllerDataNasc.text,
-        country: controllerNacionalidade.text,
-        sex: sexo));
-    return Result(true, message: 'Sucesso');
-  }
-
-  // final result =
-  //     await httprequest.makeJsonRequestDynamc(url: "users/create", params: {
-  //   "email": emailAddressController.text,
-  //   "name": nameController.text,
-  //   "password": passwordController.text,
-  //   "birthDate": dataFormatada,
-  //   "country": controllerNacionalidade.text,
-  //   "sex": sexo
-  // });
-
-  // Result res = await result.fold((l) async {
-  //   return Result(false, message: l.descricao);
-  // }, (r) async {
-  //   if (r['error'] != null) {
-  //     return Result(false, message: r['error']);
+  //   if (result.isNotEmpty) {
+  //     return Result(false, message: 'Usuário já cadastrado');
   //   }
-  //    loggerger.log("result: $r");
+  //   final json = {
+  //     "id": id,
+  //     "email": emailAddressController.text,
+  //     "name": nameController.text,
+  //     "password": passwordController.text,
+  //     "birthDate": dataFormatada,
+  //     "country": controllerNacionalidade.text,
+  //     "sex": sexo
+  //   };
+  //   await local.writeAsString(jsonEncode(json));
+
+  //   loggerger.log("salvou local ${await local.readAsString()}");
+  //   return Result(true, message: 'Sucesso');
+  // } else {
+  //   final json = {
+  //     "id": id,
+  //     "email": emailAddressController.text,
+  //     "name": nameController.text,
+  //     "password": passwordController.text,
+  //     "birthDate": dataFormatada,
+  //     "country": controllerNacionalidade.text,
+  //     "sex": sexo
+  //   };
+  //   await local.writeAsString(jsonEncode(json));
+
+  //   loggerger.log("salvou local ${await local.readAsString()}");
+
+  //   // set globaluser
 
   //   globalInfo.setUser(ModelUser(
-  //       id: r["id"],
+  //       id: id,
   //       name: nameController.text,
   //       email: emailAddressController.text,
   //       password: passwordController.text,
   //       birthDate: controllerDataNasc.text,
   //       country: controllerNacionalidade.text,
-  //       sex: r["sex"]));
-
+  //       sex: sexo));
   //   return Result(true, message: 'Sucesso');
-  // });
+  // }
 
-  // return res;
+  final result =
+      await httprequest.makeJsonRequestDynamc(url: "users/create", params: {
+    "email": emailAddressController.text,
+    "name": nameController.text,
+    "password": passwordController.text,
+    "birthDate": dataFormatada,
+    "country": controllerNacionalidade.text,
+    "sex": sexo
+  });
+
+  Result res = await result.fold((l) async {
+    return Result(false, message: l.descricao);
+  }, (r) async {
+    if (r['error'] != null) {
+      return Result(false, message: r['error']);
+    }
+    loggerger.log("result: $r");
+
+    globalInfo.setUser(ModelUser(
+        id: r["id"],
+        name: nameController.text,
+        email: emailAddressController.text,
+        password: passwordController.text,
+        birthDate: controllerDataNasc.text,
+        country: controllerNacionalidade.text,
+        sex: r["sex"]));
+
+    return Result(true, message: 'Sucesso');
+  });
+
+  return res;
 }

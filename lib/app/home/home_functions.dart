@@ -1,14 +1,11 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:phrase_flow/app/global/global_functions.dart';
 import 'package:phrase_flow/app/global/store/global_store.dart';
 import 'package:phrase_flow/app/home/store/home_store.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 import 'package:phrase_flow/backend/datasource/get.dart';
 import 'package:phrase_flow/backend/datasource/results.dart';
-import 'package:phrase_flow/backend/lessons.dart';
 import 'package:provider/provider.dart';
 
 class HomeFunctions {
@@ -177,137 +174,63 @@ class HomeFunctions {
     store.clearListLessonUser();
 
     try {
-      final local = await LocalPath().lessonsByUser;
-      final localCompleted = await LocalPath().lessonsCompleted;
-      // await local.delete();
-      // await localCompleted.delete();
+      // final local = await LocalPath().lessonsByUser;
+      // final localCompleted = await LocalPath().lessonsCompleted;
+      // // await local.delete();
+      // // await localCompleted.delete();
 
-      if (await local.exists()) {
-        final response = await local.readAsString();
-        final map = json.decode(response);
-        log("map local lessonByUser: $map is list ? ${map is List}");
-        for (var i = 0; i < map.length; i++) {
-          store.setListLessonUser(map[i]);
-        }
-        log("homestore ${store.listLessonUser.length} ");
-      } else {
-        log("não existe local de lições por usuario");
-        store.clearListLessonUser();
-      }
+      // if (await local.exists()) {
+      //   final response = await local.readAsString();
+      //   final map = json.decode(response);
+      //   log("map local lessonByUser: $map is list ? ${map is List}");
+      //   for (var i = 0; i < map.length; i++) {
+      //     store.setListLessonUser(map[i]);
+      //   }
+      //   log("homestore ${store.listLessonUser.length} ");
+      // } else {
+      //   log("não existe local de lições por usuario");
+      //   store.clearListLessonUser();
+      // }
 
-      if (await localCompleted.exists()) {
-        final response = await localCompleted.readAsString();
-        final map = json.decode(response);
-        log("response localCompleted: $map is list ? ${map is List}");
-        if (map is List) {
-          for (var i = 0; i < map.length; i++) {
-            store.setListLessonUserCompleted(map[i]);
-          }
-        } else {
-          store.setListLessonUserCompleted(map);
-        }
-      } else {
-        store.clearListLessonUserCompleted();
-      }
-
-      // final response = await GetHttpRequestApp(context).makeGetJsonRequest(
-      //   url: "lessons/user",
-      //   params: "${gstore.user!.id ?? "1"}",
-      // );
-      // Results res = await response.fold((l) async {
-      //   log("l descaaaaarição ${l.descricao} ");
-      //   if (l.code == 0) {
-      //     final map = [
-      //       {
-      //         "id": "cln9ejjtg0000yc5zjcn9x5n5",
-      //         "question": "I love to travel and explore new places.",
-      //         "answer": "Eu amo viajar e explorar novos lugares.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-02T21:27:40.881Z",
-      //         "updatedAt": "2023-10-02T21:27:40.881Z"
-      //       },
-      //       {
-      //         "id": "cln9ejjth0001yc5zuypsw1k5",
-      //         "question": "The sunsets in this city are breathtaking.",
-      //         "answer": "Os pores do sol nesta cidade são deslumbrantes.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-02T21:27:40.881Z",
-      //         "updatedAt": "2023-10-02T21:27:40.881Z"
-      //       },
-      //       {
-      //         "id": "cln9ejjth0002yc5zse5phjen",
-      //         "question": "Learning new languages is a rewarding experience.",
-      //         "answer":
-      //             "Aprender novos idiomas é uma experiência gratificante.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-02T21:27:40.881Z",
-      //         "updatedAt": "2023-10-02T21:27:40.881Z"
-      //       },
-      //       {
-      //         "id": "clo7fsnsp00001k9rucxqkabq",
-      //         "question": "The weather today is beautiful and sunny.",
-      //         "answer": "O tempo hoje está lindo e ensolarado.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-26T17:06:56.108Z",
-      //         "updatedAt": "2023-10-26T17:06:56.108Z"
-      //       },
-      //       {
-      //         "id": "clo7fsnwu00011k9r7ofmdg1z",
-      //         "question": "I enjoy reading books in my free time.",
-      //         "answer": "Eu gosto de ler livros no meu tempo livre.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-26T17:06:56.910Z",
-      //         "updatedAt": "2023-10-26T17:06:56.910Z"
-      //       },
-      //       {
-      //         "id": "clo7fsnyx00021k9rb554gcl5",
-      //         "question": "Can you please pass me the salt and pepper?",
-      //         "answer": "Você pode por favor me passar o sal e a pimenta?",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-26T17:06:56.985Z",
-      //         "updatedAt": "2023-10-26T17:06:56.985Z"
-      //       },
-      //       {
-      //         "id": "clo7fso1000031k9raa6u1wcx",
-      //         "question": "Learning a new language is a rewarding challenge.",
-      //         "answer": "Aprender um novo idioma é um desafio gratificante.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-26T17:06:57.060Z",
-      //         "updatedAt": "2023-10-26T17:06:57.060Z"
-      //       },
-      //       {
-      //         "id": "clo7fso3300041k9rhtxvw3e7",
-      //         "question": "I need directions to the nearest train station.",
-      //         "answer":
-      //             "Preciso de direções para a estação de trem mais próxima.",
-      //         "type": "translation",
-      //         "createdAt": "2023-10-26T17:06:57.135Z",
-      //         "updatedAt": "2023-10-26T17:06:57.135Z"
-      //       }
-      //     ];
+      // if (await localCompleted.exists()) {
+      //   final response = await localCompleted.readAsString();
+      //   final map = json.decode(response);
+      //   log("response localCompleted: $map is list ? ${map is List}");
+      //   if (map is List) {
       //     for (var i = 0; i < map.length; i++) {
-      //       store.setListLessonUser(map[i]);
+      //       store.setListLessonUserCompleted(map[i]);
       //     }
+      //   } else {
+      //     store.setListLessonUserCompleted(map);
       //   }
-      //   return Results(sucess: false, message: "Erro ao buscar Lições");
-      // }, (r) async {
-      //   log("r runtype ${r.runtimeType}");
+      // } else {
+      //   store.clearListLessonUserCompleted();
+      // }
 
-      //   for (var i = 0; i < r.length; i++) {
-      //     log("item>> ${r[i]}");
-      //     store.setListLessonUser(r[i]);
-      //   }
-      //   return Results(sucess: true, message: "Lições carregadas com sucesso");
-      // });
-      // // log(
-      // //     name: "HomeStoresetListAllLessons ",
-      // //     "store: ${store.listLessonUser.length}");
-      // // log("response>> $response");
+      final response = await GetHttpRequestApp(context).makeGetJsonRequest(
+        url: "lessons/user",
+        params: "${gstore.user!.id ?? "1"}",
+      );
+      Results res = await response.fold((l) async {
+        log("l descaaaaarição ${l.descricao} ");
+
+        return Results(sucess: false, message: "Erro ao buscar Lições");
+      }, (r) async {
+        log("r runtype ${r.runtimeType}");
+
+        for (var i = 0; i < r.length; i++) {
+          log("item>> ${r[i]}");
+          store.setListLessonUser(r[i]);
+        }
+        return Results(sucess: true, message: "Lições carregadas com sucesso");
+      });
       // log(
       //     name: "HomeStoresetListAllLessons ",
-      //     "store: ${store.listLessonUser.first.title} ${store.listLessonUser.first.content}");
-      // if (res.sucess) return true;
-      // return false;
+      //     "store: ${store.listLessonUser.length}");
+      // log("response>> $response");
+
+      if (res.sucess) return true;
+      return false;
     } on Exception catch (e) {
       log(name: "HomeStoresetListAllLessons ", "ERRO: ${e.toString()} ");
       return false;
@@ -318,48 +241,48 @@ class HomeFunctions {
     final store = Provider.of<QuestionarioStore>(context, listen: false);
     store.listAllLessons.clear();
 
-    final local = await LocalPath().lessons;
+    // final local = await LocalPath().lessons;
 
-    if (await local.exists()) {
-      final response = await local.readAsString();
-      // log("response: $response");
-      final map = json.decode(response);
-      for (var i = 0; i < map.length; i++) {
-        store.setListAllLessons(map[i]);
-      }
-      // log("pegou do local lessons ${await local.readAsString()}");
-    } else {
-      store.listAllLessons.clear();
-      for (var i = 0; i < lessonsBD.length; i++) {
-        store.setListAllLessons(lessonsBD[i]);
-      }
-      await local.writeAsString(jsonEncode(lessonsBD));
-      // log("adicionou local lessons ${await local.readAsString()}");
-    }
-    // final response = await GetHttpRequestApp(context).makeGetJsonRequest(
-    //   url: "lessons",
-    // );
-    // Results res = await response.fold((l) async {
-    //   log("l descrição ${l.descricao} ");
-    //   if (l.code == 0) {
-    //     for (var i = 0; i < mapAllLesson.length; i++) {
-    //       store.setListAllLessons(mapAllLesson[i]);
-    //     }
+    // if (await local.exists()) {
+    //   final response = await local.readAsString();
+    //   // log("response: $response");
+    //   final map = json.decode(response);
+    //   for (var i = 0; i < map.length; i++) {
+    //     store.setListAllLessons(map[i]);
     //   }
-    //   return Results(sucess: false, message: "Erro ao buscar Lições");
-    // }, (r) async {
-    //   // log("r runtype ${r.runtimeType}");
+    //   // log("pegou do local lessons ${await local.readAsString()}");
+    // } else {
+    //   store.listAllLessons.clear();
+    //   for (var i = 0; i < lessonsBD.length; i++) {
+    //     store.setListAllLessons(lessonsBD[i]);
+    //   }
+    //   await local.writeAsString(jsonEncode(lessonsBD));
+    //   // log("adicionou local lessons ${await local.readAsString()}");
+    // }
+    final response = await GetHttpRequestApp(context).makeGetJsonRequest(
+      url: "lessons",
+    );
+    Results res = await response.fold((l) async {
+      log("l descrição ${l.descricao} ");
+      if (l.code == 0) {
+        for (var i = 0; i < mapAllLesson.length; i++) {
+          store.setListAllLessons(mapAllLesson[i]);
+        }
+      }
+      return Results(sucess: false, message: "Erro ao buscar Lições");
+    }, (r) async {
+      // log("r runtype ${r.runtimeType}");
 
-    //   for (var i = 0; i < r.length; i++) {
-    //     // log("item>> $i");
-    //     store.setListAllLessons(r[i]);
-    //   }
-    //   return Results(sucess: true, message: "Lições carregadas com sucesso");
-    // });
-    // // log(name: "QuestionarioStore", "store: ${store.questions.length}");
-    // // log("response>> $response");
-    // if (res.sucess) return true;
-    // return false;
+      for (var i = 0; i < r.length; i++) {
+        // log("item>> $i");
+        store.setListAllLessons(r[i]);
+      }
+      return Results(sucess: true, message: "Lições carregadas com sucesso");
+    });
+    // log(name: "QuestionarioStore", "store: ${store.questions.length}");
+    // log("response>> $response");
+    if (res.sucess) return true;
+    return false;
   }
 
   Future postSubscribeLesson() async {}
