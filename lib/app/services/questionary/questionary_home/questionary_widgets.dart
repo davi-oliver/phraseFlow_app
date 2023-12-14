@@ -6,6 +6,7 @@ import 'package:phrase_flow/app/global/theme/theme_mode.dart';
 import 'package:phrase_flow/app/services/questionary/store/store.dart';
 
 import 'package:phrase_flow/components/flutter_flow/flutter_flow_util.dart';
+import 'package:provider/provider.dart';
 
 class QuestionaryWidgets {
   BuildContext context;
@@ -24,6 +25,8 @@ class CardInputOrSpeetch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
       child: Column(
@@ -36,6 +39,7 @@ class CardInputOrSpeetch extends StatelessWidget {
               child: TextFormField(
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
+                controller: questionarioStore.controllers[index],
                 decoration: InputDecoration(
                   labelText: 'Resposta',
                   labelStyle: ThemeModeApp.of(context).headlineSmall.copyWith(
@@ -78,7 +82,7 @@ class CardInputOrSpeetch extends StatelessWidget {
   }
 }
 
-class cardTextTranslate extends StatelessWidget {
+class cardTextTranslate extends StatefulWidget {
   const cardTextTranslate({
     super.key,
     required this.index,
@@ -89,7 +93,15 @@ class cardTextTranslate extends StatelessWidget {
   final QuestionarioStore questionarioStore;
 
   @override
+  State<cardTextTranslate> createState() => _cardTextTranslateState();
+}
+
+class _cardTextTranslateState extends State<cardTextTranslate> {
+  bool enabled = false;
+  @override
   Widget build(BuildContext context) {
+    final questionarioStore =
+        Provider.of<QuestionarioStore>(context, listen: false);
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(18.0, 12.0, 18.0, 18.0),
       child: ListView(
@@ -145,7 +157,7 @@ class cardTextTranslate extends StatelessWidget {
                           ),
                           Flexible(
                             child: Text(
-                              "${questionarioStore.questions[this.index].question}",
+                              "${widget.questionarioStore.questions[this.widget.index].question}",
                               style: ThemeModeApp.of(context).headlineSmall,
                             ),
                           ),
@@ -157,46 +169,56 @@ class cardTextTranslate extends StatelessWidget {
               ),
             ),
           ),
-          CardInputOrSpeetch(
-            questionarioStore: questionarioStore,
-            index: index,
-          )
-        ],
-      ),
-    );
-  }
-}
+          Observer(builder: (_) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: CardInputOrSpeetch(
+                        questionarioStore: widget.questionarioStore,
+                        index: widget.index,
+                      ),
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: IconButton(
+                          icon: Icon(
+                            enabled ? Icons.mic : Icons.mic_off,
+                            color: enabled ? Colors.red : Colors.grey,
+                          ),
+                          onPressed: () async {
+                            if (!enabled) {
+                              setState(() {
+                                enabled = true;
+                              });
+                              questionarioStore
+                                  .setIndexControllers(widget.index);
+                              questionarioStore.startListening();
 
-// ignore: camel_case_types
-class questoesPageWidgets extends StatefulWidget {
-  const questoesPageWidgets({
-    super.key,
-    required this.questionarioStore,
-    required this.isSpeech,
-    required this.index,
-  });
-
-  final QuestionarioStore questionarioStore;
-  final bool isSpeech;
-  final int index;
-
-  @override
-  State<questoesPageWidgets> createState() => _questoesPageWidgetsState();
-}
-
-// ignore: camel_case_types
-class _questoesPageWidgetsState extends State<questoesPageWidgets> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Column(
-        children: [
-          CardInputOrSpeetch(
-            questionarioStore: widget.questionarioStore,
-            index: widget.index,
-          ),
+                              log(questionarioStore.speechEnabled.toString());
+                            } else {
+                              questionarioStore.stopListening();
+                              setState(() {
+                                enabled = false;
+                              });
+                            }
+                            await Future.delayed(Duration(seconds: 10));
+                            setState(() {
+                              enabled = false;
+                            });
+                          },
+                        )),
+                  ],
+                ),
+                Text(
+                  "Resposta: ${widget.questionarioStore.controllers[widget.index].text}",
+                  style: ThemeModeApp.of(context).headlineSmall,
+                ),
+              ],
+            );
+          })
         ],
       ),
     );

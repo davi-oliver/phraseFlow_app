@@ -40,6 +40,8 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
       return;
     }
 
+    questionarioStore.setInitSpeeachToText(context);
+
     questionarioStore.setControllerPageView(
         await QuestionarioHomeFunctions().initPageController());
     questionarioStore.setSelectedIndex(0);
@@ -124,7 +126,8 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                 size: 30.0,
                               ),
                               onPressed: () async {
-                                context.pop();
+                                context.pushReplacementNamed(
+                                    acompanhamenttodasatividades);
                               },
                             ),
                           ),
@@ -213,6 +216,14 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                       return SingleChildScrollView(
                         child: Column(
                           children: [
+                            Center(
+                              child: Text("Traduza a frase abaixo: ",
+                                  style: ThemeModeApp.of(context)
+                                      .headlineSmall
+                                      .copyWith(
+                                          color: ThemeModeApp.of(context)
+                                              .primaryText)),
+                            ),
                             cardTextTranslate(
                               questionarioStore: questionarioStoreT,
                               index: index,
@@ -221,7 +232,7 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                               padding: EdgeInsets.only(
                                   top: 10, left: 16.0, bottom: 20, right: 16),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * .3,
+                                width: MediaQuery.of(context).size.width * .9,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 child: InkWell(
@@ -233,10 +244,12 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                     if (questionarioStoreT.selectedIndex ==
                                         questionarioStoreT.questions.length -
                                             1) {
-                                      if (questionarioStore
-                                              .questions[index].answer
-                                              .toString()
-                                              .toLowerCase() ==
+                                      var questao = questionarioStore
+                                          .questions[index].answer
+                                          .toString()
+                                          .toLowerCase()
+                                          .replaceAll(".", "");
+                                      if (questao ==
                                           questionarioStore
                                               .controllers[index].text
                                               .toLowerCase()) {
@@ -321,11 +334,13 @@ class _QuestionarioTiposState extends State<QuestionarioTipos> {
                                         );
                                       }
                                     }
+                                    var questao = questionarioStore
+                                        .questions[index].answer
+                                        .toString()
+                                        .toLowerCase()
+                                        .replaceAll(".", "");
 
-                                    if (questionarioStore
-                                            .questions[index].answer
-                                            .toString()
-                                            .toLowerCase() ==
+                                    if (questao ==
                                         questionarioStore
                                             .controllers[index].text
                                             .toLowerCase()) {

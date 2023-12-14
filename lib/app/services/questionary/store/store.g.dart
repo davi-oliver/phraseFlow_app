@@ -9,6 +9,54 @@ part of 'store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
+  late final _$speechToTextAtom =
+      Atom(name: '_QuestionarioStoreBase.speechToText', context: context);
+
+  @override
+  SpeechToText get speechToText {
+    _$speechToTextAtom.reportRead();
+    return super.speechToText;
+  }
+
+  @override
+  set speechToText(SpeechToText value) {
+    _$speechToTextAtom.reportWrite(value, super.speechToText, () {
+      super.speechToText = value;
+    });
+  }
+
+  late final _$speechEnabledAtom =
+      Atom(name: '_QuestionarioStoreBase.speechEnabled', context: context);
+
+  @override
+  bool get speechEnabled {
+    _$speechEnabledAtom.reportRead();
+    return super.speechEnabled;
+  }
+
+  @override
+  set speechEnabled(bool value) {
+    _$speechEnabledAtom.reportWrite(value, super.speechEnabled, () {
+      super.speechEnabled = value;
+    });
+  }
+
+  late final _$indexControllersAtom =
+      Atom(name: '_QuestionarioStoreBase.indexControllers', context: context);
+
+  @override
+  int get indexControllers {
+    _$indexControllersAtom.reportRead();
+    return super.indexControllers;
+  }
+
+  @override
+  set indexControllers(int value) {
+    _$indexControllersAtom.reportWrite(value, super.indexControllers, () {
+      super.indexControllers = value;
+    });
+  }
+
   late final _$listAllLessonsAtom =
       Atom(name: '_QuestionarioStoreBase.listAllLessons', context: context);
 
@@ -105,8 +153,56 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
     });
   }
 
+  late final _$setInitSpeeachToTextAsyncAction = AsyncAction(
+      '_QuestionarioStoreBase.setInitSpeeachToText',
+      context: context);
+
+  @override
+  Future<dynamic> setInitSpeeachToText(dynamic context) {
+    return _$setInitSpeeachToTextAsyncAction
+        .run(() => super.setInitSpeeachToText(context));
+  }
+
+  late final _$startListeningAsyncAction =
+      AsyncAction('_QuestionarioStoreBase.startListening', context: context);
+
+  @override
+  Future<dynamic> startListening() {
+    return _$startListeningAsyncAction.run(() => super.startListening());
+  }
+
+  late final _$stopListeningAsyncAction =
+      AsyncAction('_QuestionarioStoreBase.stopListening', context: context);
+
+  @override
+  Future<dynamic> stopListening() {
+    return _$stopListeningAsyncAction.run(() => super.stopListening());
+  }
+
   late final _$_QuestionarioStoreBaseActionController =
       ActionController(name: '_QuestionarioStoreBase', context: context);
+
+  @override
+  dynamic clearControllersList() {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.clearControllersList');
+    try {
+      return super.clearControllersList();
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setIndexControllers(int value) {
+    final _$actionInfo = _$_QuestionarioStoreBaseActionController.startAction(
+        name: '_QuestionarioStoreBase.setIndexControllers');
+    try {
+      return super.setIndexControllers(value);
+    } finally {
+      _$_QuestionarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setIndexLesson(int value) {
@@ -243,6 +339,9 @@ mixin _$QuestionarioStore on _QuestionarioStoreBase, Store {
   @override
   String toString() {
     return '''
+speechToText: ${speechToText},
+speechEnabled: ${speechEnabled},
+indexControllers: ${indexControllers},
 listAllLessons: ${listAllLessons},
 questions: ${questions},
 controllerPageView: ${controllerPageView},

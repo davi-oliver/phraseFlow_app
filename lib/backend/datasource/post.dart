@@ -22,10 +22,10 @@ class PostHttpRequestApp implements IHttpInterfacePostPut {
     try {
       log("Params: $params");
 
-      final response = await http.post(
-        Uri.parse("$urlProd/$url"),
-        body: params,
-      );
+      final response =
+          await http.post(Uri.parse("$urlProd/$url"), body: params, headers: {
+        "type": "application/json",
+      });
       final int code = response.statusCode;
       if (code > 300) {
         final String description = jsonDecode(response.body)["message"];

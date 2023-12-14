@@ -74,6 +74,22 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$showLessonCompletedAtom =
+      Atom(name: '_HomeStoreBase.showLessonCompleted', context: context);
+
+  @override
+  bool get showLessonCompleted {
+    _$showLessonCompletedAtom.reportRead();
+    return super.showLessonCompleted;
+  }
+
+  @override
+  set showLessonCompleted(bool value) {
+    _$showLessonCompletedAtom.reportWrite(value, super.showLessonCompleted, () {
+      super.showLessonCompleted = value;
+    });
+  }
+
   late final _$selectNivelAtom =
       Atom(name: '_HomeStoreBase.selectNivel', context: context);
 
@@ -92,6 +108,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
 
   late final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase', context: context);
+
+  @override
+  void setShowLessonCompleted(dynamic value) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setShowLessonCompleted');
+    try {
+      return super.setShowLessonCompleted(value);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setSelectIdioma(dynamic value) {
@@ -166,6 +193,7 @@ listLessonUser: ${listLessonUser},
 listLessonUserCompleted: ${listLessonUserCompleted},
 languages: ${languages},
 selectIdioma: ${selectIdioma},
+showLessonCompleted: ${showLessonCompleted},
 selectNivel: ${selectNivel}
     ''';
   }

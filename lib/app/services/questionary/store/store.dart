@@ -1,12 +1,59 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:phrase_flow/model/lesson.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:phrase_flow/model/question.dart';
 part 'store.g.dart';
 
 class QuestionarioStore = _QuestionarioStoreBase with _$QuestionarioStore;
 
 abstract class _QuestionarioStoreBase with Store {
+  @observable
+  SpeechToText speechToText = SpeechToText();
+  @observable
+  bool speechEnabled = false;
+
+  @action
+  clearControllersList() {
+    controllers.clear();
+  }
+
+  @action
+  Future setInitSpeeachToText(context) async {
+    speechEnabled = await speechToText.initialize(
+      onStatus: (status) {
+        log(name: 'onStatus: $status', "speechEnabled $speechEnabled");
+      },
+      onError: (errorNotification) {
+        print('onError: $errorNotification');
+      },
+    );
+  }
+
+  @observable
+  int indexControllers = 0;
+  @action
+  void setIndexControllers(int value) => indexControllers = value;
+  @action
+  Future startListening() async {
+    await speechToText.listen(onResult: onSpeechResult);
+  }
+
+  @action
+  Future stopListening() async {
+    await speechToText.stop();
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void onSpeechResult(SpeechRecognitionResult result) {
+    log('onSpeechResult: ${result.recognizedWords}');
+    controllers[indexControllers].text = result.recognizedWords;
+  }
+
   @observable
   ObservableList<ModelLesson> listAllLessons = ObservableList<ModelLesson>();
 
@@ -56,6 +103,7 @@ abstract class _QuestionarioStoreBase with Store {
   @action
   void clearQuestion() {
     questions.clear();
+    controllers.clear();
   }
 
   @action

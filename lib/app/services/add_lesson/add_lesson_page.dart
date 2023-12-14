@@ -234,13 +234,13 @@ class _CardAdicionarLicaoState extends State<CardAdicionarLicao> {
                 Provider.of<GlobalStore>(context, listen: false);
             final homeStore = Provider.of<HomeStore>(context, listen: false);
             final jsonP = {
-              "userId": globalStore.user?.id,
-              "lessonId": homeStore.selectNivel,
-              "progress": 0
+              "userId": "${globalStore.user?.id}",
+              "lessonId": "${homeStore.selectNivel}",
+              "progress": "0"
             };
 
             final result = await iPost.makeJsonRequest(
-                url: 'users/subscribe', params: jsonEncode(jsonP));
+                url: 'users/subscribe', params: jsonP);
 
             Result resultPost = await result.fold((l) async {
               log("error: ${l.descricao}");

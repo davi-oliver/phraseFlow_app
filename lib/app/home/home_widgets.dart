@@ -1109,7 +1109,7 @@ class CardWeb extends StatelessWidget {
             }
             questionarioStore.setIndexLesson(index);
             log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
-            context.pushNamed('$questionaryTypeWriteWidget');
+            context.pushReplacementNamed('$questionaryTypeWriteWidget');
           },
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -1299,9 +1299,10 @@ class CardMobile extends StatelessWidget {
                   updatedAt: element.updatedAt,
                 ));
               }
+
               questionarioStore.setIndexLesson(index);
               log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
-              context.pushNamed('$questionaryTypeWriteWidget');
+              context.pushReplacementNamed('$questionaryTypeWriteWidget');
             },
             child: Column(
               mainAxisSize: MainAxisSize.max,
