@@ -1265,158 +1265,147 @@ class CardMobile extends StatelessWidget {
     final questionarioStore =
         Provider.of<QuestionarioStore>(context, listen: false);
     final homeStore = Provider.of<HomeStore>(context, listen: false);
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: Container(
-        width: 300.0,
-        constraints: BoxConstraints(
-          maxWidth: 570.0,
-        ),
-        decoration: BoxDecoration(
-          color: ThemeModeApp.of(context).primaryBackground,
+    return Container(
+      decoration: BoxDecoration(
+          color: ThemeModeApp.of(context).secondaryBackground,
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(
-            color: Color(0xFFE5E7EB),
+            color: Color.fromARGB(57, 105, 102, 102),
             width: 1.0,
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
-          child: InkWell(
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () async {
-              questionarioStore.clearQuestion();
-              for (var element
-                  in homeStore.listLessonUser[index].lessonQuestions!) {
-                questionarioStore.addQuestionByModel(ModelQuestion(
-                  answer: element.question?.answer,
-                  question: element.question?.question,
-                  type: element.question?.type,
-                  createdAt: element.createdAt,
-                  updatedAt: element.updatedAt,
-                ));
-              }
-
-              questionarioStore.setIndexLesson(index);
-              log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
-              context.pushReplacementNamed('$questionaryTypeWriteWidget');
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 8.0),
-                  child: RichText(
-                    textScaleFactor: MediaQuery.of(context).textScaleFactor,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Idioma:",
-                          style: ThemeModeApp.of(context).bodyLarge,
-                        ),
-                        TextSpan(
-                            text: "${titulo ?? "Nome do Idioma"}",
-                            style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                                color: ThemeModeApp.of(context).primary))
-                      ],
-                      style: ThemeModeApp.of(context).bodyLarge.copyWith(
-                            color: Color(0xFF15161E),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                  child: Text(
-                    "$conteudo 1",
-                    textAlign: TextAlign.end,
-                    style: ThemeModeApp.of(context).headlineSmall.copyWith(
-                          fontSize: 22.0,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 4.0,
+              color: Color(0x3A000000),
+              offset: Offset(0.0, 2.0),
+            )
+          ]),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 10.0, 0.0),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            questionarioStore.clearQuestion();
+            for (var element
+                in homeStore.listLessonUser[index].lessonQuestions!) {
+              questionarioStore.addQuestionByModel(ModelQuestion(
+                answer: element.question?.answer,
+                question: element.question?.question,
+                type: element.question?.type,
+                createdAt: element.createdAt,
+                updatedAt: element.updatedAt,
+              ));
+            }
+            questionarioStore.setIndexLesson(index);
+            log("Adicionou as questoes da licção ao store de questionario ${questionarioStore.questions.length}");
+            context.pushReplacementNamed('$questionaryTypeWriteWidget');
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 0.0, 0.0),
+                child: RichText(
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Idioma:",
+                        style: ThemeModeApp.of(context).bodyLarge,
+                      ),
+                      TextSpan(
+                        text: "$titulo",
+                        style: TextStyle(
+                          color: Color(0xFF6F61EF),
                           fontWeight: FontWeight.bold,
                         ),
+                      )
+                    ],
+                    style: ThemeModeApp.of(context).bodyLarge.copyWith(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                 ),
-                Divider(
-                  height: 2.0,
-                  thickness: 1.0,
-                  color: Color(0xFFE5E7EB),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, .0, 10.0),
+                child: Text(
+                  "$conteudo",
+                  textAlign: TextAlign.start,
+                  style: ThemeModeApp.of(context).headlineSmall,
                 ),
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 40.0,
-                            height: 40.0,
-                            decoration: BoxDecoration(
-                              color: Color(0x4D9489F5),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Color(0xFF6F61EF),
-                                width: 2.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  2.0, 2.0, 2.0, 2.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40.0),
-                                child: Image.network(
-                                  'https://cdn-icons-png.flaticon.com/512/197/197560.png',
-                                  width: 60.0,
-                                  height: 60.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+              ),
+              Divider(
+                height: 2.0,
+                thickness: 1.0,
+                color: Color(0xFFE5E7EB),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
                             ),
                           ),
-                        ].divide(SizedBox(width: 4.0)),
-                      ),
-                      Container(
-                        height: 32.0,
-                        decoration: BoxDecoration(
-                          color: Color(0x4D9489F5),
-                          borderRadius: BorderRadius.circular(12.0),
-                          border: Border.all(
-                            color: Color(0xFF6F61EF),
-                            width: 2.0,
-                          ),
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(0.00, 0.00),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 0.0, 8.0, 0.0),
-                            child: Text(
-                              "Acessar",
-                              style:
-                                  ThemeModeApp.of(context).bodyMedium.copyWith(
-                                        color: Color(0xFF6F61EF),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40.0),
+                              child: Image.asset(
+                                'assets/images/app_launcher_icon.png',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFF6F61EF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                2.0, 2.0, 2.0, 2.0),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(40.0),
+                                child: Icon(
+                                  Icons.g_translate_rounded,
+                                  color: ThemeModeApp.of(context).primary,
+                                )),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 4.0)),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
